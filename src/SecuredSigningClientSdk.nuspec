@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>securedsigning.client</id>
+    <version>1.3</version>
+    <title>Secured Signing Rest Client SDK</title>
+    <authors>Secured Signing</authors>
+    <owners>Secured Signing Ltd</owners>
+    <licenseUrl>https://www.securedsigning.com/developer/api-documentation#sdk</licenseUrl>
+    <projectUrl>https://www.securedsigning.com/developer/api-documentation#sdk</projectUrl>
+    <iconUrl>https://www.securedsigning.com/favicon.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Secured Signing Rest Client SDK</description>
+    <releaseNotes>Add FormFiller functionality</releaseNotes>
+    <copyright>Secured Signing Ltd Copyright 2015</copyright>
+    <tags>Secured Signing</tags>
+  </metadata>
+</package>

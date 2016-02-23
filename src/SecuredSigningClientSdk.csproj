@@ -39,15 +39,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ServiceStack.Client, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
-      <HintPath>..\packages\ServiceStack.Client.Signed.4.0.46\lib\net40\ServiceStack.Client.dll</HintPath>
+      <HintPath>..\packages\ServiceStack.Client.Signed.4.0.50\lib\net40\ServiceStack.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ServiceStack.Interfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
-      <HintPath>..\packages\ServiceStack.Interfaces.4.0.46\lib\portable-wp80+sl5+net40+win8+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
+      <HintPath>..\packages\ServiceStack.Interfaces.4.0.50\lib\portable-wp80+sl5+net40+win8+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ServiceStack.Text, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
-      <HintPath>..\packages\ServiceStack.Text.Signed.4.0.46\lib\net40\ServiceStack.Text.dll</HintPath>
+      <HintPath>..\packages\ServiceStack.Text.Signed.4.0.50\lib\net40\ServiceStack.Text.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -65,6 +65,7 @@
     <Compile Include="Requests\DownloadRequest.cs" />
     <Compile Include="Requests\EmailTemplateRequest.cs" />
     <Compile Include="Requests\FormDirectRequest.cs" />
+    <Compile Include="Requests\FormFillerRequest.cs" />
     <Compile Include="Requests\SmartTagRequest.cs" />
     <Compile Include="Requests\WorkflowRequest.cs" />
     <Compile Include="ServiceClient.cs" />
@@ -72,8 +73,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="SecuredSigningClientSdk.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>$(SolutionDir)nuget.exe  pack $(ProjectPath)  -OutputDirectory $(TargetDir) -Prop Configuration=Release</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -30,7 +30,7 @@ namespace SecuredSigningClientSdk.Models
         [ApiMember(Description = "Form name", DataType = SwaggerType.String, IsRequired = true)]
         public string Name { get; set; }
 
-        [ApiMember(Description = "Identifier", DataType = SwaggerType.String,  IsRequired = true)]
+        [ApiMember(Description = "Identifier", DataType = SwaggerType.String, IsRequired = true)]
         public string Reference { get; set; }
 
         [ApiMember(Description = "List of signers required for the form", AllowMultiple = true, IsRequired = true, DataType = "Signer")]
@@ -46,7 +46,7 @@ namespace SecuredSigningClientSdk.Models
         public string XMLData { get; set; }
     }
 
-    
+
 
     [Schema("Signer")]
     public class Signer
@@ -54,26 +54,26 @@ namespace SecuredSigningClientSdk.Models
         [ApiMember(Description = "Signer reference", DataType = SwaggerType.String, IsRequired = false)]
         public string SignerReference { get; set; }
 
-        [ApiMember(Description = "First name of user",  DataType = SwaggerType.String, IsRequired = true)]
+        [ApiMember(Description = "First name of user", DataType = SwaggerType.String, IsRequired = true)]
         public string FirstName { get; set; }
 
-        [ApiMember(Description = "Last name of user",  DataType = SwaggerType.String, IsRequired = true)]
+        [ApiMember(Description = "Last name of user", DataType = SwaggerType.String, IsRequired = true)]
         public string LastName { get; set; }
 
-        [ApiMember(Description = "Email address of user",  DataType = SwaggerType.String, IsRequired = true)]
+        [ApiMember(Description = "Email address of user", DataType = SwaggerType.String, IsRequired = true)]
         public string Email { get; set; }
 
-        [ApiMember(Description = "Role of signer in signing process",  DataType = SwaggerType.String, IsRequired = false)]
+        [ApiMember(Description = "Role of signer in signing process", DataType = SwaggerType.String, IsRequired = false)]
         public string SignerType { get; set; }
 
-        [ApiMember(Description = "Mobile number of signer, for SMS secured forms. Must include the mobile carrier code e.g. Australia 04, New Zealand 027 or 021 etc",  DataType = SwaggerType.String, IsRequired = false)]
+        [ApiMember(Description = "Mobile number of signer, for SMS secured forms. Must include the mobile carrier code e.g. Australia 04, New Zealand 027 or 021 etc", DataType = SwaggerType.String, IsRequired = false)]
         public string MobileNumber { get; set; }
 
-        [ApiMember(Description = "Mobile Country code for phone number e.g. Australia 61, New Zealand 64 etc",  DataType = SwaggerType.String, IsRequired = false)]
+        [ApiMember(Description = "Mobile Country code for phone number e.g. Australia 61, New Zealand 64 etc", DataType = SwaggerType.String, IsRequired = false)]
         public string MobileCountry { get; set; }
 
-        [ApiMember(Description = "Url for access to signing",  DataType = SwaggerType.String)]
-        public string SigningUrl { get; set; }
+        [ApiMember(Description = "Url for access to signing", DataType = SwaggerType.String)]
+        public string SigningKey { get; set; }
 
         [ApiMember(Description = "User signing status", DataType = "boolean", IsRequired = false)]
         public bool HasSigned { get; set; }
@@ -83,13 +83,13 @@ namespace SecuredSigningClientSdk.Models
     [Schema("Document")]
     public class Document
     {
-        [ApiMember(Description = "File Name", DataType = SwaggerType.String,  IsRequired = true)]
+        [ApiMember(Description = "File Name", DataType = SwaggerType.String, IsRequired = true)]
         public string Name { get; set; }
 
         [ApiMember(Description = "Document reference, used for document access", DataType = SwaggerType.String, IsRequired = true)]
         public string Reference { get; set; }
 
-        [ApiMember(Description = "File type of Smart tag", DataType = SwaggerType.String,  IsRequired = false)]
+        [ApiMember(Description = "File type of Smart tag", DataType = SwaggerType.String, IsRequired = false)]
         [ApiAllowableValues("FileType", typeof(FileType))]
         public string FileType { get; set; }
 
@@ -129,19 +129,19 @@ namespace SecuredSigningClientSdk.Models
     [Schema("DocumentLog")]
     public class DocumentLog
     {
-        [ApiMember(Description = "Name of user responsible for action", DataType = SwaggerType.String,  IsRequired = false)]
+        [ApiMember(Description = "Name of user responsible for action", DataType = SwaggerType.String, IsRequired = false)]
         public string Name { get; set; }
 
         [ApiMember(Description = "Email of user responsible for action", DataType = SwaggerType.String, IsRequired = false)]
         public string Email { get; set; }
 
-        [ApiMember(Description = "Log entry", DataType = SwaggerType.String,  IsRequired = false)]
+        [ApiMember(Description = "Log entry", DataType = SwaggerType.String, IsRequired = false)]
         public string Action { get; set; }
 
         [ApiMember(Description = "Date of log entry", DataType = "date", IsRequired = false)]
         public DateTime Date { get; set; }
 
-        [ApiMember(Description = "GMT Offset", DataType = SwaggerType.String,  IsRequired = false)]
+        [ApiMember(Description = "GMT Offset", DataType = SwaggerType.String, IsRequired = false)]
         public string GMT { get; set; }
     }
 
@@ -227,6 +227,30 @@ namespace SecuredSigningClientSdk.Models
 
         public string Company { get; set; }
     }
+    [Schema("FormFillerField")]
+    public class FormFillerField
+    {
+        public string Label { get; set; }
+        public string Value { get; set; }
+        public HTMLElementType FieldType { get; set; }
+        public bool IsRequired { get; set; }
+        public string ID { get; set; }
+        public bool ReadOnly { get; set; }
+    }
+    [Schema("FormFillerTemplate")]
+    public class FormFillerTemplate
+    {
+        [ApiMember(Description = "Template name", DataType = SwaggerType.String, IsRequired = true)]
+        public string Name { get; set; }
+
+        [ApiMember(Description = "Identifier", DataType = SwaggerType.String, IsRequired = true)]
+        public string Reference { get; set; }
+
+        [ApiMember(Description = "List of signers required for the template", AllowMultiple = true, IsRequired = true, DataType = "Signer")]
+        public List<Signer> Signers { get; set; }
+
+        public List<FormFillerField> Fields { get; set; }
+    }
 
     public enum FileType
     {
@@ -261,5 +285,11 @@ namespace SecuredSigningClientSdk.Models
         InBox,
         Progress,
         Signed
+    }
+    public enum HTMLElementType
+    {
+        Text = 0,
+        MultiLineText = 1,
+        CheckBox = 3
     }
 }

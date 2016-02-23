@@ -8,7 +8,7 @@ Secured Signing provides a comprehensive and compliant Software as a Service pla
 * [Secured Signing (www.securedsigning.com)](http://www.securedsigning.com/)
 * [Developer Page](https://www.securedsigning.com/developer/api-documentation)
 
-## Install our .Net client SDK
+## Install our .NET client SDK
 
 ### [Install via NuGet](https://www.nuget.org/packages/securedsigning.client/).
 

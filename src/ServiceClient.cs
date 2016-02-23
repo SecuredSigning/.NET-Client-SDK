@@ -271,7 +271,7 @@ namespace SecuredSigningClientSdk
                 EmailTemplateReference = emailTemplateReference,
                 Embedded = embedded,
                 WorkflowReference = workflowReference,
-                ReturnUrl = returnUrl.ToString()
+                ReturnUrl = returnUrl == null ? null : returnUrl.ToString()
             });
 
             return result;
@@ -295,8 +295,8 @@ namespace SecuredSigningClientSdk
                 EmailTemplateReference = emailTemplateReference,
                 MailMergeListFileData = Convert.ToBase64String(mailMergeListData),
                 MailMergeListFileType = mailMergeFileType,
-                Embedded=embedded,
-                ReturnUrl=returnUrl.ToString()
+                Embedded = embedded,
+                ReturnUrl = returnUrl.ToString()
             });
 
             return result;
@@ -343,5 +343,36 @@ namespace SecuredSigningClientSdk
             return result;
         }
         #endregion
+
+        #region FormFiller
+        public List<FormFillerTemplate> getFormFillerTemplates()
+        {
+            var result = _client.Get(new FormFillerRequest());
+            return result;
+        }
+        public FormFillerTemplate getFormFillerSignerTemplate(string templateRef)
+        {
+            var result = _client.Get(new FormFillerSignerRequest() { TemplateReference = templateRef });
+            return result;
+        }
+        public FormFillerTemplate getFormFillerFieldTemplate(string templateRef)
+        {
+            var result = _client.Get(new FormFillerFieldRequest { TemplateReference = templateRef });
+            return result;
+        }
+        public List<Document> sendFormFillerTemplates(List<FormFillerTemplate> templates, DateTime dueDate)
+        {
+            var gmt = TimeZoneInfo.Local.GetUtcOffset(dueDate).TotalMinutes.ToString("F0");
+
+            var result = _client.Post(new SendFormFillerRequest
+            {
+                Templates = templates,
+                DueDate = dueDate,
+                GMT = gmt
+            });
+            return result;
+        }
+        #endregion
+
     }
 }

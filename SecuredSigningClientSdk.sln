@@ -7,22 +7,57 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuredSigningClientSdk", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "samples\Sample.csproj", "{4503C015-A790-4ED1-8F61-23BB8FCC45E6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4016463B-8B27-4441-996A-3D20781A71D9}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "nuget", "nuget.exe", "{36F8BF8C-0AF2-4128-8F16-5B9C2DA14D43}"
+	ProjectSection(DebuggerProjectSystem) = preProject
+		PortSupplier = 00000000-0000-0000-0000-000000000000
+		Executable = C:\Development\GitHub\.NET-Client-SDK\nuget.exe
+		RemoteMachine = ZHAOFENGYU
+		StartingDirectory = C:\Development\GitHub\.NET-Client-SDK
+		Environment = Default
+		LaunchingEngine = 00000000-0000-0000-0000-000000000000
+		UseLegacyDebugEngines = No
+		LaunchSQLEngine = No
+		AttachLaunchAction = No
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Debug|x86.Build.0 = Debug|Any CPU
 		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Release|x86.ActiveCfg = Release|Any CPU
+		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Release|x86.Build.0 = Release|Any CPU
 		{4503C015-A790-4ED1-8F61-23BB8FCC45E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4503C015-A790-4ED1-8F61-23BB8FCC45E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4503C015-A790-4ED1-8F61-23BB8FCC45E6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4503C015-A790-4ED1-8F61-23BB8FCC45E6}.Debug|x86.Build.0 = Debug|Any CPU
 		{4503C015-A790-4ED1-8F61-23BB8FCC45E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4503C015-A790-4ED1-8F61-23BB8FCC45E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4503C015-A790-4ED1-8F61-23BB8FCC45E6}.Release|x86.ActiveCfg = Release|Any CPU
+		{4503C015-A790-4ED1-8F61-23BB8FCC45E6}.Release|x86.Build.0 = Release|Any CPU
+		{36F8BF8C-0AF2-4128-8F16-5B9C2DA14D43}.Debug|Any CPU.ActiveCfg = Release|x86
+		{36F8BF8C-0AF2-4128-8F16-5B9C2DA14D43}.Debug|x86.ActiveCfg = Release|x86
+		{36F8BF8C-0AF2-4128-8F16-5B9C2DA14D43}.Release|Any CPU.ActiveCfg = Release|x86
+		{36F8BF8C-0AF2-4128-8F16-5B9C2DA14D43}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{36F8BF8C-0AF2-4128-8F16-5B9C2DA14D43} = {4016463B-8B27-4441-996A-3D20781A71D9}
 	EndGlobalSection
 EndGlobal
