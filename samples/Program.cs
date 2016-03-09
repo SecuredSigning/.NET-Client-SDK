@@ -1,6 +1,7 @@
 ﻿using SecuredSigningClientSdk;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,12 +15,35 @@ namespace Test
             //initialise API Client
             var client = new ServiceClient(
                 serviceUrl: "https://api.securedsigning.com/web",
-                version: "v1.3",
+                version: "v1.4",
                 apiKey: "YOUR API KEY",
                 secret: "YOUR API Secret",
                 accessUrl: "YOUR Access URL");
+
+            //get OAuth2 access token
+            var authorizeUrl = client.OAuth2.CreateAuthorizeRequest("some value",
+                OAuth2Client.OAuth2Scope.Basic.ToString(),
+                OAuth2Client.OAuth2Scope.FormDirect.ToString(),
+                OAuth2Client.OAuth2Scope.FormFiller.ToString(),
+                OAuth2Client.OAuth2Scope.SmartTag.ToString());
+            //start oauthorize process in a webpage
+            System.Diagnostics.Process.Start(authorizeUrl);
+            //for real using, need a server to handle the response
+            Console.WriteLine("finish OAuth2 authorize process, then input authorization code:");
+            string code = ReadLine();
+            //get access token
+            var accessToken = client.OAuth2.GetToken(code);
+            client.AccessToken = accessToken.Access_Token;
+            AccountSample(client);
             //FormDirectSample(client);
             //FormFillerSample(client);
+            //SmartTagSample(client);
+        }
+        static void AccountSample(ServiceClient client)
+        {
+            var account=client.getAccountInfo();
+            Console.WriteLine(string.Format("Hello {0}!", account.Name));
+            var documents = client.getActiveDocuments("InBox");
         }
         static void FormDirectSample(ServiceClient client)
         {
@@ -133,5 +157,28 @@ namespace Test
                 dueDate: DateTime.Now.AddDays(5));
             //well done.
         }
+        static void SmartTagSample(ServiceClient client)
+        {
+            var file = new System.IO.FileInfo("path to smart tag document");
+            var documentReference = client.uploadDocumentFile(file);
+            var smartTagResp = client.sendSmartTagDocument(new List<string> {
+                documentReference
+            }, DateTime.Now.AddDays(7));
+        }
+        #region to read code in one line more then 256 charactors.
+        /// <summary>
+        /// see http://stackoverflow.com/questions/5557889/console-readline-max-length
+        /// </summary>
+        const int READLINE_BUFFER_SIZE = 1024;
+        static string ReadLine()
+        {
+            Stream inputStream = Console.OpenStandardInput(READLINE_BUFFER_SIZE);
+            byte[] bytes = new byte[READLINE_BUFFER_SIZE];
+            int outputLength = inputStream.Read(bytes, 0, READLINE_BUFFER_SIZE);
+            //Console.WriteLine(outputLength);
+            char[] chars = Encoding.UTF7.GetChars(bytes, 0, outputLength);
+            return new string(chars);
+        }
+        #endregion
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SecuredSigningClientSdk
 {
-    public class AuthHelper
+    internal class AuthHelper
     {
         /// <summary>
         /// Used by SDK and clients to make requests, so we must use the HttpWebRequest class
@@ -14,11 +14,11 @@ namespace SecuredSigningClientSdk
         /// <param name="webRequest"></param>
         /// <param name="secret"></param>
         /// <returns></returns>
-        public static string CreateToken(string apiKey, string secret, string date, string nonce)
+        public static string CreateSignature(string apiKey, string secret, string date, string nonce)
         {
-            return _CreateToken(_FlattenRequestDetails(apiKey, date, nonce), secret);
+            return _CreateSignature(_FlattenRequestDetails(apiKey, date, nonce), secret);
         }
-        private static string _CreateToken(string message, string secret)
+        private static string _CreateSignature(string message, string secret)
         {
             // don't allow null secrets
             secret = secret ?? "";
@@ -38,7 +38,7 @@ namespace SecuredSigningClientSdk
         }
     }
 
-    public class KeyGenerator
+    internal class KeyGenerator
     {
         public static string GetUniqueKey(int maxSize)
         {

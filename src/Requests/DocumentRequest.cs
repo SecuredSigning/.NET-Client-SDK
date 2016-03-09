@@ -82,4 +82,12 @@ namespace SecuredSigningClientSdk.Requests
         [ApiAllowableValues("Folder", typeof(Folder))]
         public string Folder { get; set; }
     }
+
+    [Route("/Document/SendReminder", Verbs = "POST", Summary = "Send invitation reminder to invitee", Notes = "Send invitation reminder to invitee")]
+    public class SendReminderRequest : IReturn
+    {
+        public string DocumentReference { get; set; }
+        public string SignerReference { get; set; }
+    }
+
 }

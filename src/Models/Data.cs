@@ -45,9 +45,7 @@ namespace SecuredSigningClientSdk.Models
         [ApiMember(Description = "Auto fill data for the form. It is an XML document converted to a string. Secured Signing creates the template for the data.", DataType = SwaggerType.String, IsRequired = false)]
         public string XMLData { get; set; }
     }
-
-
-
+    
     [Schema("Signer")]
     public class Signer
     {
@@ -109,7 +107,14 @@ namespace SecuredSigningClientSdk.Models
         [ApiMember(Description = "Url to download document data", DataType = SwaggerType.String, IsRequired = false)]
         public string DocumentUrl { get; set; }
 
+        [ApiMember(Description = "Due Date of document", DataType = SwaggerType.Date, IsRequired = false)]
+        public string DueDate { get; set; }
 
+        [ApiMember(Description = "GMT Offset", DataType = SwaggerType.String, IsRequired = false)]
+        public string GMT { get; set; }
+
+        [ApiMember(Description = "Date of latest signature", DataType = SwaggerType.Date, IsRequired = false)]
+        public string LastSignedDate { get; set; }
     }
     [Schema("FileInfo")]
     public class FileInfo
@@ -251,7 +256,62 @@ namespace SecuredSigningClientSdk.Models
 
         public List<FormFillerField> Fields { get; set; }
     }
-
+    [Schema("AccountInfo")]
+    public class AccountInfo
+    {
+        public string Email { get; set; }
+        public string Name { get; set; }
+        public int DocumentRemain { get; set; }
+        public string PlanName { get; set; }
+        public int DocumentUsed { get; set; }
+        public int DocumentLeft { get; set; }
+        public string PlanType { get; set; }
+        public int DefaultDueDate { get; set; }
+        public int MaxDueDate { get; set; }
+        public string DateFormat { get; set; }
+        public string Upgrade { get; set; }
+        public string UserID { get; set; }
+        public long MaxUploadSize { get; set; }
+        public bool Actived { get; set; }
+        public bool Locked { get; set; }
+        public string AccountStatus { get; set; }
+    }
+    [Schema("Employers")]
+    public class Employers
+    {
+        public List<SuperFundInfo> SuperFund { get; set; }
+        public List<TFNInfo> TFN { get; set; }
+    }
+    [Schema("SuperFundInfo")]
+    public class SuperFundInfo
+    {
+        public string ABN { get; set; }
+        public string BusinessName { get; set; }
+        public string SuperFundName { get; set; }
+        public string USI { get; set; }
+        public string Phone { get; set; }
+        public string SuperFundWebsite { get; set; }
+        [ApiMember(Description = "EmployerReference", DataType = SwaggerType.String, IsRequired = true)]
+        public string Reference { get; set; }
+        [ApiMember(Description = "Name for identify", DataType = SwaggerType.String, IsRequired = true)]
+        public string Name { get; set; }
+    }
+    [Schema("TFNInfo")]
+    public class TFNInfo
+    {
+        public string ABN { get; set; }
+        public string BusinessName { get; set; }
+        public string BusinessAddress { get; set; }
+        public string BusinessSuburb { get; set; }
+        public string BusinessState { get; set; }
+        public string BusinessPostcode { get; set; }
+        public string ContactPerson { get; set; }
+        public string ContactPhone { get; set; }
+        [ApiMember(Description = "EmployerReference", DataType = SwaggerType.String, IsRequired = true)]
+        public string Reference { get; set; }
+        [ApiMember(Description = "Name for identify", DataType = SwaggerType.String, IsRequired = true)]
+        public string Name { get; set; }
+    }
     public enum FileType
     {
         pdf,

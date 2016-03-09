@@ -29,26 +29,6 @@ namespace SecuredSigningClientSdk.Requests
         public DateTime DueDate { get; set; }
     }
 
-    [Route("/FormDirect/GetFormData/{DocumentReference}/{FormDataFileType}", Verbs = "GET", Summary = "Gets form data", Notes = "Returns the download URL for that document's formdata. Export file format can be XML, CSV, XLSX, XLS.")]
-    public class FormDataRequest : IReturn<FormDataResponse>
-    {
-        [ApiMember(Description = "Document reference", ParameterType = "path", DataType = SwaggerType.String, IsRequired = true)]
-        public string DocumentReference { get; set; }
-
-        [ApiMember(Description = "Form data file return type", DataType = SwaggerType.String, ParameterType = "path", IsRequired = true)]
-        [ApiAllowableValues("FormDataFileType", typeof(FormDataFileType))]
-        public string FormDataFileType { get; set; }
-
-        [ApiMember(Description = "Seperator of CSV file (Default - \\t), can pass any visible character, e.g. A,#,@,~..., for invisible character, please use '0x' as the prefix for hexidecimal, e.g. 0x09, 0x0a, 0x0d", DataType = "char", ParameterType = "query", IsRequired = false)]
-        public string Separator { get; set; }
-    }
-
-    public class FormDataResponse
-    {
-        [ApiMember(Description = "Url which file content will be downloaded", DataType = SwaggerType.String)]
-        public string Url { get; set; }
-    }
-
     [Route("/FormDirect/GetSignerLink", Verbs = "POST", Summary = "Gets a signers link", Notes = "Returns a signer with the link required to access their form. Requires both a document reference and the signer (First name, Last name and email)")]
     public class LinkRequest : IReturn<Signer>
     {
@@ -58,4 +38,27 @@ namespace SecuredSigningClientSdk.Requests
         [ApiMember(Description = "Form signer", IsRequired = true, DataType = "Signer")]
         public Signer Signer { get; set; }
     }
+
+    [Route("/FormDirect/Export/{DocumentReference}/{FormDataFileType}", Verbs = "GET", Summary = "Get FormData for that specific Document", Notes = "choose different export options (csv, xls, xlsx, xml), if it has Xslt set for that Form, it will apply automatically.")]
+    public class ExportRequest : IReturn<byte[]>
+    {
+        [ApiMember(Description = "Document reference", ParameterType = "path", DataType = SwaggerType.String, IsRequired = true)]
+        public string DocumentReference { get; set; }
+
+        [ApiMember(Description = "Form data file return type", ParameterType = "path", DataType = SwaggerType.String, IsRequired = true)]
+        [ApiAllowableValues("FormDataFileType", typeof(FormDataFileType))]
+        public string FormDataFileType { get; set; }
+    }
+
+    [Route("/FormDirect/Employers", Verbs = "GET", Summary = "List employer details for some forms", Notes = "List employer details for some forms. return form type and employer details.")]
+    public class EmployerListRequest : IReturn<Employers>
+    {
+    }
+    [Route("/FormDirect/UpdateEmployers", Verbs = "POST", Summary = "Save employer details for some forms", Notes = "Save employer details for some forms")]
+    public class UpdateEmployerRequest : IReturn<Employers>
+    {
+        public List<SuperFundInfo> SuperFund { get; set; }
+        public List<TFNInfo> TFN { get; set; }
+    }
+
 }

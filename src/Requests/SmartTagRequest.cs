@@ -19,6 +19,7 @@ namespace SecuredSigningClientSdk.Requests
 
         [ApiMember(Name = "DueDate", Description = "Due date that document are to be signed by.", DataType = SwaggerType.Date, IsRequired = true)]
         public DateTime DueDate { get; set; }
+        public string GMT { get; set; }
 
         [ApiMember(Description = "Email template reference", DataType = SwaggerType.String, IsRequired = false)]
         public string EmailTemplateReference { get; set; }
@@ -27,6 +28,9 @@ namespace SecuredSigningClientSdk.Requests
         public string WorkflowReference { get; set; }
         [ApiMember(Description = "Return Url", DataType = SwaggerType.String, IsRequired = false)]
         public string ReturnUrl { get; set; }
+        [ApiMember(Description = "Signer details, overwrite details populated in document", DataType = SwaggerType.Array, IsRequired = false)]
+        public List<Signer> Signers { get; set; }
+
     }
 
     [Route("/SmartTag/MailMerge/", Verbs = "POST", Summary = "Merge mail merge list with the document", Notes = "Send a smart tag document.")]

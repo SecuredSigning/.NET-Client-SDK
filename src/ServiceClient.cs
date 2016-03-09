@@ -12,15 +12,30 @@ namespace SecuredSigningClientSdk
     public class ServiceClient
     {
         private JsonServiceClient _client;
-        private readonly string apiKey;
-
+        private OAuth2Client _oauth2;
+        private string accessToken;
+        /// <summary>
+        /// Set Access Token
+        /// </summary>
+        public string AccessToken
+        {
+            set { accessToken = value; }
+        }
+        /// <summary>
+        /// OAuth 2 Client to deal with authentication.
+        /// </summary>
+        public OAuth2Client OAuth2 { get { return _oauth2; } }
+        private string GMT
+        {
+            get
+            {
+                return TimeZoneInfo.Local.GetUtcOffset(DateTime.Now).TotalMinutes.ToString("F0");
+            }
+        }
         public ServiceClient(string serviceUrl, string version, string apiKey, string secret, string accessUrl)
         {
-            this.apiKey = apiKey;
-
             _client = new JsonServiceClient(serviceUrl + "/" + version);
-
-
+            _oauth2 = new OAuth2Client(new Uri(serviceUrl.Replace("api", "www")).GetLeftPart(UriPartial.Authority), apiKey, secret, accessUrl);
             _client.RequestFilter = httpReq =>
             {
                 //create unix time stamp string
@@ -33,10 +48,22 @@ namespace SecuredSigningClientSdk
                 httpReq.Headers.Add("X-CUSTOM-API-KEY", apiKey);
                 httpReq.Headers.Add("X-CUSTOM-DATE", requestDate);
                 httpReq.Headers.Add("X-CUSTOM-NONCE", nonce);
-                httpReq.Headers.Add("X-CUSTOM-SIGNATURE", AuthHelper.CreateToken(apiKey, secret, requestDate, nonce));
-                httpReq.Referer = accessUrl;
+                httpReq.Headers.Add("X-CUSTOM-SIGNATURE", AuthHelper.CreateSignature(apiKey, secret, requestDate, nonce));
+                httpReq.Headers.Add(System.Net.HttpRequestHeader.Authorization, "Bearer " + accessToken);
             };
         }
+
+        #region Account
+        /// <summary>
+        /// Get account information
+        /// </summary>
+        /// <returns></returns>
+        public AccountInfo getAccountInfo()
+        {
+            return _client.Get(new AccountRequest());
+        }
+
+        #endregion
 
         #region Document
         /// <summary>
@@ -46,8 +73,10 @@ namespace SecuredSigningClientSdk
         /// <returns></returns>
         public Document getStatus(string documentReference)
         {
-            var result = _client.Get<Document>(new StatusRequest { DocumentReference = documentReference });
-
+            var result = _client.Get(new StatusRequest
+            {
+                DocumentReference = documentReference
+            });
             return result;
         }
 
@@ -58,7 +87,7 @@ namespace SecuredSigningClientSdk
         /// <returns></returns>
         public List<DocumentLog> getLog(string documentReference)
         {
-            var result = _client.Get<List<DocumentLog>>(new LogRequest { DocumentReference = documentReference });
+            var result = _client.Get(new LogRequest { DocumentReference = documentReference });
 
             return result;
         }
@@ -70,13 +99,13 @@ namespace SecuredSigningClientSdk
         /// <param name="dueDate"></param>
         /// <param name="gmt"></param>
         /// <returns></returns>
-        public Document extendDocument(string documentReference, DateTime dueDate, string gmt)
+        public Document extendDocument(string documentReference, DateTime dueDate)
         {
             var result = _client.Post<Document>(new ExtendRequest()
             {
                 DocumentReference = documentReference,
                 DueDate = dueDate,
-                GMT = gmt
+                GMT = GMT
             });
             return result;
         }
@@ -209,25 +238,6 @@ namespace SecuredSigningClientSdk
         }
 
         /// <summary>
-        /// Returns form direct url
-        /// </summary>
-        /// <param name="formReference"></param>
-        /// <param name="fileType"></param>
-        /// <param name="separator"></param>
-        /// <returns></returns>
-        public string getFormData(string formReference, FormDataFileType fileType, string separator)
-        {
-            var result = _client.Get<FormDataResponse>(new FormDataRequest
-            {
-                DocumentReference = formReference,
-                FormDataFileType = fileType.ToString(),
-                Separator = separator
-            });
-
-            return result.Url;
-        }
-
-        /// <summary>
         /// Returns document signer link
         /// </summary>
         /// <param name="documentReference"></param>
@@ -250,9 +260,66 @@ namespace SecuredSigningClientSdk
 
             return result;
         }
+        /// <summary>
+        /// Get FormData for that specific Document
+        /// </summary>
+        /// <param name="documentReference"></param>
+        /// <param name="returnType"></param>
+        /// <returns></returns>
+        public byte[] exportFormData(string documentReference, FormDataFileType returnType)
+        {
+            return _client.Get(new ExportRequest
+            {
+                DocumentReference = documentReference,
+                FormDataFileType = returnType.ToString()
+            });
+        }
+        /// <summary>
+        /// Returns employer details for public forms
+        /// </summary>
+        /// <returns></returns>
+        public Employers getEmployers()
+        {
+            var result = _client.Get(new EmployerListRequest());
+            return result;
+        }
+        /// <summary>
+        /// Save employer details for public forms
+        /// </summary>
+        /// <param name="superFundEmployers"></param>
+        /// <param name="tfnEmployers"></param>
+        /// <returns></returns>
+        public Employers saveEmployers(List<SuperFundInfo> superFundEmployers, List<TFNInfo> tfnEmployers)
+        {
+            return _client.Post(new UpdateEmployerRequest
+            {
+                SuperFund = superFundEmployers == null ? new List<SuperFundInfo>() : superFundEmployers,
+                TFN = tfnEmployers == null ? new List<TFNInfo>() : tfnEmployers
+            });
+        }
+
         #endregion
 
         #region Smart Tag
+        /// <summary>
+        /// Sends smart tag documents - simple
+        /// </summary>
+        /// <param name="documentReferences"></param>
+        /// <param name="dueDate"></param>
+        /// <returns></returns>
+        public List<Document> sendSmartTagDocument(List<string> documentReferences, DateTime dueDate)
+        {
+            var result = _client.Post(new SmartTagRequest
+            {
+                DocumentReferences = documentReferences,
+                DueDate = dueDate,
+                GMT=this.GMT
+            });
+
+            return result;
+        }
+
+
         /// <summary>
         /// Sends smart tag documents
         /// </summary>
