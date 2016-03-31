@@ -49,7 +49,12 @@ namespace SecuredSigningClientSdk
                 httpReq.Headers.Add("X-CUSTOM-DATE", requestDate);
                 httpReq.Headers.Add("X-CUSTOM-NONCE", nonce);
                 httpReq.Headers.Add("X-CUSTOM-SIGNATURE", AuthHelper.CreateSignature(apiKey, secret, requestDate, nonce));
-                httpReq.Headers.Add(System.Net.HttpRequestHeader.Authorization, "Bearer " + accessToken);
+                if (!string.IsNullOrEmpty(accessToken))
+                    httpReq.Headers.Add(System.Net.HttpRequestHeader.Authorization, "Bearer " + accessToken);
+                else
+                {
+                    httpReq.Referer = accessUrl;
+                }
             };
         }
 
@@ -313,7 +318,7 @@ namespace SecuredSigningClientSdk
             {
                 DocumentReferences = documentReferences,
                 DueDate = dueDate,
-                GMT=this.GMT
+                GMT = this.GMT
             });
 
             return result;

@@ -19,7 +19,8 @@ namespace Test
                 apiKey: "YOUR API KEY",
                 secret: "YOUR API Secret",
                 accessUrl: "YOUR Access URL");
-
+#if OAuth2
+#region OAuth2
             //get OAuth2 access token
             var authorizeUrl = client.OAuth2.CreateAuthorizeRequest("some value",
                 OAuth2Client.OAuth2Scope.Basic.ToString(),
@@ -34,17 +35,21 @@ namespace Test
             //get access token
             var accessToken = client.OAuth2.GetToken(code);
             client.AccessToken = accessToken.Access_Token;
-            AccountSample(client);
+            //AccountSample(client);
+#endregion
+#endif
             //FormDirectSample(client);
             //FormFillerSample(client);
             //SmartTagSample(client);
         }
+#if OAuth2
         static void AccountSample(ServiceClient client)
         {
             var account=client.getAccountInfo();
             Console.WriteLine(string.Format("Hello {0}!", account.Name));
             var documents = client.getActiveDocuments("InBox");
         }
+#endif
         static void FormDirectSample(ServiceClient client)
         {
             //get FormDirect forms
@@ -165,7 +170,7 @@ namespace Test
                 documentReference
             }, DateTime.Now.AddDays(7));
         }
-        #region to read code in one line more then 256 charactors.
+#region to read code from Console in one line more then 256 charactors.
         /// <summary>
         /// see http://stackoverflow.com/questions/5557889/console-readline-max-length
         /// </summary>
@@ -179,6 +184,6 @@ namespace Test
             char[] chars = Encoding.UTF7.GetChars(bytes, 0, outputLength);
             return new string(chars);
         }
-        #endregion
+#endregion
     }
 }
