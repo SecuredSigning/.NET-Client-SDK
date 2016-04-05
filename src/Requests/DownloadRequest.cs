@@ -1,5 +1,4 @@
-﻿using System.Net;
-using SecuredSigningClientSdk.Models;
+﻿using SecuredSigningClientSdk.Models;
 using ServiceStack;
 
 namespace SecuredSigningClientSdk.Requests

@@ -34,7 +34,7 @@ namespace SecuredSigningClientSdk.Models
         public string Reference { get; set; }
 
         [ApiMember(Description = "List of signers required for the form", AllowMultiple = true, IsRequired = true, DataType = "Signer")]
-        public List<Signer> Signers { get; set; }
+        public List<FormDirectInvitee> Signers { get; set; }
 
         [ApiMember(Description = "If true, the signing links will be used in an iFrame to access the forms", DataType = "boolean", IsRequired = true)]
         public bool EmbedForm { get; set; }
@@ -45,13 +45,9 @@ namespace SecuredSigningClientSdk.Models
         [ApiMember(Description = "Auto fill data for the form. It is an XML document converted to a string. Secured Signing creates the template for the data.", DataType = SwaggerType.String, IsRequired = false)]
         public string XMLData { get; set; }
     }
-    
-    [Schema("Signer")]
-    public class Signer
+    [Schema("Invitee")]
+    public class Invitee
     {
-        [ApiMember(Description = "Signer reference", DataType = SwaggerType.String, IsRequired = false)]
-        public string SignerReference { get; set; }
-
         [ApiMember(Description = "First name of user", DataType = SwaggerType.String, IsRequired = true)]
         public string FirstName { get; set; }
 
@@ -60,24 +56,41 @@ namespace SecuredSigningClientSdk.Models
 
         [ApiMember(Description = "Email address of user", DataType = SwaggerType.String, IsRequired = true)]
         public string Email { get; set; }
-
-        [ApiMember(Description = "Role of signer in signing process", DataType = SwaggerType.String, IsRequired = false)]
-        public string SignerType { get; set; }
-
         [ApiMember(Description = "Mobile number of signer, for SMS secured forms. Must include the mobile carrier code e.g. Australia 04, New Zealand 027 or 021 etc", DataType = SwaggerType.String, IsRequired = false)]
         public string MobileNumber { get; set; }
 
         [ApiMember(Description = "Mobile Country code for phone number e.g. Australia 61, New Zealand 64 etc", DataType = SwaggerType.String, IsRequired = false)]
         public string MobileCountry { get; set; }
+    }
+    [Schema("FormDirectInvitee")]
+    public class FormDirectInvitee: Invitee
+    {
+        [ApiMember(Description = "Role of signer in signing process", DataType = SwaggerType.String, IsRequired = false)]
+        public string SignerType { get; set; }
+    }
+    [Schema("FormDirectInvitee")]
+    public class SmartTagInvitee : Invitee
+    {
+        public List<string> Attachments { get; set; }
+    }
+
+    [Schema("Signer")]
+    public class Signer:Invitee
+    {
+        [ApiMember(Description = "Signer reference", DataType = SwaggerType.String, IsRequired = false)]
+        public string SignerReference { get; set; }
 
         [ApiMember(Description = "Url for access to signing", DataType = SwaggerType.String)]
         public string SigningKey { get; set; }
 
         [ApiMember(Description = "User signing status", DataType = "boolean", IsRequired = false)]
         public bool HasSigned { get; set; }
-
     }
-
+    public class FormDirectSigner : Signer
+    {
+        [ApiMember(Description = "Role of signer in signing process", DataType = SwaggerType.String, IsRequired = false)]
+        public string SignerType { get; set; }
+    }
     [Schema("Document")]
     public class Document
     {

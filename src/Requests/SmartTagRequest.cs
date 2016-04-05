@@ -2,9 +2,6 @@
 using ServiceStack;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Web;
 
 namespace SecuredSigningClientSdk.Requests
 {
@@ -29,7 +26,7 @@ namespace SecuredSigningClientSdk.Requests
         [ApiMember(Description = "Return Url", DataType = SwaggerType.String, IsRequired = false)]
         public string ReturnUrl { get; set; }
         [ApiMember(Description = "Signer details, overwrite details populated in document", DataType = SwaggerType.Array, IsRequired = false)]
-        public List<Signer> Signers { get; set; }
+        public List<SmartTagInvitee> Signers { get; set; }
 
     }
 

@@ -3,8 +3,6 @@ using SecuredSigningClientSdk.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ServiceStack;
 
 namespace SecuredSigningClientSdk
@@ -212,7 +210,7 @@ namespace SecuredSigningClientSdk
         /// <returns></returns>
         public List<FormDirect> getFormList()
         {
-            var result = _client.Get<List<FormDirect>>(new FormDirectRequest());
+            var result = _client.Get(new FormDirectRequest());
 
             return result;
         }
@@ -237,7 +235,11 @@ namespace SecuredSigningClientSdk
         /// <returns></returns>
         public List<Document> sendForms(List<FormDirect> formsToSend, DateTime dueDate)
         {
-            var result = _client.Post<List<Document>>(new SendFormDirectRequest { Forms = formsToSend, DueDate = dueDate });
+            var result = _client.Post(new SendFormDirectRequest
+            {
+                Forms = formsToSend,
+                DueDate = dueDate
+            });
 
             return result;
         }
@@ -308,6 +310,7 @@ namespace SecuredSigningClientSdk
         #region Smart Tag
         /// <summary>
         /// Sends smart tag documents - simple
+        /// <see cref="http://www.securedsigning.com/documentation/developer/smarttag-api"/>
         /// </summary>
         /// <param name="documentReferences"></param>
         /// <param name="dueDate"></param>
@@ -324,26 +327,102 @@ namespace SecuredSigningClientSdk
             return result;
         }
 
-
         /// <summary>
-        /// Sends smart tag documents
+        /// <see cref="http://www.securedsigning.com/documentation/developer/smarttag-api#adv1"/>
         /// </summary>
         /// <param name="documentReferences"></param>
-        /// <param name="embedded"></param>
         /// <param name="dueDate"></param>
-        /// <param name="emailTemplateReference"></param>
-        /// <param name="workflowReference"></param>
+        /// <param name="embedded"></param>
         /// <returns></returns>
-        public List<Document> sendSmartTagDocument(List<string> documentReferences, bool embedded, DateTime dueDate, string emailTemplateReference, string workflowReference, Uri returnUrl)
+        public List<Document> sendSmartTagDocument(List<string> documentReferences, DateTime dueDate, string invitationEmailTemplateReference)
         {
             var result = _client.Post<List<Document>>(new SmartTagRequest
             {
                 DocumentReferences = documentReferences,
                 DueDate = dueDate,
-                EmailTemplateReference = emailTemplateReference,
+                EmailTemplateReference = invitationEmailTemplateReference
+            });
+
+            return result;
+        }
+        /// <summary>
+        /// <see cref="http://www.securedsigning.com/documentation/developer/smarttag-api#adv2"/>
+        /// </summary>
+        /// <param name="documentReferences"></param>
+        /// <param name="dueDate"></param>
+        /// <param name="embedded"></param>
+        /// <returns></returns>
+        public List<Document> sendSmartTagDocument(List<string> documentReferences, DateTime dueDate, bool embedded, Uri returnUrl = null)
+        {
+            var result = _client.Post<List<Document>>(new SmartTagRequest
+            {
+                DocumentReferences = documentReferences,
+                DueDate = dueDate,
                 Embedded = embedded,
-                WorkflowReference = workflowReference,
-                ReturnUrl = returnUrl == null ? null : returnUrl.ToString()
+                ReturnUrl = returnUrl?.ToString()
+            });
+
+            return result;
+        }
+
+        /// <summary>
+        /// <see cref="http://www.securedsigning.com/documentation/developer/smarttag-api#adv3"/>
+        /// </summary>
+        /// <param name="documentReferences"></param>
+        /// <param name="dueDate"></param>
+        /// <param name="signers"></param>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public List<Document> sendSmartTagDocument(List<string> documentReferences, DateTime dueDate, SmartTagInvitee[] signers)
+        {
+            var result = _client.Post<List<Document>>(new SmartTagRequest
+            {
+                DocumentReferences = documentReferences,
+                DueDate = dueDate,
+                Signers = signers.ToList()
+            });
+
+            return result;
+        }
+
+        /// <summary>
+        /// <see cref="http://www.securedsigning.com/documentation/developer/smarttag-api#adv3"/>
+        /// </summary>
+        /// <param name="documentReferences"></param>
+        /// <param name="dueDate"></param>
+        /// <param name="signers"></param>
+        /// <param name="embedded"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
+        public List<Document> sendSmartTagDocument(List<string> documentReferences, DateTime dueDate, SmartTagInvitee[] signers, bool embedded, Uri returnUrl)
+        {
+            var result = _client.Post<List<Document>>(new SmartTagRequest
+            {
+                DocumentReferences = documentReferences,
+                DueDate = dueDate,
+                Embedded = embedded,
+                ReturnUrl = returnUrl?.ToString(),
+                Signers = signers.ToList()
+            });
+
+            return result;
+        }
+        /// <summary>
+        /// <see cref="http://www.securedsigning.com/documentation/developer/smarttag-api#adv3"/>
+        /// </summary>
+        /// <param name="documentReferences"></param>
+        /// <param name="dueDate"></param>
+        /// <param name="signers"></param>
+        /// <param name="invitationEmailTemplateReference"></param>
+        /// <returns></returns>
+        public List<Document> sendSmartTagDocument(List<string> documentReferences, DateTime dueDate, SmartTagInvitee[] signers, string invitationEmailTemplateReference)
+        {
+            var result = _client.Post<List<Document>>(new SmartTagRequest
+            {
+                DocumentReferences = documentReferences,
+                DueDate = dueDate,
+                EmailTemplateReference = invitationEmailTemplateReference,
+                Signers = signers.ToList()
             });
 
             return result;
@@ -446,5 +525,31 @@ namespace SecuredSigningClientSdk
         }
         #endregion
 
+        #region Attachment
+        /// <summary>
+        /// Uploads a file as attachment by URL
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns>document reference</returns>
+        public string uploadAttachmentByUrl(FileInfo file)
+        {
+            var result = _client.Post(new UploadAttachmentRequest
+            {
+                File = file
+            });
+            return result.Reference;
+        }
+
+        /// <summary>
+        /// Uploads a file as attachment by mulitpart form
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns>document reference</returns>
+        public string uploadAttachmentFile(System.IO.FileInfo file)
+        {
+            var result = _client.PostFileWithRequest<Document>(file, new AttachmentUploaderRequest());
+            return result.Reference;
+        }
+        #endregion
     }
 }
