@@ -1,4 +1,5 @@
 ﻿using ServiceStack.DataAnnotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -72,8 +73,10 @@ namespace SecuredSigningClientSdk
         /// <summary>
         /// OAuth2 Scopes
         /// </summary>
+        [Flags]
         public enum OAuth2Scope
         {
+            None = 0,
             [Description("Basic Profile - Fetch information about your Secured Signing account, such as your price plan, account status etc.")]
             Basic = 1,
             [Description("I Sign - Sign documents as a sole Signatory.")]
@@ -85,9 +88,8 @@ namespace SecuredSigningClientSdk
             [Description("Form Direct - Fetch and send your online Form Direct forms.")]
             FormDirect = 16,
             [Description("Form Filler - Fill in online forms and sign.")]
-            FormFiller = 32
+            FormFiller = 32,
         }
-
         /// <summary>
         /// Create authorize URL
         /// </summary>
@@ -99,6 +101,10 @@ namespace SecuredSigningClientSdk
             return string.Format("{0}?response_type=code&client_id={1}&redirect_uri={2}&state={3}&scope={4}"
                 , AuthorizeEndpoint, this.ConsumerKey, this.CallbackUrl, state,
                 string.Join(" ", scopes));
+        }
+        public string CreateAuthorizeRequest(string state, OAuth2Scope scopes)
+        {
+            return CreateAuthorizeRequest(state, scopes.ToString("F").Split(',').Select(t => t.Trim()).ToArray());
         }
         /// <summary>
         /// Get access token

@@ -4,43 +4,45 @@ using System.IO;
 using System.Text;
 using static Test.Sample;
 using static Test.Helper;
+using System.Windows.Forms;
 
 namespace Test
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
+            //WithoutSDK.Sample.Run();
+            //return;
+
             //initialise API Client
             var client = new ServiceClient(
                 serviceUrl: "https://api.securedsigning.com/web",
                 version: "v1.4",
-                apiKey: "YOUR API KEY",
-                secret: "YOUR API Secret",
-                accessUrl: "YOUR Access URL");
+                apiKey: "[APIKey]",
+                secret: "[APISecret]",
+                accessUrl: "[AccessUrl]");
 
             //see https://www.securedsigning.com/developer/api-documentation#auth for more details about OAuth 2, default enabled for API Key from March 2016. earlier API Key should ignore it.           
-#region OAuth2
+            #region OAuth2
             //get OAuth2 access token
-            var authorizeUrl = client.OAuth2.CreateAuthorizeRequest("some value",
-                OAuth2Client.OAuth2Scope.Basic.ToString(),
-                OAuth2Client.OAuth2Scope.FormDirect.ToString(),
-                OAuth2Client.OAuth2Scope.FormFiller.ToString(),
-                OAuth2Client.OAuth2Scope.SmartTag.ToString());
-            //start oauthorize process in a webpage
-            System.Diagnostics.Process.Start(authorizeUrl);
-            //for real using, need a server to handle the response
-            Console.WriteLine("finish OAuth2 authorize process, then input authorization code:");
-            string code = ReadLine();
-            //get access token
-            var accessToken = client.OAuth2.GetToken(code);
-            client.AccessToken = accessToken.Access_Token;
-            //AccountSample(client);
+            Application.EnableVisualStyles();
+            var form = new OAuth2AuthoriseForm(client, DateTime.Now.Ticks.ToString(), OAuth2Client.OAuth2Scope.Basic | OAuth2Client.OAuth2Scope.FormDirect | OAuth2Client.OAuth2Scope.FormFiller | OAuth2Client.OAuth2Scope.SmartTag);
+            form.OnAuthorized = tokenResp =>
+            {
+                client.AccessToken = tokenResp.Access_Token;
+                form.Close();
+            };
+            Application.Run(form);
+            AccountSample(client);
+
             #endregion
 
-            FormDirectSample(client);
-            FormFillerSample(client);
-            SmartTagSample(client);
+            //FormDirectSample(client);
+            //FormFillerSample(client);
+            //SmartTagSample(client);
+            Console.Read();
         }
         static void AccountSample(ServiceClient client)
         {

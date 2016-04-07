@@ -36,10 +36,10 @@ namespace Test
             t1.Signers = client.getFormFillerSignerTemplate(t1.Reference).Signers;
             t1.Signers[0].FirstName = "t1.s1.FirstName";
             t1.Signers[0].LastName = "t1.s1.LastName";
-            t1.Signers[0].Email = "t1.s1.Email";
+            t1.Signers[0].Email = "zhaofeng1@dsx.co.nz";
             t1.Signers[1].FirstName = "t1.s2.FirstName";
             t1.Signers[1].LastName = "t1.s2.LastName";
-            t1.Signers[1].Email = "t1.s2.Email";
+            t1.Signers[1].Email = "zhaofeng2@dsx.co.nz";
 
             //e.g. There's 1 signer in t2
             //[
@@ -53,7 +53,7 @@ namespace Test
             t2.Signers = client.getFormFillerSignerTemplate(t2.Reference).Signers;
             t2.Signers[0].FirstName = "t2.s1.FirstName";
             t2.Signers[0].LastName = "t2.s1.LastName";
-            t2.Signers[0].Email = "t2.s1.Email";
+            t2.Signers[0].Email = "zhaofeng2@dsx.co.nz";
 
             //set Field(s) value for template (optional)
             //e.g. There's 2 fields in t2

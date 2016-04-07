@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuredSigningClientSdk", "src\SecuredSigningClientSdk.csproj", "{5F5A9547-6828-4639-88F7-E70EE81A884A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "samples\Sample.csproj", "{4503C015-A790-4ED1-8F61-23BB8FCC45E6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4016463B-8B27-4441-996A-3D20781A71D9}"
@@ -25,6 +23,10 @@ Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "nuget", "nuget.exe", "{36F8
 		AttachLaunchAction = No
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuredSigningClientSdk", "src\SecuredSigningClientSdk\SecuredSigningClientSdk.csproj", "{5F5A9547-6828-4639-88F7-E70EE81A884A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuredSigningClientSdk.WinForms", "src\SecuredSigningClientSDK.WinForms\SecuredSigningClientSdk.WinForms.csproj", "{3D7C8284-8BEA-47D2-BF0A-A90885964D85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,14 +35,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Debug|x86.Build.0 = Debug|Any CPU
-		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Release|x86.ActiveCfg = Release|Any CPU
-		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Release|x86.Build.0 = Release|Any CPU
 		{4503C015-A790-4ED1-8F61-23BB8FCC45E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4503C015-A790-4ED1-8F61-23BB8FCC45E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4503C015-A790-4ED1-8F61-23BB8FCC45E6}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -53,6 +47,22 @@ Global
 		{36F8BF8C-0AF2-4128-8F16-5B9C2DA14D43}.Debug|x86.ActiveCfg = Release|x86
 		{36F8BF8C-0AF2-4128-8F16-5B9C2DA14D43}.Release|Any CPU.ActiveCfg = Release|x86
 		{36F8BF8C-0AF2-4128-8F16-5B9C2DA14D43}.Release|x86.ActiveCfg = Release|x86
+		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Debug|x86.Build.0 = Debug|Any CPU
+		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Release|x86.ActiveCfg = Release|Any CPU
+		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Release|x86.Build.0 = Release|Any CPU
+		{3D7C8284-8BEA-47D2-BF0A-A90885964D85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D7C8284-8BEA-47D2-BF0A-A90885964D85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D7C8284-8BEA-47D2-BF0A-A90885964D85}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3D7C8284-8BEA-47D2-BF0A-A90885964D85}.Debug|x86.Build.0 = Debug|Any CPU
+		{3D7C8284-8BEA-47D2-BF0A-A90885964D85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D7C8284-8BEA-47D2-BF0A-A90885964D85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D7C8284-8BEA-47D2-BF0A-A90885964D85}.Release|x86.ActiveCfg = Release|Any CPU
+		{3D7C8284-8BEA-47D2-BF0A-A90885964D85}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
