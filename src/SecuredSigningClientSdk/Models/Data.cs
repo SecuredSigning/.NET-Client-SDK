@@ -200,6 +200,10 @@ namespace SecuredSigningClientSdk.Models
     {
         [ApiMember(Description = "Url which file content will be downloaded", DataType = SwaggerType.String)]
         public string Url { get; set; }
+        [ApiMember(Description = "Document or multiple documents objects, with data for signing", ParameterType = "path", DataType = "Document", AllowMultiple = false)]
+        public List<Document> Documents { get; set; }
+        public List<Signer> Signers { get; set; }
+
     }
     [Schema("DocumentValidationResponse")]
     public class DocumentValidationResponse

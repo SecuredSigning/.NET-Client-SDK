@@ -1,6 +1,7 @@
 ﻿using SecuredSigningClientSdk;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Test
 {
@@ -33,15 +34,7 @@ namespace Test
             //  }
             //]
             //
-            t1.Signers = client.getFormFillerSignerTemplate(t1.Reference).Signers;
-            t1.Signers[0].FirstName = "t1.s1.FirstName";
-            t1.Signers[0].LastName = "t1.s1.LastName";
-            t1.Signers[0].Email = "zhaofeng1@dsx.co.nz";
-            t1.Signers[1].FirstName = "t1.s2.FirstName";
-            t1.Signers[1].LastName = "t1.s2.LastName";
-            t1.Signers[1].Email = "zhaofeng2@dsx.co.nz";
-
-            //e.g. There's 1 signer in t2
+            //and there's 1 signer in t2
             //[
             //  {
             //    "SignerReference": "048109...086112",
@@ -50,11 +43,16 @@ namespace Test
             //    "Email": ""
             //  }
             //]
+            t1.Signers = client.getFormFillerSignerTemplate(t1.Reference).Signers;
             t2.Signers = client.getFormFillerSignerTemplate(t2.Reference).Signers;
-            t2.Signers[0].FirstName = "t2.s1.FirstName";
-            t2.Signers[0].LastName = "t2.s1.LastName";
-            t2.Signers[0].Email = "zhaofeng2@dsx.co.nz";
+            t1.Signers[0].FirstName = t2.Signers[0].FirstName= "signer1.FirstName";
+            t1.Signers[0].LastName = t2.Signers[0].LastName = "signer1.LastName";
+            t1.Signers[0].Email = t2.Signers[0].Email= "signer1.Email";
 
+            t1.Signers[1].FirstName = "signer2.FirstName";
+            t1.Signers[1].LastName = "signer2.LastName";
+            t1.Signers[1].Email = "signer2.Email";
+            
             //set Field(s) value for template (optional)
             //e.g. There's 2 fields in t2
             //[
@@ -89,7 +87,21 @@ namespace Test
                     t2
                 },
                 dueDate: DateTime.Now.AddDays(5));
+
             //well done.
+
+            //if embedded
+            //var documents = client.sendFormFillerTemplates(
+            //    templates: new List<SecuredSigningClientSdk.Models.FormFillerTemplate> {
+            //        t1,
+            //        t2
+            //    },
+            //    dueDate: DateTime.Now.AddDays(5),
+            //    embedded: true);
+            //var signingKey = documents.Signers.FirstOrDefault(t => !string.IsNullOrWhiteSpace(t.SigningKey))?.SigningKey;
+
+            //populate signing key into a embedded signing webpage.
+
         }
     }
 }

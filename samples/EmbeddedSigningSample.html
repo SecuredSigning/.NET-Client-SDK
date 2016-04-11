@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Embedded Signing - UI SDK Sample</title>
+    <script data-main="https://api.securedsigning.com/web/v1.4/client/scripts/main" src="https://api.securedsigning.com/web/v1.4/client/scripts/require.js"></script>
+</head>
+<body>
+    <p>Please replace your API Key and Secret first.</p>
+    <div style="width:100%; height:90px;margin-top:32px;">
+        <div id="login"></div>
+    </div>
+    <div id="content" style="width: 1024px; height: 900px;"></div>
+    <script type="text/javascript">
+
+        var securedsigning;
+        var config = {
+            "apiKey": "[APIKEY]",
+            "baseUrl": "https://api.securedsigning.com/web",
+            "version": "v1.4",
+            "secret": "[APISecret]",
+            "scope": "Basic"
+        };
+
+        function SSApiLoaded() {
+            securedsigning = new SecuredSigning(config);
+
+            var key="[SigningKey]";
+            securedsigning.getClientAccessToken(
+                {
+                    "client_credential_type":"signing_key",
+                    "signing_key":key
+                },function(){
+                    Sign(key);
+                }
+            )
+        };
+        
+        function Sign(key){
+            window.AccessKey = key;
+            window.containerId="content"
+            securedsigning.getSetupResource();
+        }
+    </script>
+</body>
+</html>

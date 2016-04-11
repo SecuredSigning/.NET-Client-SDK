@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>securedsigning.client</id>
-    <version>1.4.3</version>
+    <version>1.4.4</version>
     <title>Secured Signing Rest Client SDK</title>
     <authors>Secured Signing</authors>
     <owners>Secured Signing Ltd</owners>
@@ -11,7 +11,7 @@
     <iconUrl>https://www.securedsigning.com/favicon.ico</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Secured Signing Rest Client SDK</description>
-    <releaseNotes>Support OAuth2 for WinForms</releaseNotes>
+    <releaseNotes>Support Embedded Signing in Form Filler</releaseNotes>
     <copyright>Secured Signing Ltd Copyright 2016</copyright>
     <tags>Secured Signing</tags>
   </metadata>

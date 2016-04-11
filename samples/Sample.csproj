@@ -56,8 +56,8 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SecuredSigningClientSdk, Version=1.4.5941.31812, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\securedsigning.client.1.4.3\lib\net452\SecuredSigningClientSdk.dll</HintPath>
+    <Reference Include="SecuredSigningClientSdk, Version=1.4.5945.27800, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\securedsigning.client.1.4.4\lib\net452\SecuredSigningClientSdk.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SecuredSigningClientSdk.WinForms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -127,6 +127,10 @@
     <EmbeddedResource Include="OAuth2AuthoriseForm.resx">
       <DependentUpon>OAuth2AuthoriseForm.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EmbeddedSigningSample.old.html" />
+    <Content Include="EmbeddedSigningSample.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

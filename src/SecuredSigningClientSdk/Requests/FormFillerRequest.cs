@@ -25,7 +25,7 @@ namespace SecuredSigningClientSdk.Requests
     }
 
     [Route("/FormFiller/Send", Verbs = "POST", Summary = "Send the template to start a We Sign process", Notes = "Send a template for filling and signing")]
-    public class SendFormFillerRequest : IReturn<List<Document>>
+    public class SendFormFillerRequest : IReturn<DocumentResponse>
     {
         [ApiMember(Name = "Forms", Description = "Collection of forms to be sent, if an account reference is not supplied for the forms, the forms will be associated with your api account.",
         DataType = "FormDirect", AllowMultiple = true, IsRequired = true)]
@@ -35,5 +35,10 @@ namespace SecuredSigningClientSdk.Requests
         public DateTime DueDate { get; set; }
         [ApiMember(Description = "GMT Offset", DataType = SwaggerType.String, IsRequired = false)]
         public string GMT { get; set; }
+        [ApiMember(Description = "Shows if embedded signing", DataType = SwaggerType.Boolean, IsRequired = false)]
+        public bool Embedded { get; set; }
+        [ApiMember(Description = "Return Url", DataType = SwaggerType.String, IsRequired = false)]
+        public string ReturnUrl { get; set; }
+
     }
 }

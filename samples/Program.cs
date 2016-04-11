@@ -35,6 +35,7 @@ namespace Test
                 form.Close();
             };
             Application.Run(form);
+
             AccountSample(client);
 
             #endregion

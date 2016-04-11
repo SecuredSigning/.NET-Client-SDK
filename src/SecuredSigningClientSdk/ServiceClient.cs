@@ -49,10 +49,7 @@ namespace SecuredSigningClientSdk
                 httpReq.Headers.Add("X-CUSTOM-SIGNATURE", AuthHelper.CreateSignature(apiKey, secret, requestDate, nonce));
                 if (!string.IsNullOrEmpty(accessToken))
                     httpReq.Headers.Add(System.Net.HttpRequestHeader.Authorization, "Bearer " + accessToken);
-                else
-                {
-                    httpReq.Referer = accessUrl;
-                }
+                httpReq.Referer = accessUrl;
             };
         }
 
@@ -511,7 +508,7 @@ namespace SecuredSigningClientSdk
             var result = _client.Get(new FormFillerFieldRequest { TemplateReference = templateRef });
             return result;
         }
-        public List<Document> sendFormFillerTemplates(List<FormFillerTemplate> templates, DateTime dueDate)
+        public DocumentResponse sendFormFillerTemplates(List<FormFillerTemplate> templates, DateTime dueDate,bool embedded=false,Uri returnUrl=null)
         {
             var gmt = TimeZoneInfo.Local.GetUtcOffset(dueDate).TotalMinutes.ToString("F0");
 
@@ -519,7 +516,9 @@ namespace SecuredSigningClientSdk
             {
                 Templates = templates,
                 DueDate = dueDate,
-                GMT = gmt
+                GMT = gmt,
+                Embedded = embedded,
+                ReturnUrl = returnUrl?.ToString()
             });
             return result;
         }
