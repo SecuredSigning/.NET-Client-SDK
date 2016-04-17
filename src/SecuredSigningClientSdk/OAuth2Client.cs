@@ -3,18 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using SecuredSigningClientSdk.Helpers;
 
 namespace SecuredSigningClientSdk
 {
     public class OAuth2Client
     {
-        readonly string AuthorizeEndpoint = "/api/oauth2/authorize";
-        readonly string TokenEndpoint = "/api/oauth2/token";
-        readonly string RevokeEndpoint = "/api/oauth2/revoke";
-        readonly string ConsumerKey;
-        readonly string ConsumerSecret;
-        readonly string CallbackUrl;
-        internal OAuth2Client(string host, string apiKey, string apiSecret, string accessUrl)
+        protected readonly string AuthorizeEndpoint = "/api/oauth2/authorize";
+        protected readonly string TokenEndpoint = "/api/oauth2/token";
+        protected readonly string RevokeEndpoint = "/api/oauth2/revoke";
+        protected readonly string ConsumerKey;
+        protected readonly string ConsumerSecret;
+        protected readonly string CallbackUrl;
+        internal protected OAuth2Client(string host, string apiKey, string apiSecret, string accessUrl)
         {
             this.AuthorizeEndpoint = host + AuthorizeEndpoint;
             this.TokenEndpoint = host + TokenEndpoint;
@@ -49,9 +50,9 @@ namespace SecuredSigningClientSdk
                 {
                     if (p.PropertyType == typeof(string))
                     {
-                        if (p.GetValue(this) == null)
+                        if (p.GetValue(this,null) == null)
                             continue;
-                        result.Add(string.Format("{0}={1}", p.Name.ToLower(), p.GetValue(this)));
+                        result.Add(string.Format("{0}={1}", p.Name.ToLower(), p.GetValue(this,null)));
                         continue;
                     }
                 }
@@ -104,7 +105,7 @@ namespace SecuredSigningClientSdk
         }
         public string CreateAuthorizeRequest(string state, OAuth2Scope scopes)
         {
-            return CreateAuthorizeRequest(state, scopes.ToString("F").Split(',').Select(t => t.Trim()).ToArray());
+            return CreateAuthorizeRequest(state, scopes.ToStringArray());
         }
         /// <summary>
         /// Get access token
@@ -119,7 +120,7 @@ namespace SecuredSigningClientSdk
             {
                 Code = code.Trim()
             }.ToString();
-            var result = client.UploadString(TokenEndpoint, request);
+            var result = client.UploadString(TokenEndpoint, request);            
             return Newtonsoft.Json.JsonConvert.DeserializeObject<OAuth2TokenResponse>(result);
         }
         /// <summary>
@@ -149,20 +150,19 @@ namespace SecuredSigningClientSdk
         /// <summary>
         /// Handle authorization callback 
         /// </summary>
-        /// <param name="httpContext"></param>
+        /// <param name="callbackUrl"></param>
         /// <param name="state"></param>
         /// <returns>authorization code; if empty or null, means user refused authorization.</returns>
-        public static string HandleAuthorizeCallback(System.Web.HttpContextBase httpContext,out string state)
+        public static string HandleAuthorizeCallback(Uri callbackUrl,out string state)
         {
-            var uri = httpContext.Request.Url;
-            var queries = uri.Query.TrimStart('?').Split('&').Select(t => t.Split('='))
+            var queries = callbackUrl.Query.TrimStart('?').Split('&').Select(t => t.Split('='))
                 .ToDictionary(t => t[0], t => t[1]);
 
             state = queries.ContainsKey("state") ? queries["state"] : string.Empty;
-
+            state = WebUtility.UrlDecode(state);
             if (queries.ContainsKey("error"))
-            {                
-                return string.Empty;
+            {
+                throw new Exception(queries["error"]);
             }
             if (queries.ContainsKey("code"))
             {

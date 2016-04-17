@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Embedded Signing - UI SDK Sample</title>
-    <script data-main="https://api.securedsigning.com/web/v1.4/client/scripts/main" src="https://api.securedsigning.com/web/v1.4/client/scripts/require.js"></script>
+    <script data-main="[APIServiceUrl]/[APIVersion]/client/scripts/main" src="[APIServiceUrl]/[APIVersion]/client/scripts/require.js"></script>
 </head>
 <body>
     <p>Please replace your API Key and Secret first.</p>
@@ -15,8 +15,8 @@
         var securedsigning;
         var config = {
             "apiKey": "[APIKEY]",
-            "baseUrl": "https://api.securedsigning.com/web",
-            "version": "v1.4",
+            "baseUrl": "[APIServiceUrl]",
+            "version": "[APIVersion]",
             "secret": "[APISecret]",
             "scope": "Basic"
         };

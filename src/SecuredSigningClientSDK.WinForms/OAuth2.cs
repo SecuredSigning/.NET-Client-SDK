@@ -12,9 +12,15 @@ namespace SecuredSigningClientSdk.WinForms
 {
     public class OAuth2 : System.Windows.Forms.WebBrowser
     {
-        public class OAuth2CompletedEventArgs : EventArgs
+        public class OAuth2CompletedEventArgs: EventArgs
         {
-            public SecuredSigningClientSdk.OAuth2Client.OAuth2TokenResponse Response { get; set; }
+            public OAuth2CompletedEventArgs(OAuth2Client.OAuth2TokenResponse response,string state)
+            {
+                this.Response = response;
+                this.State = state;
+            }
+            public OAuth2Client.OAuth2TokenResponse Response { get; private set; }
+            public string State { get; private set; }
         }
         public event EventHandler<OAuth2CompletedEventArgs> Completed;
         static void SetWebBrowserDocumentMode()
@@ -94,24 +100,11 @@ namespace SecuredSigningClientSdk.WinForms
         protected void HandleResult(string returnUrl)
         {
             var uri = new Uri(returnUrl);
-            var queries = uri.Query.TrimStart('?').Split('&').Select(t => t.Split('='))
-                .ToDictionary(t => t[0], t => t[1]);
-            OAuth2CompletedEventArgs args = new OAuth2CompletedEventArgs();
-            if (queries.ContainsKey("error"))
-            {
-                args.Response = new SecuredSigningClientSdk.OAuth2Client.OAuth2TokenResponse()
-                {
-                    Error = queries["error"]
-                };                 
-            }
-            if (queries.ContainsKey("code"))
-            {
-                args.Response = this.SdkClient.OAuth2.GetToken(queries["code"]);
-            }
-            if(Completed!=null)
-            {
-                Completed(this, args);
-            }
+            string state = string.Empty;
+            var code = OAuth2Client.HandleAuthorizeCallback(uri, out state);
+            var response = this.SdkClient.OAuth2.GetToken(code);            
+            OAuth2CompletedEventArgs args = new OAuth2CompletedEventArgs(response,state);
+            Completed?.Invoke(this, args);
         }
     }
 }

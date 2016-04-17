@@ -45,10 +45,8 @@ namespace Test.WithoutSDK
             client.Headers.Add("X-CUSTOM-SIGNATURE", AuthHelper.CreateSignature(APIKey, APISecret, requestDate, nonce));
             if (!string.IsNullOrEmpty(accessToken))
                 client.Headers.Add(System.Net.HttpRequestHeader.Authorization, "Bearer " + accessToken);
-            else
-            {
-                client.Headers.Add("Referer", AccessUrl);
-            }
+            //TODO: WebClient doesn't support setting Referer header, use HttpWebRequest instead.
+            client.Headers.Add(HttpRequestHeader.Referer, AccessUrl);
         }
         readonly string APIKey;
         readonly string APISecret;

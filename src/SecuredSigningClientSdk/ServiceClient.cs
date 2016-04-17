@@ -9,8 +9,12 @@ namespace SecuredSigningClientSdk
 {
     public class ServiceClient
     {
-        private JsonServiceClient _client;
-        private OAuth2Client _oauth2;
+        protected JsonServiceClient _client;
+        protected OAuth2Client _oauth2;
+        public string APIKey { get; private set; }
+        public string APISecret { get; private set; }
+        public string ServiceBaseUrl { get; private set; }
+        public string APIVersion { get; private set; }
         private string accessToken;
         /// <summary>
         /// Set Access Token
@@ -23,7 +27,7 @@ namespace SecuredSigningClientSdk
         /// OAuth 2 Client to deal with authentication.
         /// </summary>
         public OAuth2Client OAuth2 { get { return _oauth2; } }
-        private string GMT
+        protected string GMT
         {
             get
             {
@@ -32,6 +36,10 @@ namespace SecuredSigningClientSdk
         }
         public ServiceClient(string serviceUrl, string version, string apiKey, string secret, string accessUrl)
         {
+            this.ServiceBaseUrl = serviceUrl;
+            this.APIVersion = version;
+            this.APIKey = apiKey;
+            this.APISecret = secret;
             _client = new JsonServiceClient(serviceUrl + "/" + version);
             _oauth2 = new OAuth2Client(new Uri(serviceUrl.Replace("api", "www")).GetLeftPart(UriPartial.Authority), apiKey, secret, accessUrl);
             _client.RequestFilter = httpReq =>

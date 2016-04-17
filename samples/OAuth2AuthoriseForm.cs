@@ -25,13 +25,9 @@ namespace Test
 
         private void oAuth21_Completed(object sender, SecuredSigningClientSdk.WinForms.OAuth2.OAuth2CompletedEventArgs e)
         {
-            if(OnAuthorized!=null)
-            {
-                OnAuthorized(e.Response);
-            }
+            OnAuthorized?.Invoke(e.Response, e.State);
         }
-
-        public Action<SecuredSigningClientSdk.OAuth2Client.OAuth2TokenResponse> OnAuthorized;
+        public Action<SecuredSigningClientSdk.OAuth2Client.OAuth2TokenResponse,string> OnAuthorized;
 
         private void OAuth2AuthoriseForm_Load(object sender, EventArgs e)
         {

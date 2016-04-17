@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>securedsigning.client.partner</id>
+    <version>1.4.0</version>
+    <title>Secured Signing Rest Client SDK for Partner API</title>
+    <authors>Secured Signing</authors>
+    <owners>Secured Signing Ltd</owners>
+    <licenseUrl>https://www.securedsigning.com/terms</licenseUrl>
+    <projectUrl>https://www.securedsigning.com/documentation/enterprise/partner-api</projectUrl>
+    <iconUrl>https://www.securedsigning.com/favicon.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Secured Signing Rest Client SDK for Partner API</description>
+    <releaseNotes>Secured Signing Rest Client SDK for Partner API</releaseNotes>
+    <copyright>Secured Signing Ltd Copyright 2016</copyright>
+    <tags>Secured Signing</tags>
+  </metadata>
+</package>

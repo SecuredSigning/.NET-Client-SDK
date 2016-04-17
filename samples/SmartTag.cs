@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 namespace Test
 {
-
-
     static partial class Sample
     {
         /// <summary>
@@ -19,7 +17,7 @@ namespace Test
         /// <param name="client"></param>
         public static void SmartTagSample(ServiceClient client)
         {
-            var file = new System.IO.FileInfo("path to smart tag document");
+            var file = new System.IO.FileInfo(SampleParameters.Path2SmartTagDocument);
             var documentReference = client.uploadDocumentFile(file);
             var smartTagResp = client.sendSmartTagDocument(new List<string> {
                 documentReference
@@ -32,7 +30,7 @@ namespace Test
             //Let's say there're 2 templates, take the first one
             var templateReference = invitationTemplates[0].Reference;
 
-            var file = new System.IO.FileInfo("path to smart tag document");
+            var file = new System.IO.FileInfo(SampleParameters.Path2SmartTagDocument);
             var documentReference = client.uploadDocumentFile(file);
             var smartTagResp = client.sendSmartTagDocument(new List<string> {
                 documentReference
@@ -41,7 +39,7 @@ namespace Test
 
         public static void SmartTagAdvancedUsage2_Embedded(ServiceClient client)
         {
-            var file = new System.IO.FileInfo("path to smart tag document");
+            var file = new System.IO.FileInfo(SampleParameters.Path2SmartTagDocument);
             var documentReference = client.uploadDocumentFile(file);
 
             var smartTagResp = client.sendSmartTagDocument(new List<string> {
@@ -54,17 +52,18 @@ namespace Test
 
         public static void SmartTagAdvancedUsage3_InviteeDetails(ServiceClient client)
         {
-            var file = new System.IO.FileInfo("path to smart tag document");
+            var file = new System.IO.FileInfo(SampleParameters.Path2SmartTagDocument);
             var documentReference = client.uploadDocumentFile(file);
             var signers = new SmartTagInvitee[]
             {
                 new SmartTagInvitee
                 {
-                    FirstName="Firstname",
-                    LastName="Lastname",
-                    Email="Email",
-                    //MobileCountry="64",
-                    //MobileNumber="021123456",                    
+                    FirstName=SampleParameters.Invitee1_FirstName,
+                    LastName=SampleParameters.Invitee1_LastName,
+                    Email=SampleParameters.Invitee1_Email,
+                    //if sms needed
+                    //MobileCountry=SampleParameters.Invitee1_MobileCountry,
+                    //MobileNumber=SampleParameters.Invitee1_MobileNumber                   
                 }
             };
             var smartTagResp = client.sendSmartTagDocument(new List<string> {
@@ -74,21 +73,22 @@ namespace Test
 
         public static void SmartTagAdvancedUsage4_Attachment(ServiceClient client)
         {
-            var attachment= new System.IO.FileInfo("path to attachment file");
+            var attachment= new System.IO.FileInfo(SampleParameters.Path2AttachmentFile);
             var attachmentReference = client.uploadAttachmentFile(attachment);
 
-            var file = new System.IO.FileInfo("path to smart tag document");
+            var file = new System.IO.FileInfo(SampleParameters.Path2SmartTagDocument);
             var documentReference = client.uploadDocumentFile(file);
 
             var signers = new SmartTagInvitee[]
             {
                 new SmartTagInvitee
                 {
-                    FirstName="Firstname",
-                    LastName="Lastname",
-                    Email="Email",
-                    //MobileCountry="64",
-                    //MobileNumber="021123456",
+                    FirstName=SampleParameters.Invitee1_FirstName,
+                    LastName=SampleParameters.Invitee1_LastName,
+                    Email=SampleParameters.Invitee1_Email,
+                    //if sms needed
+                    //MobileCountry=SampleParameters.Invitee1_MobileCountry,
+                    //MobileNumber=SampleParameters.Invitee1_MobileNumber,
                     Attachments=new List<string>
                     {
                         attachmentReference

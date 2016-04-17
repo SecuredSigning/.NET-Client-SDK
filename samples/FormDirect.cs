@@ -15,16 +15,16 @@ namespace Test
             var tfnForm = forms.FirstOrDefault(t => t.Name.Contains("TFN"));
             var superannuationChoiceForm = forms.FirstOrDefault(t => t.Name.Contains("Superannuation"));
 
-            //set invitee infomation
-            tfnForm.Signers[0].FirstName = "Employee.Firstname";
-            tfnForm.Signers[0].LastName = "Employee.Lastname";
-            tfnForm.Signers[0].Email = "Employee.Email";
-            tfnForm.Signers[0].MobileCountry = "Employee.MobileCountryCode"; //e.g. 61 for Australia
-            tfnForm.Signers[0].MobileNumber = "Employee.MobileNumber";
-
-            superannuationChoiceForm.Signers[0].FirstName = "Employee.Firstname";
-            superannuationChoiceForm.Signers[0].LastName = "Employee.Lastname";
-            superannuationChoiceForm.Signers[0].Email = "Employee.Emai";
+            //set invitee infomation for employee
+            tfnForm.Signers[0].FirstName = SampleParameters.Invitee1_FirstName;
+            tfnForm.Signers[0].LastName = SampleParameters.Invitee1_LastName;
+            tfnForm.Signers[0].Email = SampleParameters.Invitee1_Email;
+            tfnForm.Signers[0].MobileCountry = SampleParameters.Invitee1_MobileCountry; //e.g. 61 for Australia
+            tfnForm.Signers[0].MobileNumber = SampleParameters.Invitee1_MobileNumber;
+            //set invitee infomation for employer
+            superannuationChoiceForm.Signers[0].FirstName = SampleParameters.Invitee2_FirstName;
+            superannuationChoiceForm.Signers[0].LastName = SampleParameters.Invitee2_LastName;
+            superannuationChoiceForm.Signers[0].Email = SampleParameters.Invitee2_Email;
 
             //send forms
             var documents = client.sendForms(

@@ -49,9 +49,9 @@ namespace Test.WithoutSDK
                 {
                     if (p.PropertyType == typeof(string))
                     {
-                        if (p.GetValue(this) == null)
+                        if (p.GetValue(this,null) == null)
                             continue;
-                        result.Add(string.Format("{0}={1}", p.Name.ToLower(), p.GetValue(this)));
+                        result.Add(string.Format("{0}={1}", p.Name.ToLower(), p.GetValue(this,null)));
                         continue;
                     }
                 }

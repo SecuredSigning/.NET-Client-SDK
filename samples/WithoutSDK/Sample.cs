@@ -12,12 +12,12 @@ namespace Test.WithoutSDK
         public static void Run()
         {
             var client = new WithoutSDK.SecuredSigningRestAPI(
-                serviceUrl: "https://api.securedsigning.com/web",
-                version: "v1.4",
-                apiKey: "[APIKey]",
-                secret: "[APISecret]",
-                accessUrl: "[AccessUrl]");
-            var authorizeUrl = client.OAuth2.CreateAuthorizeRequest("some value",
+                serviceUrl: SampleParameters.SecuredSigningServiceBase,
+                version: SampleParameters.SecuredSigningServiceVersion,
+                apiKey: SampleParameters.APIKey,
+                secret: SampleParameters.APISecret,
+                accessUrl: SampleParameters.CallbackUrl);
+            var authorizeUrl = client.OAuth2.CreateAuthorizeRequest(SampleParameters.OAuth2State,
                  OAuth2Client.OAuth2Scope.Basic.ToString(),
                 OAuth2Client.OAuth2Scope.FormDirect.ToString(),
                 OAuth2Client.OAuth2Scope.FormFiller.ToString(),
