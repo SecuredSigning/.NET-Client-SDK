@@ -27,6 +27,13 @@ namespace SecuredSigningClientSdk
         /// OAuth 2 Client to deal with authentication.
         /// </summary>
         public OAuth2Client OAuth2 { get { return _oauth2; } }
+        public class AuthHeaders
+        {
+            public string timestamp { get; internal set; }
+            public string signature { get; internal set; }
+            public string apiKey { get; internal set; }
+            public string nonce { get; internal set; }
+        }
         protected string GMT
         {
             get
@@ -44,20 +51,29 @@ namespace SecuredSigningClientSdk
             _oauth2 = new OAuth2Client(new Uri(serviceUrl.Replace("api", "www")).GetLeftPart(UriPartial.Authority), apiKey, secret, accessUrl);
             _client.RequestFilter = httpReq =>
             {
-                //create unix time stamp string
-                var requestDate = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds.ToString();
-
-                //create nonce
-
-                var nonce = KeyGenerator.GetUniqueKey(32);
-
-                httpReq.Headers.Add("X-CUSTOM-API-KEY", apiKey);
-                httpReq.Headers.Add("X-CUSTOM-DATE", requestDate);
-                httpReq.Headers.Add("X-CUSTOM-NONCE", nonce);
-                httpReq.Headers.Add("X-CUSTOM-SIGNATURE", AuthHelper.CreateSignature(apiKey, secret, requestDate, nonce));
+                var headers = GenerateAuthHeaders();
+                httpReq.Headers.Add("X-CUSTOM-API-KEY", headers.apiKey);
+                httpReq.Headers.Add("X-CUSTOM-DATE", headers.timestamp);
+                httpReq.Headers.Add("X-CUSTOM-NONCE", headers.nonce);
+                httpReq.Headers.Add("X-CUSTOM-SIGNATURE", headers.signature);
                 if (!string.IsNullOrEmpty(accessToken))
                     httpReq.Headers.Add(System.Net.HttpRequestHeader.Authorization, "Bearer " + accessToken);
                 httpReq.Referer = accessUrl;
+            };
+        }
+        public AuthHeaders GenerateAuthHeaders()
+        {
+            var timestamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds.ToString();
+
+            //create nonce
+
+            var nonce = KeyGenerator.GetUniqueKey(32);
+            return new AuthHeaders
+            {
+                timestamp = timestamp,
+                signature = AuthHelper.CreateSignature(this.APIKey, this.APISecret, timestamp, nonce),
+                apiKey = this.APIKey,
+                nonce = nonce
             };
         }
 
@@ -516,7 +532,7 @@ namespace SecuredSigningClientSdk
             var result = _client.Get(new FormFillerFieldRequest { TemplateReference = templateRef });
             return result;
         }
-        public DocumentResponse sendFormFillerTemplates(List<FormFillerTemplate> templates, DateTime dueDate,bool embedded=false,Uri returnUrl=null)
+        public DocumentResponse sendFormFillerTemplates(List<FormFillerTemplate> templates, DateTime dueDate, bool embedded = false, Uri returnUrl = null)
         {
             var gmt = TimeZoneInfo.Local.GetUtcOffset(dueDate).TotalMinutes.ToString("F0");
 

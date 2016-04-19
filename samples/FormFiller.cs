@@ -153,14 +153,16 @@ namespace Test
             //populate signing key into a embedded signing webpage.
             //a sample server hosts the embedded signing webpage, implement your own page instead.
             Console.WriteLine(signingKey);
-            var server = new Server.OAuth2CallbackHandler()
+            var server = new Server.SampleServer()
             {
-                SDKClient = client
+                SDKClient = client,
+                KeepSecretInServer = true
             };
 
             System.Diagnostics.Process.Start($"{SampleParameters.EmbeddedSigningUrl}?key={signingKey}");
-            var runResult = server.Start();
+            var runResult = server.StartOnce();
             Console.WriteLine("Go to browser to sign the document");
+            server.Listen();
             bool signed = false;
             while (!signed)
             {
@@ -172,6 +174,7 @@ namespace Test
                     signed = true;
                 }
             }
+            server.Stop();
             Console.WriteLine("Done");
             Console.Read();
 

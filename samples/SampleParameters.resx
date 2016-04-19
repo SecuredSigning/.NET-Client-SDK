@@ -132,6 +132,12 @@
   <data name="FormFillerSampleFieldValue" xml:space="preserve">
     <value>some value</value>
   </data>
+  <data name="GetAuthHeadersUrl" xml:space="preserve">
+    <value>http://localhost:89/authheaders/</value>
+  </data>
+  <data name="GetClientAccessTokenUrl" xml:space="preserve">
+    <value>http://localhost:89/getclientaccesstoken/</value>
+  </data>
   <data name="Invitee1_Email" xml:space="preserve">
     <value>peter.green@sample.com</value>
   </data>

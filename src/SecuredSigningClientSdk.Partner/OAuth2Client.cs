@@ -59,24 +59,6 @@ namespace SecuredSigningClientSdk.Partner
                 return resp;
             }
         }
-        internal new class OAuth2TokenRequest: SecuredSigningClientSdk.OAuth2Client.OAuth2TokenRequest
-        {
-            public OAuth2TokenRequest(string consumerKey, string consumerSecret, string callbackUrl, string grantType)
-            : base(consumerKey,  consumerSecret,  callbackUrl,  grantType) { }
-            public const string GrantTypeClientCredentials = "client_credentials";
-            public string Client_Credential_Type { get; set; }
-            public string Scope { get; set; }
-            public Dictionary<string, string> Client_Credential_Extra { get; } = new Dictionary<string, string>();
-            public override string ToString()
-            {
-                var request= base.ToString();
-                if(Client_Credential_Extra.Any())
-                {
-                    request += $"&{string.Join("&", Client_Credential_Extra.Select(data => string.Format("{0}={1}", data.Key, data.Value)))}";
-                }
-                return request;
-            }
-        }
         public OAuth2Client(string host, string apiKey, string apiSecret, string accessUrl)
             : base(host,  apiKey,  apiSecret,  accessUrl) {
         }

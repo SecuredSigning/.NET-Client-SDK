@@ -14,23 +14,32 @@
 
         var securedsigning;
         var config = {
-            "apiKey": "[API Key]",
+            "apiKey": "[APIKEY]",
             "baseUrl": "[APIServiceUrl]",
             "version": "[APIVersion]",
-            "secret": "[API Secret]"
+            "authGenerator": "[AuthGenerator]",
+            "clientAccessTokenGenerator": "[ClientAccessTokenGenerator]",
+            "scope": "Basic"
         };
 
         function SSApiLoaded() {
             securedsigning = new SecuredSigning(config);
 
-            var key="[Signing Key]";
-            Sign(key);
+            var key="[SigningKey]";
+            securedsigning.getClientAccessToken(
+                {
+                    "client_credential_type":"signing_key",
+                    "signing_key":key
+                },function(){
+                    Sign(key);
+                }
+            )
         };
         
         function Sign(key){
             window.AccessKey = key;
             window.containerId="content"
-            securedsigning.getSetupResource('content');
+            securedsigning.getSetupResource();
         }
     </script>
 </body>

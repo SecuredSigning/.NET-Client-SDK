@@ -106,6 +106,24 @@ namespace Test {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to http://localhost:89/authheaders/.
+        /// </summary>
+        internal static string GetAuthHeadersUrl {
+            get {
+                return ResourceManager.GetString("GetAuthHeadersUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://localhost:89/getclientaccesstoken/.
+        /// </summary>
+        internal static string GetClientAccessTokenUrl {
+            get {
+                return ResourceManager.GetString("GetClientAccessTokenUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to peter.green@sample.com.
         /// </summary>
         internal static string Invitee1_Email {

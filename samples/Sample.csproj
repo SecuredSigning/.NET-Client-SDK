@@ -58,10 +58,6 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SecuredSigningClientSdk, Version=1.4.5952.19880, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\securedsigning.client.1.4.5\lib\net45\SecuredSigningClientSdk.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="SecuredSigningClientSdk.Partner, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\securedsigning.client.partner.1.4.0\lib\net45\SecuredSigningClientSdk.Partner.dll</HintPath>
       <Private>True</Private>
@@ -71,20 +67,21 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ServiceStack.Client, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
-      <HintPath>..\packages\ServiceStack.Client.Signed.4.0.54\lib\net40\ServiceStack.Client.dll</HintPath>
+      <HintPath>..\packages\ServiceStack.Client.Signed.4.0.56\lib\net40\ServiceStack.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ServiceStack.Interfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
-      <HintPath>..\packages\ServiceStack.Interfaces.4.0.54\lib\portable-wp80+sl5+net40+win8+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
+      <HintPath>..\packages\ServiceStack.Interfaces.4.0.56\lib\portable-wp80+sl5+net40+win8+wpa81+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ServiceStack.Text, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
-      <HintPath>..\packages\ServiceStack.Text.Signed.4.0.54\lib\net40\ServiceStack.Text.dll</HintPath>
+      <HintPath>..\packages\ServiceStack.Text.Signed.4.0.56\lib\net40\ServiceStack.Text.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -113,7 +110,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SampleParameters.resx</DependentUpon>
     </Compile>
-    <Compile Include="Server\OAuth2CallbackHandler.cs" />
+    <Compile Include="Server\SampleServer.cs" />
     <Compile Include="SmartTag.cs" />
     <Compile Include="WithoutSDK\AuthHelper.cs" />
     <Compile Include="WithoutSDK\OAuth2Client.cs" />
@@ -148,12 +145,24 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="EmbeddedSigningSample.old.html">
+    <Content Include="EmbeddedSigningSample.secured.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmbeddedSigningSample.NoOAuth2.secured.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EmbeddedSigningSample.NoOAuth2.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="EmbeddedSigningSample.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\src\SecuredSigningClientSdk\SecuredSigningClientSdk.csproj">
+      <Project>{5f5a9547-6828-4639-88f7-e70ee81a884a}</Project>
+      <Name>SecuredSigningClientSdk</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

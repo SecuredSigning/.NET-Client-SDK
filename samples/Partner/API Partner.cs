@@ -21,13 +21,13 @@ namespace Test
                 Console.WriteLine("Populate signing key to embedded html page");
                 var signingKey = stResp.FirstOrDefault()?.Signers?.FirstOrDefault()?.SigningKey;
                 Console.WriteLine(signingKey);
-                var server = new Server.OAuth2CallbackHandler()
+                var server = new Server.SampleServer()
                 {
                     SDKClient = client
                 };
 
                 System.Diagnostics.Process.Start($"{SampleParameters.EmbeddedSigningUrl}?key={signingKey}");
-                var runResult = server.Start();
+                var runResult = server.StartOnce();
                 Console.WriteLine("Go to browser to sign the document");
                 bool signed = false;
                 while (!signed)

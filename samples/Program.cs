@@ -45,19 +45,20 @@ namespace Test
             //start oauthorize process in a webpage 
             System.Diagnostics.Process.Start(authorizeUrl);
             //run an server implemented by HttpListener, you can implement your own server using ASP.Net, etc.
-            Server.OAuth2CallbackHandler handler = new Server.OAuth2CallbackHandler();
-            var code = handler.Start();
+            Server.SampleServer server = new Server.SampleServer();
+            var code = server.StartOnce();
             var tokenResp = client.OAuth2.GetToken(code);
             client.AccessToken = tokenResp.Access_Token;
             tokenResp = client.OAuth2.RefreshToken(tokenResp.Refresh_Token);
             client.AccessToken = tokenResp.Access_Token;
-            
+
             AccountSample(client);
 
             #endregion
 
             //FormDirectSample(client);
             //FormFillerSample(client);
+            FormFillerSample_EmbeddedSigning(client);
             //SmartTagSample(client);
             Console.Read();
         }
