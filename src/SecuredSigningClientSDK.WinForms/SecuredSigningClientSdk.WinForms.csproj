@@ -43,8 +43,8 @@
       <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SecuredSigningClientSdk, Version=1.4.5953.30716, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\securedsigning.client.1.4.6\lib\net45\SecuredSigningClientSdk.dll</HintPath>
+    <Reference Include="SecuredSigningClientSdk, Version=1.4.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\securedsigning.client.1.4.9\lib\net45\SecuredSigningClientSdk.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ServiceStack.Client, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">

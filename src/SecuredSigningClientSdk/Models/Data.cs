@@ -72,6 +72,7 @@ namespace SecuredSigningClientSdk.Models
     public class SmartTagInvitee : Invitee
     {
         public List<string> Attachments { get; set; }
+        public bool? Embedded { get; set; }
     }
 
     [Schema("Signer")]

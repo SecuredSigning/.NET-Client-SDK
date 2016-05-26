@@ -1,0 +1,65 @@
+﻿@model SampleWebsite.Models.Signer
+@{
+    ViewBag.Title = "Fill details";
+    var signer1 = new SampleWebsite.Models.Signer();
+    var signer2 = new SampleWebsite.Models.Signer();
+}
+<div class="text-center">
+    <h2>Fill</h2>
+    <p>We need some basic details</p>
+</div>
+@using (Html.BeginForm("Sign", "Default", FormMethod.Post, new { @class = "row" }))
+{
+    <div class="text-center" style="max-width:50%;margin:auto;">
+        <div class="row">
+            <h3>Applicant</h3>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => signer1.FirstName, new { @class = "col-md-3" })
+            <div class="col-md-5">
+                @Html.EditorFor(m => signer1.FirstName)
+            </div>
+            @Html.ValidationMessageFor(m => signer1.FirstName, null, new { @class = "col-md-4" })
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => signer1.LastName, new { @class = "col-md-3" })
+            <div class="col-md-5">
+                @Html.EditorFor(m => signer1.LastName)
+            </div>
+            @Html.ValidationMessageFor(m => signer1.LastName)
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => signer1.Email, new { @class = "col-md-3" })<div class="col-md-5">
+                @Html.EditorFor(m => signer1.Email)
+            </div>
+            @Html.ValidationMessageFor(m => signer1.Email)
+        </div>
+        <div class="row">
+            <h3>Director</h3>
+            <p>Usually this is set on backend for your company. Just for sample here.</p>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => signer2.FirstName, new { @class = "col-md-3" })
+            <div class="col-md-5">
+                @Html.EditorFor(m => signer2.FirstName)
+            </div>
+            @Html.ValidationMessageFor(m => signer2.FirstName, null, new { @class = "col-md-4" })
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => signer2.LastName, new { @class = "col-md-3" })
+            <div class="col-md-5">
+                @Html.EditorFor(m => signer2.LastName)
+            </div>
+            @Html.ValidationMessageFor(m => signer2.LastName)
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => signer2.Email, new { @class = "col-md-3" })<div class="col-md-5">
+                @Html.EditorFor(m => signer2.Email)
+            </div>
+            @Html.ValidationMessageFor(m => signer2.Email)
+        </div>
+
+        <input type="submit" class="btn" value="Submit to Sign" />
+    </div>
+}
+@*<iframe src="~/Content/Contracts/sample.pdf" width="100%" height="500"></iframe>*@

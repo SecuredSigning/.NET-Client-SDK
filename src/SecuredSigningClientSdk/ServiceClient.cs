@@ -222,6 +222,16 @@ namespace SecuredSigningClientSdk
 
             return result;
         }
+        /// <summary>
+        /// download document file
+        /// </summary>
+        /// <param name="documentReference"></param>
+        /// <returns></returns>
+        public byte[] getDocumentData(string documentReference)
+        {
+            var result = _client.Get<byte[]>(new DownloadDocumentRequest() { DocumentReference = documentReference });
+            return result;
+        }
         #endregion
 
         #region Form Direct

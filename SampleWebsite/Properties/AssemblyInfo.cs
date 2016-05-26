@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SecuredSigningClientSdk")]
-[assembly: AssemblyDescription(".NET Client SDK for Secured Signing")]
+[assembly: AssemblyTitle("SampleWebsite")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Secured Signing Limited")]
-[assembly: AssemblyProduct(".NET Client SDK")]
-[assembly: AssemblyCopyright("Copyright Secured Signing Limited. All rights reserved.")]
-[assembly: AssemblyTrademark("Secured Signing")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("SampleWebsite")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("912a770d-1661-47a4-a553-459f04fc5849")]
+[assembly: Guid("75c9cbd3-7ef1-4d5a-91f3-db2aad0d2a67")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -29,9 +29,7 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-// You can specify all the values or you can default the Build and Revision Numbers 
+// You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.4.9")]
-[assembly: AssemblyFileVersion("1.4.9")]
-[assembly:InternalsVisibleTo("SecuredSigningClientSdk.Partner")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

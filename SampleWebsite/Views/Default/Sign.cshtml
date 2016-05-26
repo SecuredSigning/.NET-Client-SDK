@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Sign documents";
+}
+
+<h2>Sign</h2>
+
+<div id="content" style="width:100%;height:700px;"></div>
+<script data-main="https://api.securedsigning.com/web/v1.4/client/scripts/main" src="https://api.securedsigning.com/web/v1.4/client/scripts/require.js"></script>
+<script type="text/javascript">
+
+        var securedsigning;
+        var config = {
+            "apiKey": '@SDK.client.APIKey',
+            "baseUrl": "@SDK.client.ServiceBaseUrl",
+            "version": "@SDK.client.APIVersion",
+            "secret": "@SDK.client.APISecret"
+            //"authGenerator":"http://localhost:89/authheaders/"
+        };
+
+        function SSApiLoaded() {
+            securedsigning = new SecuredSigning(config);
+
+            var key = "@ViewBag.SigningKey";
+            Sign(key);
+        };
+
+        function Sign(key){
+            window.AccessKey = key;
+            window.containerId="content"
+            securedsigning.getSetupResource('content');
+        }
+</script>
