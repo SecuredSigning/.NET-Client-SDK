@@ -174,7 +174,17 @@ namespace SecuredSigningClientSdk
             var result = _client.PostFileWithRequest<Document>(file, new UploaderRequest());
             return result.Reference;
         }
-
+        /// <summary>
+        /// Uploads a document from stream
+        /// </summary>
+        /// <param name="documentName"></param>
+        /// <param name="document"></param>
+        /// <returns></returns>
+        public string uploadDocument(string documentName, System.IO.Stream document)
+        {
+            var result = _client.PostFileWithRequest<Document>(document, documentName, new UploaderRequest());
+            return result.Reference;
+        }
         /// <summary>
         /// Returns document url for downloading
         /// </summary>
@@ -351,7 +361,7 @@ namespace SecuredSigningClientSdk
             var result = _client.Post(new SmartTagRequest
             {
                 DocumentReferences = documentReferences,
-                DueDate = dueDate,
+                DueDate = dueDate.ToString("yyyy/MM/dd HH:mm:ss"),
                 GMT = this.GMT
             });
 
@@ -370,7 +380,7 @@ namespace SecuredSigningClientSdk
             var result = _client.Post<List<Document>>(new SmartTagRequest
             {
                 DocumentReferences = documentReferences,
-                DueDate = dueDate,
+                DueDate = dueDate.ToString("yyyy/MM/dd HH:mm:ss"),
                 EmailTemplateReference = invitationEmailTemplateReference
             });
 
@@ -388,7 +398,7 @@ namespace SecuredSigningClientSdk
             var result = _client.Post<List<Document>>(new SmartTagRequest
             {
                 DocumentReferences = documentReferences,
-                DueDate = dueDate,
+                DueDate = dueDate.ToString("yyyy/MM/dd HH:mm:ss"),
                 Embedded = embedded,
                 ReturnUrl = returnUrl?.ToString()
             });
@@ -409,7 +419,7 @@ namespace SecuredSigningClientSdk
             var result = _client.Post<List<Document>>(new SmartTagRequest
             {
                 DocumentReferences = documentReferences,
-                DueDate = dueDate,
+                DueDate = dueDate.ToString("yyyy/MM/dd HH:mm:ss"),
                 Signers = signers.ToList()
             });
 
@@ -430,7 +440,7 @@ namespace SecuredSigningClientSdk
             var result = _client.Post<List<Document>>(new SmartTagRequest
             {
                 DocumentReferences = documentReferences,
-                DueDate = dueDate,
+                DueDate = dueDate.ToString("yyyy/MM/dd HH:mm:ss"),
                 Embedded = embedded,
                 ReturnUrl = returnUrl?.ToString(),
                 Signers = signers.ToList()
@@ -451,7 +461,7 @@ namespace SecuredSigningClientSdk
             var result = _client.Post<List<Document>>(new SmartTagRequest
             {
                 DocumentReferences = documentReferences,
-                DueDate = dueDate,
+                DueDate = dueDate.ToString("yyyy/MM/dd HH:mm:ss"),
                 EmailTemplateReference = invitationEmailTemplateReference,
                 Signers = signers.ToList()
             });

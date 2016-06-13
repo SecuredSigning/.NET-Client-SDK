@@ -31,6 +31,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuredSigningClientSdk.Par
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebsite", "SampleWebsite\SampleWebsite.csproj", "{75C9CBD3-7EF1-4D5A-91F3-DB2AAD0D2A67}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{5499603D-8B00-4A90-B4D0-CE6F2B6CBFD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Shared", "Sample.Shared\Sample.Shared.csproj", "{48A5F16E-12B6-4510-8C90-ABA736D69260}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,11 +87,22 @@ Global
 		{75C9CBD3-7EF1-4D5A-91F3-DB2AAD0D2A67}.Release|Any CPU.Build.0 = Release|Any CPU
 		{75C9CBD3-7EF1-4D5A-91F3-DB2AAD0D2A67}.Release|x86.ActiveCfg = Release|Any CPU
 		{75C9CBD3-7EF1-4D5A-91F3-DB2AAD0D2A67}.Release|x86.Build.0 = Release|Any CPU
+		{48A5F16E-12B6-4510-8C90-ABA736D69260}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48A5F16E-12B6-4510-8C90-ABA736D69260}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48A5F16E-12B6-4510-8C90-ABA736D69260}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{48A5F16E-12B6-4510-8C90-ABA736D69260}.Debug|x86.Build.0 = Debug|Any CPU
+		{48A5F16E-12B6-4510-8C90-ABA736D69260}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48A5F16E-12B6-4510-8C90-ABA736D69260}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48A5F16E-12B6-4510-8C90-ABA736D69260}.Release|x86.ActiveCfg = Release|Any CPU
+		{48A5F16E-12B6-4510-8C90-ABA736D69260}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{4503C015-A790-4ED1-8F61-23BB8FCC45E6} = {5499603D-8B00-4A90-B4D0-CE6F2B6CBFD9}
 		{36F8BF8C-0AF2-4128-8F16-5B9C2DA14D43} = {4016463B-8B27-4441-996A-3D20781A71D9}
+		{75C9CBD3-7EF1-4D5A-91F3-DB2AAD0D2A67} = {5499603D-8B00-4A90-B4D0-CE6F2B6CBFD9}
+		{48A5F16E-12B6-4510-8C90-ABA736D69260} = {5499603D-8B00-4A90-B4D0-CE6F2B6CBFD9}
 	EndGlobalSection
 EndGlobal

@@ -15,7 +15,7 @@ namespace SecuredSigningClientSdk.Requests
         public bool Embedded { get; set; }
 
         [ApiMember(Name = "DueDate", Description = "Due date that document are to be signed by.", DataType = SwaggerType.Date, IsRequired = true)]
-        public DateTime DueDate { get; set; }
+        public string DueDate { get; set; }
         public string GMT { get; set; }
 
         [ApiMember(Description = "Email template reference", DataType = SwaggerType.String, IsRequired = false)]
