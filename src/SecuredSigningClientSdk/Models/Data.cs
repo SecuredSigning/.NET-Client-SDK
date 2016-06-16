@@ -142,8 +142,8 @@ namespace SecuredSigningClientSdk.Models
 
         [ApiMember(Description = "Url to download retrieve file data", DataType = SwaggerType.String, IsRequired = true)]
         public string FileUrl { get; set; }
-
-
+        [ApiMember(Description = "The reference of the document on client side", DataType = SwaggerType.String, IsRequired = false)]
+        public string ClientReference { get; set; }
     }
     [Schema("DocumentLog")]
     public class DocumentLog

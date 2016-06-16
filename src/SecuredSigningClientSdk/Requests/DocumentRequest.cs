@@ -47,9 +47,14 @@ namespace SecuredSigningClientSdk.Requests
         public FileInfo File { get; set; }
     }
 
+
     [Route("/Document/Uploader", Verbs = "POST", Summary = "Uploads a file by mulitpart form", Notes = "Uploads a file using multipart form type. Allowed FileTypes: .pdf, .doc, .docx, .odt, .rtf, .xls, .xlsx, .ods.")]
+    [Route("/Document/Uploader/{ClientReference}", Verbs = "POST", Summary = "Uploads a file with client reference by mulitpart form", Notes = "Uploads a file using multipart form type. Allowed FileTypes: .pdf, .doc, .docx, .odt, .rtf, .xls, .xlsx, .ods.")]
     public class UploaderRequest : IReturn<Document>
     {
+        [ApiMember(Description = "Client reference", ParameterType = "path", DataType = SwaggerType.String, IsRequired = false)]
+        public string ClientReference { get; set; }
+
         [ApiMember(Name = "body", DataType = "file", ParameterType = "body", IsRequired = true)]
         public object AnyThing { get; set; }
     }
@@ -89,5 +94,10 @@ namespace SecuredSigningClientSdk.Requests
         public string DocumentReference { get; set; }
         public string SignerReference { get; set; }
     }
-
+    [Route("/Document/FieldData/{DocumentReference}", Verbs = "GET", Summary = "Get field data in documents", Notes = "Get field data in documents")]
+    public class FieldDataRequest : IReturn<List<FormFillerField>>
+    {
+        [ApiMember(Description = "Document reference", ParameterType = "path", DataType = SwaggerType.String, IsRequired = true)]
+        public string DocumentReference { get; set; }
+    }
 }

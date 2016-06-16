@@ -157,7 +157,7 @@ namespace SecuredSigningClientSdk
         /// <returns>document reference</returns>
         public string uploadDocumentByUrl(FileInfo file)
         {
-            var result = _client.Post<Document>(new UploadRequest
+            var result = _client.Post(new UploadRequest
             {
                 File = file
             });
@@ -169,9 +169,12 @@ namespace SecuredSigningClientSdk
         /// </summary>
         /// <param name="file"></param>
         /// <returns>document reference</returns>
-        public string uploadDocumentFile(System.IO.FileInfo file)
+        public string uploadDocumentFile(System.IO.FileInfo file, string clientReference = null)
         {
-            var result = _client.PostFileWithRequest<Document>(file, new UploaderRequest());
+            var result = _client.PostFileWithRequest<Document>(file, new UploaderRequest()
+            {
+                ClientReference = clientReference
+            });
             return result.Reference;
         }
         /// <summary>
@@ -180,9 +183,12 @@ namespace SecuredSigningClientSdk
         /// <param name="documentName"></param>
         /// <param name="document"></param>
         /// <returns></returns>
-        public string uploadDocument(string documentName, System.IO.Stream document)
+        public string uploadDocument(string documentName, System.IO.Stream document, string clientReference = null)
         {
-            var result = _client.PostFileWithRequest<Document>(document, documentName, new UploaderRequest());
+            var result = _client.PostFileWithRequest<Document>(document, documentName, new UploaderRequest()
+            {
+                ClientReference = clientReference
+            });
             return result.Reference;
         }
         /// <summary>
@@ -240,6 +246,32 @@ namespace SecuredSigningClientSdk
         public byte[] getDocumentData(string documentReference)
         {
             var result = _client.Get<byte[]>(new DownloadDocumentRequest() { DocumentReference = documentReference });
+            return result;
+        }
+        /// <summary>
+        /// Send reminder email to invitee
+        /// </summary>
+        /// <param name="docRef"></param>
+        /// <param name="signerRef"></param>
+        public void SendReminder(string docRef, string signerRef)
+        {
+            _client.Post(new SendReminderRequest
+            {
+                DocumentReference = docRef,
+                SignerReference = signerRef
+            });
+        }
+        /// <summary>
+        /// Get fields values for smart tag and form filler document after signed
+        /// </summary>
+        /// <param name="documentReference"></param>
+        /// <returns></returns>
+        public List<FormFillerField> getFieldData(string documentReference)
+        {
+            var result = _client.Get(new FieldDataRequest
+            {
+                DocumentReference = documentReference
+            });
             return result;
         }
         #endregion

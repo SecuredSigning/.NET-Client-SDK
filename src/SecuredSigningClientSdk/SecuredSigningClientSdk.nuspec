@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>securedsigning.client</id>
-    <version>1.4.10</version>
+    <version>1.4.11</version>
     <title>Secured Signing Rest Client SDK</title>
     <authors>Secured Signing</authors>
     <owners>Secured Signing Ltd</owners>
@@ -11,7 +11,11 @@
     <iconUrl>https://www.securedsigning.com/favicon.ico</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Secured Signing Rest Client SDK</description>
-    <releaseNotes>Upload document stream</releaseNotes>
+    <releaseNotes>
+      *send reminder
+      *get field data
+      *upload document with client reference
+    </releaseNotes>
     <copyright>Secured Signing Ltd Copyright 2016</copyright>
     <tags>Secured Signing</tags>
   </metadata>
