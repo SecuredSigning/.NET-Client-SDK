@@ -9,6 +9,13 @@ namespace SecuredSigningClientSdk
 {
     public class ServiceClient
     {
+        static Version SDKVersion
+        {
+           get
+            {
+                return typeof(ServiceClient).Assembly.GetName().Version;
+            }
+        }
         protected JsonServiceClient _client;
         protected OAuth2Client _oauth2;
         public string APIKey { get; private set; }
@@ -48,6 +55,7 @@ namespace SecuredSigningClientSdk
             this.APIKey = apiKey;
             this.APISecret = secret;
             _client = new JsonServiceClient(serviceUrl + "/" + version);
+            _client.UserAgent = "SecuredSigningSDK" + SDKVersion.ToString();
             _oauth2 = new OAuth2Client(new Uri(serviceUrl.Replace("api", "www")).GetLeftPart(UriPartial.Authority), apiKey, secret, accessUrl);
             _client.RequestFilter = httpReq =>
             {
@@ -125,10 +133,10 @@ namespace SecuredSigningClientSdk
         /// <returns></returns>
         public Document extendDocument(string documentReference, DateTime dueDate)
         {
-            var result = _client.Post<Document>(new ExtendRequest()
+            var result = _client.Post(new ExtendRequest()
             {
                 DocumentReference = documentReference,
-                DueDate = dueDate,
+                DueDate = dueDate.ToUniversalTime().ToString("o"),
                 GMT = GMT
             });
             return result;
@@ -311,7 +319,7 @@ namespace SecuredSigningClientSdk
             var result = _client.Post(new SendFormDirectRequest
             {
                 Forms = formsToSend,
-                DueDate = dueDate
+                DueDate = dueDate.ToUniversalTime().ToString("o")
             });
 
             return result;
@@ -393,7 +401,7 @@ namespace SecuredSigningClientSdk
             var result = _client.Post(new SmartTagRequest
             {
                 DocumentReferences = documentReferences,
-                DueDate = dueDate.ToString("yyyy/MM/dd HH:mm:ss"),
+                DueDate = dueDate.ToUniversalTime().ToString("o"),
                 GMT = this.GMT
             });
 
@@ -412,7 +420,8 @@ namespace SecuredSigningClientSdk
             var result = _client.Post<List<Document>>(new SmartTagRequest
             {
                 DocumentReferences = documentReferences,
-                DueDate = dueDate.ToString("yyyy/MM/dd HH:mm:ss"),
+                DueDate = dueDate.ToUniversalTime().ToString("o"),
+                GMT = this.GMT,
                 EmailTemplateReference = invitationEmailTemplateReference
             });
 
@@ -430,7 +439,8 @@ namespace SecuredSigningClientSdk
             var result = _client.Post<List<Document>>(new SmartTagRequest
             {
                 DocumentReferences = documentReferences,
-                DueDate = dueDate.ToString("yyyy/MM/dd HH:mm:ss"),
+                DueDate = dueDate.ToUniversalTime().ToString("o"),
+                GMT=this.GMT,
                 Embedded = embedded,
                 ReturnUrl = returnUrl?.ToString()
             });
@@ -451,7 +461,8 @@ namespace SecuredSigningClientSdk
             var result = _client.Post<List<Document>>(new SmartTagRequest
             {
                 DocumentReferences = documentReferences,
-                DueDate = dueDate.ToString("yyyy/MM/dd HH:mm:ss"),
+                DueDate = dueDate.ToUniversalTime().ToString("o"),
+                GMT = this.GMT,
                 Signers = signers.ToList()
             });
 
@@ -472,7 +483,8 @@ namespace SecuredSigningClientSdk
             var result = _client.Post<List<Document>>(new SmartTagRequest
             {
                 DocumentReferences = documentReferences,
-                DueDate = dueDate.ToString("yyyy/MM/dd HH:mm:ss"),
+                DueDate = dueDate.ToUniversalTime().ToString("o"),
+                GMT = this.GMT,
                 Embedded = embedded,
                 ReturnUrl = returnUrl?.ToString(),
                 Signers = signers.ToList()
@@ -493,7 +505,8 @@ namespace SecuredSigningClientSdk
             var result = _client.Post<List<Document>>(new SmartTagRequest
             {
                 DocumentReferences = documentReferences,
-                DueDate = dueDate.ToString("yyyy/MM/dd HH:mm:ss"),
+                DueDate = dueDate.ToUniversalTime().ToString("o"),
+                GMT = this.GMT,
                 EmailTemplateReference = invitationEmailTemplateReference,
                 Signers = signers.ToList()
             });
@@ -515,7 +528,7 @@ namespace SecuredSigningClientSdk
             var result = _client.Post<ProcessDocument>(new MailMergeRequest
             {
                 DocumentReference = documentReference,
-                DueDate = dueDate,
+                DueDate = dueDate,                
                 EmailTemplateReference = emailTemplateReference,
                 MailMergeListFileData = Convert.ToBase64String(mailMergeListData),
                 MailMergeListFileType = mailMergeFileType,
@@ -533,7 +546,7 @@ namespace SecuredSigningClientSdk
         /// <returns></returns>
         public ProcessDocument getMailMergeDocuments(string processDocumentReference)
         {
-            var result = _client.Get<ProcessDocument>(new ProcessDocumentRequest
+            var result = _client.Get(new ProcessDocumentRequest
             {
                 ProcessDocumentReference = processDocumentReference
             });
@@ -586,13 +599,11 @@ namespace SecuredSigningClientSdk
         }
         public DocumentResponse sendFormFillerTemplates(List<FormFillerTemplate> templates, DateTime dueDate, bool embedded = false, Uri returnUrl = null)
         {
-            var gmt = TimeZoneInfo.Local.GetUtcOffset(dueDate).TotalMinutes.ToString("F0");
-
             var result = _client.Post(new SendFormFillerRequest
             {
                 Templates = templates,
-                DueDate = dueDate,
-                GMT = gmt,
+                DueDate = dueDate.ToUniversalTime().ToString("o"),
+                GMT = this.GMT,
                 Embedded = embedded,
                 ReturnUrl = returnUrl?.ToString()
             });

@@ -32,7 +32,7 @@ namespace SecuredSigningClientSdk.Requests
         public List<FormFillerTemplate> Templates { get; set; }
 
         [ApiMember(Name = "DueDate", Description = "Due date that forms are to be signed by. If not set, +14 days is the default", DataType = SwaggerType.Date, IsRequired = false)]
-        public DateTime DueDate { get; set; }
+        public string DueDate { get; set; }
         [ApiMember(Description = "GMT Offset", DataType = SwaggerType.String, IsRequired = false)]
         public string GMT { get; set; }
         [ApiMember(Description = "Shows if embedded signing", DataType = SwaggerType.Boolean, IsRequired = false)]
