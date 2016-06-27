@@ -74,7 +74,36 @@ namespace SecuredSigningClientSdk.Models
         public List<string> Attachments { get; set; }
         public bool? Embedded { get; set; }
     }
+    [Schema("SmartTagOptions")]
+    public class SmartTagOptions
+    {
+        [ApiMember(Description = "Shows if embedded signing", DataType = SwaggerType.Boolean, IsRequired = false)]
+        public bool Embedded { get; set; }
 
+        [ApiMember(Description = "Email template reference", DataType = SwaggerType.String, IsRequired = false)]
+        public string EmailTemplateReference { get; set; }
+
+        [ApiMember(Description = "Return Url", DataType = SwaggerType.String, IsRequired = false)]
+        public string ReturnUrl { get; set; }
+        [ApiMember(Description = "Signer details, overwrite details populated in document", DataType = SwaggerType.Array, IsRequired = false)]
+        public List<SmartTagInvitee> Signers { get; set; }
+
+        [ApiMember(Description = "The list options for drop down list field smart tag; only work with client field", DataType = SwaggerType.Array, IsRequired = false)]
+        public List<DropDownListItem> ListItems { get; set; }
+
+        [ApiMember(Description = "Whether all documents are in a package (by default) or sent separately", DataType = SwaggerType.Boolean, IsRequired = false)]
+        public bool NoPackage { get; set; }
+    }
+    [Schema("DropDownListItem")]
+    public class DropDownListItem
+    {
+        [ApiMember(Description = "The field name on client side", DataType = SwaggerType.String, IsRequired = true)]
+        public string ClientField { get; set; }
+        [ApiMember(Description = "Item name", DataType = SwaggerType.String, IsRequired = true)]
+        public string Item { get; set; }
+        [ApiMember(Description = "Item value", DataType = SwaggerType.String, IsRequired = true)]
+        public string Value { get; set; }
+    }
     [Schema("Signer")]
     public class Signer:Invitee
     {
@@ -101,10 +130,6 @@ namespace SecuredSigningClientSdk.Models
         [ApiMember(Description = "Document reference, used for document access", DataType = SwaggerType.String, IsRequired = true)]
         public string Reference { get; set; }
 
-        [ApiMember(Description = "File type of Smart tag", DataType = SwaggerType.String, IsRequired = false)]
-        [ApiAllowableValues("FileType", typeof(FileType))]
-        public string FileType { get; set; }
-
         [ApiMember(Description = "Form reference", DataType = SwaggerType.String, IsRequired = false)]
         public string FormDirectReference { get; set; }
 
@@ -114,21 +139,40 @@ namespace SecuredSigningClientSdk.Models
         [ApiMember(Description = "Document signing status", DataType = SwaggerType.String, IsRequired = false)]
         public string Status { get; set; }
 
-        [ApiMember(Description = "Purpose for document e.g. use for Smart tags", DataType = SwaggerType.String, IsRequired = false)]
-        [ApiAllowableValues("ServiceType", typeof(ServiceType))]
-        public string ServiceType { get; set; }
-
         [ApiMember(Description = "Url to download document data", DataType = SwaggerType.String, IsRequired = false)]
         public string DocumentUrl { get; set; }
 
         [ApiMember(Description = "Due Date of document", DataType = SwaggerType.Date, IsRequired = false)]
         public string DueDate { get; set; }
 
+        [ApiMember(Description = "Due Date of document in .NET DateTime format", DataType = SwaggerType.Date, IsRequired = false)]
+        public DateTime? DueDate2
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(DueDate))
+                    return null;
+                return DateTime.Parse(DueDate);
+            }
+        }
+
         [ApiMember(Description = "GMT Offset", DataType = SwaggerType.String, IsRequired = false)]
         public string GMT { get; set; }
 
         [ApiMember(Description = "Date of latest signature", DataType = SwaggerType.Date, IsRequired = false)]
         public string LastSignedDate { get; set; }
+        [ApiMember(Description = "Date of latest signature in .NET DateTime format", DataType = SwaggerType.Date, IsRequired = false)]
+        public DateTime? LastSignedDate2
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(LastSignedDate))
+                    return null;
+                return DateTime.Parse(LastSignedDate);
+            }
+        }
+        [ApiMember(Description = "List of document logs", IsRequired = false, DataType = SwaggerType.Array)]
+        public List<DocumentLog> Logs { get; set; }
     }
     [Schema("FileInfo")]
     public class FileInfo

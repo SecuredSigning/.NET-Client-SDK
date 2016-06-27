@@ -11,6 +11,8 @@ namespace SecuredSigningClientSdk.Requests
     {
         [ApiMember(Description = "Document reference", ParameterType = "path", DataType = SwaggerType.String, IsRequired = true)]
         public string DocumentReference { get; set; }
+        [ApiMember(Description = "wheather return with documeng log", ParameterType = "query", DataType = SwaggerType.Boolean, IsRequired = false)]
+        public bool DocumentLog { get; set; }
     }
 
     [Route("/Document/Log/{DocumentReference}", Verbs = "GET", Summary = "Return a document log", Notes = "Returns a collection of document logs")]
@@ -86,6 +88,8 @@ namespace SecuredSigningClientSdk.Requests
         [ApiMember(DataType = "string", ParameterType = "path", IsRequired = true, Name = "Folder")]
         [ApiAllowableValues("Folder", typeof(Folder))]
         public string Folder { get; set; }
+        [ApiMember(Description = "wheather return with documeng log", ParameterType = "query", DataType = SwaggerType.Boolean, IsRequired = false)]
+        public bool DocumentLog { get; set; }
     }
 
     [Route("/Document/SendReminder", Verbs = "POST", Summary = "Send invitation reminder to invitee", Notes = "Send invitation reminder to invitee")]

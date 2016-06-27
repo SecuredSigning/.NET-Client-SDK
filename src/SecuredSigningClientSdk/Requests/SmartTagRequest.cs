@@ -21,13 +21,16 @@ namespace SecuredSigningClientSdk.Requests
         [ApiMember(Description = "Email template reference", DataType = SwaggerType.String, IsRequired = false)]
         public string EmailTemplateReference { get; set; }
 
-        [ApiMember(Description = "Workflow reference", DataType = SwaggerType.String, IsRequired = false)]
-        public string WorkflowReference { get; set; }
         [ApiMember(Description = "Return Url", DataType = SwaggerType.String, IsRequired = false)]
         public string ReturnUrl { get; set; }
         [ApiMember(Description = "Signer details, overwrite details populated in document", DataType = SwaggerType.Array, IsRequired = false)]
         public List<SmartTagInvitee> Signers { get; set; }
 
+        [ApiMember(Description = "The list options for drop down list field smart tag; only work with client field", DataType = SwaggerType.Array, IsRequired = false)]
+        public List<DropDownListItem> ListItems { get; set; }
+
+        [ApiMember(Description = "Whether all documents are in a package (by default) or sent separately", DataType = SwaggerType.Boolean, IsRequired = false)]
+        public bool NoPackage { get; set; }
     }
 
     [Route("/SmartTag/MailMerge/", Verbs = "POST", Summary = "Merge mail merge list with the document", Notes = "Send a smart tag document.")]

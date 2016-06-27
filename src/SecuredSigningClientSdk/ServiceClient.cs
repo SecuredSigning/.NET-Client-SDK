@@ -11,7 +11,7 @@ namespace SecuredSigningClientSdk
     {
         static Version SDKVersion
         {
-           get
+            get
             {
                 return typeof(ServiceClient).Assembly.GetName().Version;
             }
@@ -103,11 +103,12 @@ namespace SecuredSigningClientSdk
         /// </summary>
         /// <param name="documentReference"></param>
         /// <returns></returns>
-        public Document getStatus(string documentReference)
+        public Document getStatus(string documentReference, bool withDocumentLog = false)
         {
             var result = _client.Get(new StatusRequest
             {
-                DocumentReference = documentReference
+                DocumentReference = documentReference,
+                DocumentLog = withDocumentLog
             });
             return result;
         }
@@ -237,11 +238,12 @@ namespace SecuredSigningClientSdk
         /// Returns active documents for account
         /// </summary>
         /// <returns></returns>
-        public List<Document> getActiveDocuments(string folder)
+        public List<Document> getActiveDocuments(string folder, bool withDocumentLog = false)
         {
-            var result = _client.Get<List<Document>>(new GetActiveDocumentsRequest()
+            var result = _client.Get(new GetActiveDocumentsRequest()
             {
-                Folder = folder
+                Folder = folder,
+                DocumentLog = withDocumentLog
             });
 
             return result;
@@ -440,7 +442,7 @@ namespace SecuredSigningClientSdk
             {
                 DocumentReferences = documentReferences,
                 DueDate = dueDate.ToUniversalTime().ToString("o"),
-                GMT=this.GMT,
+                GMT = this.GMT,
                 Embedded = embedded,
                 ReturnUrl = returnUrl?.ToString()
             });
@@ -513,6 +515,30 @@ namespace SecuredSigningClientSdk
 
             return result;
         }
+        /// <summary>
+        /// Sends smart tag documents - with custom options
+        /// <see cref="http://www.securedsigning.com/documentation/developer/smarttag-api"/>
+        /// </summary>
+        /// <param name="documentReferences"></param>
+        /// <param name="dueDate"></param>
+        /// <returns></returns>
+        public List<Document> sendSmartTagDocument(List<string> documentReferences, DateTime dueDate, SmartTagOptions options)
+        {
+            var result = _client.Post(new SmartTagRequest
+            {
+                DocumentReferences = documentReferences,
+                DueDate = dueDate.ToUniversalTime().ToString("o"),
+                GMT = this.GMT,
+                EmailTemplateReference = options.EmailTemplateReference,
+                Embedded = options.Embedded,
+                ListItems = options.ListItems,
+                NoPackage = options.NoPackage,
+                ReturnUrl = options.ReturnUrl,
+                Signers = options.Signers
+            });
+
+            return result;
+        }
 
         /// <summary>
         /// Sends mail merge document along with mail merge list data
@@ -528,7 +554,7 @@ namespace SecuredSigningClientSdk
             var result = _client.Post<ProcessDocument>(new MailMergeRequest
             {
                 DocumentReference = documentReference,
-                DueDate = dueDate,                
+                DueDate = dueDate,
                 EmailTemplateReference = emailTemplateReference,
                 MailMergeListFileData = Convert.ToBase64String(mailMergeListData),
                 MailMergeListFileType = mailMergeFileType,
