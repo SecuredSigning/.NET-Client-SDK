@@ -102,6 +102,7 @@ namespace SecuredSigningClientSdk
         /// Returns document with its status
         /// </summary>
         /// <param name="documentReference"></param>
+        /// <param name="withDocumentLog"></param>
         /// <returns></returns>
         public Document getStatus(string documentReference, bool withDocumentLog = false)
         {
@@ -130,7 +131,6 @@ namespace SecuredSigningClientSdk
         /// </summary>
         /// <param name="documentReference"></param>
         /// <param name="dueDate"></param>
-        /// <param name="gmt"></param>
         /// <returns></returns>
         public Document extendDocument(string documentReference, DateTime dueDate)
         {
@@ -177,8 +177,9 @@ namespace SecuredSigningClientSdk
         /// Uploads a file by mulitpart form
         /// </summary>
         /// <param name="file"></param>
+        /// <param name="clientReference"></param>
         /// <returns>document reference</returns>
-        public string uploadDocumentFile(System.IO.FileInfo file, string clientReference = null)
+        public string uploadDocumentFile(System.IO.FileInfo file, string clientReference)
         {
             var result = _client.PostFileWithRequest<Document>(file, new UploaderRequest()
             {
@@ -187,10 +188,21 @@ namespace SecuredSigningClientSdk
             return result.Reference;
         }
         /// <summary>
+        /// Uploads a file by mulitpart form 
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public string uploadDocumentFile(System.IO.FileInfo file)
+        {
+            var result = _client.PostFileWithRequest<Document>(file, new UploaderRequest());
+            return result.Reference;
+        }
+        /// <summary>
         /// Uploads a document from stream
         /// </summary>
         /// <param name="documentName"></param>
         /// <param name="document"></param>
+        /// <param name="clientReference"></param>
         /// <returns></returns>
         public string uploadDocument(string documentName, System.IO.Stream document, string clientReference = null)
         {
@@ -415,7 +427,7 @@ namespace SecuredSigningClientSdk
         /// </summary>
         /// <param name="documentReferences"></param>
         /// <param name="dueDate"></param>
-        /// <param name="embedded"></param>
+        /// <param name="invitationEmailTemplateReference"></param>
         /// <returns></returns>
         public List<Document> sendSmartTagDocument(List<string> documentReferences, DateTime dueDate, string invitationEmailTemplateReference)
         {
@@ -435,6 +447,7 @@ namespace SecuredSigningClientSdk
         /// <param name="documentReferences"></param>
         /// <param name="dueDate"></param>
         /// <param name="embedded"></param>
+        /// <param name="returnUrl"></param>
         /// <returns></returns>
         public List<Document> sendSmartTagDocument(List<string> documentReferences, DateTime dueDate, bool embedded, Uri returnUrl = null)
         {
@@ -521,6 +534,7 @@ namespace SecuredSigningClientSdk
         /// </summary>
         /// <param name="documentReferences"></param>
         /// <param name="dueDate"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
         public List<Document> sendSmartTagDocument(List<string> documentReferences, DateTime dueDate, SmartTagOptions options)
         {
@@ -534,7 +548,8 @@ namespace SecuredSigningClientSdk
                 ListItems = options.ListItems,
                 NoPackage = options.NoPackage,
                 ReturnUrl = options.ReturnUrl,
-                Signers = options.Signers
+                Signers = options.Signers,
+                NotifyUrl = options.NotifyUrl
             });
 
             return result;
@@ -546,7 +561,7 @@ namespace SecuredSigningClientSdk
         /// <param name="documentReference"></param>
         /// <param name="dueDate"></param>
         /// <param name="emailTemplateReference"></param>
-        /// <param name="fileType"></param>
+        /// <param name="mailMergeFileType"></param>
         /// <param name="mailMergeListData"></param>
         /// <returns></returns>
         public ProcessDocument sendMailMerge(string documentReference, DateTime dueDate, string emailTemplateReference, string mailMergeFileType, byte[] mailMergeListData, bool embedded, Uri returnUrl)
