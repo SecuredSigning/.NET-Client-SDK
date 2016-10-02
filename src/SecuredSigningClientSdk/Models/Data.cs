@@ -45,8 +45,8 @@ namespace SecuredSigningClientSdk.Models
         [ApiMember(Description = "Auto fill data for the form. It is an XML document converted to a string. Secured Signing creates the template for the data.", DataType = SwaggerType.String, IsRequired = false)]
         public string XMLData { get; set; }
     }
-    [Schema("Invitee")]
-    public class Invitee
+    [Schema("UserInfo")]
+    public class UserInfo
     {
         [ApiMember(Description = "First name of user", DataType = SwaggerType.String, IsRequired = true)]
         public string FirstName { get; set; }
@@ -56,6 +56,10 @@ namespace SecuredSigningClientSdk.Models
 
         [ApiMember(Description = "Email address of user", DataType = SwaggerType.String, IsRequired = true)]
         public string Email { get; set; }
+    }
+    [Schema("Invitee")]
+    public class Invitee:UserInfo
+    {
         [ApiMember(Description = "Mobile number of signer, for SMS secured forms. Must include the mobile carrier code e.g. Australia 04, New Zealand 027 or 021 etc", DataType = SwaggerType.String, IsRequired = false)]
         public string MobileNumber { get; set; }
 
@@ -71,8 +75,22 @@ namespace SecuredSigningClientSdk.Models
     [Schema("FormDirectInvitee")]
     public class SmartTagInvitee : Invitee
     {
+        [ApiMember(Description = "The reference of attachments")]
         public List<string> Attachments { get; set; }
+
+        [ApiMember(Description = "Shows if embedded signing only for this invitee", DataType = SwaggerType.Boolean, IsRequired = false)]
         public bool? Embedded { get; set; }
+        [ApiMember(Description = "Return Url only for this invitee if embedded", DataType = SwaggerType.String, IsRequired = false)]
+        public string ReturnUrl { get; set; }
+
+        [ApiMember(Description = "Email template reference only for this invitee", DataType = SwaggerType.String, IsRequired = false)]
+        public string EmailTemplateReference { get; set; }
+        [ApiMember(Description = "Tell if the InvitationText is for personal message or customized email template")]
+        public bool IsPersonalMessage { get; set; }
+        [ApiMember(Description = "Customized email invitation text or personal message")]
+        public string InvitationText { get; set; }
+        [ApiMember(Description = "Customized email subject")]
+        public string EmailSubject { get; set; }
     }
     [Schema("SmartTagOptions")]
     public class SmartTagOptions
@@ -234,6 +252,12 @@ namespace SecuredSigningClientSdk.Models
 
         [ApiMember(Description = "Email template's name.", DataType = SwaggerType.String, IsRequired = true)]
         public string Name { get; set; }
+        [ApiMember(Description = "If the email template is default one or not", DataType = SwaggerType.Boolean, IsRequired = false)]
+        public bool IsDefault { get; set; }
+        [ApiMember(Description = "Email template's subject.", DataType = SwaggerType.String, IsRequired = true)]
+        public string Subject { get; set; }
+        [ApiMember(Description = "Email template's text.", DataType = SwaggerType.String, IsRequired = true)]
+        public string Template { get; set; }
     }
 
     [Schema("Workflow")]
@@ -342,6 +366,48 @@ namespace SecuredSigningClientSdk.Models
         public bool Actived { get; set; }
         public bool Locked { get; set; }
         public string AccountStatus { get; set; }
+    }
+    public class UserReferenceResponse
+    {
+        public string Reference { get; set; }
+    }
+    [Schema("User Details")]
+    public class UserDetails : UserInfo
+    {
+        [ApiMember(Description = "User's middle name", DataType = SwaggerType.String, IsRequired = false)]
+        public string MiddleName { get; set; }
+        [ApiMember(Description = "User's job title", DataType = SwaggerType.String, IsRequired = false)]
+        public string JobTitle { get; set; }
+        [ApiMember(Description = "User's company name", DataType = SwaggerType.String, IsRequired = false)]
+        public string CompanyName { get; set; }
+        [ApiMember(Description = "User's legal name", DataType = SwaggerType.String, IsRequired = false)]
+        public string LegalName { get; set; }
+        [ApiMember(Description = "User's website", DataType = SwaggerType.String, IsRequired = false)]
+        public string Website { get; set; }
+        [ApiMember(Description = "User's industry", DataType = SwaggerType.String, IsRequired = false)]
+        public string Industry { get; set; }
+        [ApiMember(Description = "User's employee number", DataType = SwaggerType.String, IsRequired = false)]
+        public string Employees { get; set; }
+        [ApiMember(Description = "User's street", DataType = SwaggerType.String, IsRequired = false)]
+        public string Street { get; set; }
+        [ApiMember(Description = "User's suburb", DataType = SwaggerType.String, IsRequired = false)]
+        public string Suburb { get; set; }
+        [ApiMember(Description = "User's city", DataType = SwaggerType.String, IsRequired = false)]
+        public string City { get; set; }
+        [ApiMember(Description = "User's post code / ZIP", DataType = SwaggerType.String, IsRequired = false)]
+        public string Postcode { get; set; }
+        [ApiMember(Description = "User's country", DataType = SwaggerType.String, IsRequired = false)]
+        public string Country { get; set; }
+        [ApiMember(Description = "User's state", DataType = SwaggerType.String, IsRequired = false)]
+        public string State { get; set; }
+        [ApiMember(Description = "User's phone number country part, e.g. +64", DataType = SwaggerType.String, IsRequired = false)]
+        public string PhoneCountry { get; set; }
+        [ApiMember(Description = "User's phone number area part", DataType = SwaggerType.String, IsRequired = false)]
+        public string PhoneArea { get; set; }
+        [ApiMember(Description = "User's phone number", DataType = SwaggerType.String, IsRequired = false)]
+        public string PhoneNumber { get; set; }
+        [ApiMember(Description = "User's title", DataType = SwaggerType.String, IsRequired = false)]
+        public string Title { get; set; }
     }
     [Schema("Employers")]
     public class Employers

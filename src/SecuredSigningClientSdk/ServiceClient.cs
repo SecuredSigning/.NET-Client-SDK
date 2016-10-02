@@ -23,6 +23,11 @@ namespace SecuredSigningClientSdk
         public string ServiceBaseUrl { get; private set; }
         public string APIVersion { get; private set; }
         private string accessToken;
+        private string sender;
+        public string Sender
+        {
+            set { sender = value; }
+        }
         /// <summary>
         /// Set Access Token
         /// </summary>
@@ -32,7 +37,7 @@ namespace SecuredSigningClientSdk
         }
         /// <summary>
         /// OAuth 2 Client to deal with authentication.
-        /// </summary>
+        /// </summary>        
         public OAuth2Client OAuth2 { get { return _oauth2; } }
         public class AuthHeaders
         {
@@ -66,6 +71,8 @@ namespace SecuredSigningClientSdk
                 httpReq.Headers.Add("X-CUSTOM-SIGNATURE", headers.signature);
                 if (!string.IsNullOrEmpty(accessToken))
                     httpReq.Headers.Add(System.Net.HttpRequestHeader.Authorization, "Bearer " + accessToken);
+                if(!string.IsNullOrEmpty(sender))
+                    httpReq.Headers.Add("X-CUSTOM-SENDER", sender);
                 httpReq.Referer = accessUrl;
             };
         }
@@ -94,7 +101,31 @@ namespace SecuredSigningClientSdk
         {
             return _client.Get(new AccountRequest());
         }
-
+        /// <summary>
+        /// Save sender
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <param name="clientReference"></param>
+        /// <param name="details">email and name in details are ignored</param>
+        /// <returns></returns>
+        public string saveSender(string email,string firstName,string lastName,string clientReference =null,UserDetails details=null)
+        {
+            if(details==null)
+            {
+                details = new UserDetails();                
+            }
+            details.Email = email;
+            details.FirstName = firstName;
+            details.LastName = lastName;
+            return _client.Post(new SaveSenderRequest()
+            {
+                GMT=this.GMT,
+                ClientReference=clientReference,
+                User= details
+            }).Reference;
+        }
         #endregion
 
         #region Document
