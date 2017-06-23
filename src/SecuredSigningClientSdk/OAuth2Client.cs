@@ -7,14 +7,42 @@ using SecuredSigningClientSdk.Helpers;
 
 namespace SecuredSigningClientSdk
 {
+    /// <summary>
+    /// Secured Signing OAuth 2.0 Client
+    /// </summary>
     public class OAuth2Client
     {
+        /// <summary>
+        /// Authorize Endpoint
+        /// </summary>
         protected readonly string AuthorizeEndpoint = "/api/oauth2/authorize";
+        /// <summary>
+        /// Token Endpoint
+        /// </summary>
         protected readonly string TokenEndpoint = "/api/oauth2/token";
+        /// <summary>
+        /// Revoke Endpoint
+        /// </summary>
         protected readonly string RevokeEndpoint = "/api/oauth2/revoke";
+        /// <summary>
+        /// Consumer Key / API Key
+        /// </summary>
         protected readonly string ConsumerKey;
+        /// <summary>
+        /// Consumer Secret / API Secret
+        /// </summary>
         protected readonly string ConsumerSecret;
+        /// <summary>
+        /// Callback URL / Access URL
+        /// </summary>
         protected readonly string CallbackUrl;
+        /// <summary>
+        /// Secured Signing OAuth 2.0 Client
+        /// </summary>
+        /// <param name="host"></param>
+        /// <param name="apiKey"></param>
+        /// <param name="apiSecret"></param>
+        /// <param name="accessUrl"></param>
         internal protected OAuth2Client(string host, string apiKey, string apiSecret, string accessUrl)
         {
             this.AuthorizeEndpoint = host + AuthorizeEndpoint;
@@ -75,16 +103,34 @@ namespace SecuredSigningClientSdk
         /// </summary>
         public class OAuth2TokenResponse
         {
+            /// <summary>
+            /// Access Token
+            /// </summary>
             [Newtonsoft.Json.JsonProperty(PropertyName = "access_token",NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
             public string Access_Token { get; set; }
+            /// <summary>
+            /// Refresh Token
+            /// </summary>
             [Newtonsoft.Json.JsonProperty(PropertyName = "refresh_token", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
             public string Refresh_Token { get; set; }
+            /// <summary>
+            /// Seconds Expires In 
+            /// </summary>
             [Newtonsoft.Json.JsonProperty(PropertyName = "expires_in", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
             public int Expires_In { get; set; }
+            /// <summary>
+            /// Access Token Type
+            /// </summary>
             [Newtonsoft.Json.JsonProperty(PropertyName = "token_type", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
             public string Token_Type { get; set; }
+            /// <summary>
+            /// Scopes associatated with this token; It may be less than requested
+            /// </summary>
             [Newtonsoft.Json.JsonProperty(PropertyName = "scope", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
             public string Scope { get; set; }
+            /// <summary>
+            /// Error if failed to issue a token.
+            /// </summary>
             [Newtonsoft.Json.JsonProperty(PropertyName = "error", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
             public string Error { get; set; }
         }
@@ -94,17 +140,38 @@ namespace SecuredSigningClientSdk
         [Flags]
         public enum OAuth2Scope
         {
+            /// <summary>
+            /// Don't use this one
+            /// </summary>
             None = 0,
-            [Description("Basic Profile - Fetch information about your Secured Signing account, such as your price plan, account status etc.")]
+            /// <summary>
+            /// Basic Profile - Fetch information about your Secured Signing account, such as your price plan, account status etc.
+            /// </summary>
+            [Description("Basic Profile - Fetch information about your Secured Signing account, such as your price plan, account status etc.")]            
             Basic = 1,
+            /// <summary>
+            /// I Sign - Sign documents as a sole Signatory.
+            /// </summary>
             [Description("I Sign - Sign documents as a sole Signatory.")]
             ISign = 2,
+            /// <summary>
+            /// We Sign - Invite other people to sign documents.
+            /// </summary>
             [Description("We Sign - Invite other people to sign documents.")]
             WeSign = 4,
+            /// <summary>
+            /// Smart Tag - Send documents with Smart Tags."
+            /// </summary>
             [Description("Smart Tag - Send documents with Smart Tags.")]
             SmartTag = 8,
+            /// <summary>
+            /// Form Direct - Fetch and send your online Form Direct forms.
+            /// </summary>
             [Description("Form Direct - Fetch and send your online Form Direct forms.")]
             FormDirect = 16,
+            /// <summary>
+            /// Form Filler - Fill in online forms and sign.
+            /// </summary>
             [Description("Form Filler - Fill in online forms and sign.")]
             FormFiller = 32,
         }
@@ -113,19 +180,25 @@ namespace SecuredSigningClientSdk
         /// </summary>
         /// <param name="state"></param>
         /// <param name="scopes"></param>
-        /// <returns></returns>
+        /// <returns>Authorize URL</returns>
         public string CreateAuthorizeRequest(string state, params string[] scopes)
         {
             return string.Format("{0}?response_type=code&client_id={1}&redirect_uri={2}&state={3}&scope={4}"
                 , AuthorizeEndpoint, this.ConsumerKey, this.CallbackUrl, state,
                 string.Join(" ", scopes));
         }
+        /// <summary>
+        /// Create authorize URL
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="scopes"></param>
+        /// <returns>Authorize URL</returns>
         public string CreateAuthorizeRequest(string state, OAuth2Scope scopes)
-        {
+        {           
             return CreateAuthorizeRequest(state, scopes.ToStringArray());
         }
         /// <summary>
-        /// Get access token
+        /// Get access token in Authorization Code Flow
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
@@ -150,7 +223,12 @@ namespace SecuredSigningClientSdk
             WebClient client = new WebClient();
             client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
             var result = client.UploadString(TokenEndpoint, new OAuth2TokenRequest(ConsumerKey, ConsumerSecret, CallbackUrl, OAuth2TokenRequest.GrantTypeRefreshToken) { Refresh_Token = refreshToken }.ToString());
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<OAuth2TokenResponse>(result);
+            var response= Newtonsoft.Json.JsonConvert.DeserializeObject<OAuth2TokenResponse>(result);
+            if(response!=null&&string.IsNullOrEmpty(response?.Refresh_Token))
+            {
+                response.Refresh_Token = refreshToken;
+            }
+            return response;
         }
         /// <summary>
         /// Revoke access token
@@ -187,6 +265,13 @@ namespace SecuredSigningClientSdk
             }
             return string.Empty;
         }
+        /// <summary>
+        /// Get access token in Implicit Flow
+        /// </summary>
+        /// <param name="clientCredentialType"></param>
+        /// <param name="extraData"></param>
+        /// <param name="scopes"></param>
+        /// <returns></returns>
         public OAuth2TokenResponse GetClientAccessToken(string clientCredentialType, Dictionary<string,string> extraData, params string[] scopes)
         {
             WebClient client = new WebClient();

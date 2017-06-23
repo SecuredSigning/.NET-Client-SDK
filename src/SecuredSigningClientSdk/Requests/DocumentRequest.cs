@@ -104,4 +104,12 @@ namespace SecuredSigningClientSdk.Requests
         [ApiMember(Description = "Document reference", ParameterType = "path", DataType = SwaggerType.String, IsRequired = true)]
         public string DocumentReference { get; set; }
     }
+
+    [Route("/Document/Delete/{DocumentReference}", Verbs = "POST", Summary = "Delete the document", Notes = "Delete the document")]
+    [Route("/Document/{DocumentReference}", Verbs = "DELETE", Summary = "Delete the document", Notes = "Delete the document")]
+    public class DeleteRequest : IReturn<Document>
+    {
+        [ApiMember(Description = "Document reference", ParameterType = "path", DataType = SwaggerType.String, IsRequired = true)]
+        public string DocumentReference { get; set; }
+    }
 }

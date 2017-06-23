@@ -9,10 +9,12 @@ namespace SecuredSigningClientSdk
     internal class AuthHelper
     {
         /// <summary>
-        /// Used by SDK and clients to make requests, so we must use the HttpWebRequest class
+        /// Create request hash
         /// </summary>
-        /// <param name="webRequest"></param>
+        /// <param name="apiKey"></param>
         /// <param name="secret"></param>
+        /// <param name="date"></param>
+        /// <param name="nonce"></param>
         /// <returns></returns>
         public static string CreateSignature(string apiKey, string secret, string date, string nonce)
         {

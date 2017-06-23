@@ -31,10 +31,8 @@ namespace SecuredSigningClientSdk.Requests
 
         [ApiMember(Description = "Whether all documents are in a package (by default) or sent separately", DataType = SwaggerType.Boolean, IsRequired = false)]
         public bool NoPackage { get; set; }
-        /// <summary>
-        /// *BETA, Only available in DSX
-        /// </summary>
-        [ApiMember(Description = "Notify Url. *BETA, Only available in DSX", DataType = SwaggerType.String, IsRequired = false)]
+
+        [ApiMember(Description = "Notify Url.", DataType = SwaggerType.String, IsRequired = false)]
         public string NotifyUrl { get; set; }
     }
 

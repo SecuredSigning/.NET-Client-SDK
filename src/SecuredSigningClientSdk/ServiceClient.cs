@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ServiceStack;
+using static System.Net.WebRequestMethods;
 
 namespace SecuredSigningClientSdk
 {
@@ -327,6 +328,19 @@ namespace SecuredSigningClientSdk
             });
             return result;
         }
+        /// <summary>
+        /// Delete the document
+        /// </summary>
+        /// <param name="documentReference"></param>
+        /// <returns></returns>
+        public Document deleteDocument(string documentReference)
+        {
+            var result = _client.Post(new DeleteRequest
+            {
+                DocumentReference=documentReference
+            });
+            return result;
+        }
         #endregion
 
         #region Form Direct
@@ -436,7 +450,7 @@ namespace SecuredSigningClientSdk
         #region Smart Tag
         /// <summary>
         /// Sends smart tag documents - simple
-        /// <see cref="http://www.securedsigning.com/documentation/developer/smarttag-api"/>
+        /// <see cref="http://www.securedsigning.com/documentation/developer/smarttag-api" />
         /// </summary>
         /// <param name="documentReferences"></param>
         /// <param name="dueDate"></param>

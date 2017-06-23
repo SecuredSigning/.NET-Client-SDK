@@ -138,6 +138,13 @@ namespace SecuredSigningClientSdk.Models
 
         [ApiMember(Description = "User signing status", DataType = "boolean", IsRequired = false)]
         public bool HasSigned { get; set; }
+        [ApiMember(Description = "Signer Status", IsRequired = false, DataType = SwaggerType.Boolean, ExcludeInSchema = true)]
+        [ApiAllowableValues("SignedStatus", typeof(SignedStatus))]
+        public SignedStatus SignedStatus { get; set; }
+
+        [ApiMember(Description = "Declined reason. Return only when invitee declined to sign.", DataType = SwaggerType.String, IsRequired = false)]
+        public string DeclinedReason { get; set; }
+
     }
     public class FormDirectSigner : Signer
     {
@@ -484,5 +491,22 @@ namespace SecuredSigningClientSdk.Models
         Text = 0,
         MultiLineText = 1,
         CheckBox = 3
+    }
+    public enum SignedStatus
+    {
+        Initialized, //0
+        Invitation, //1
+        Reminder1, //2
+        Reminder2, //3
+        AutoExtend, //4
+        Expired, //5
+        Signed, //6
+        Complete, //7
+        Archived, //8
+        Pending, //9
+        Deleted, //10
+        Rejected, //11
+        Declined, //12
+        Reminder, //13
     }
 }
