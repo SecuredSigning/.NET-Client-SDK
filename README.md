@@ -18,7 +18,7 @@ Secured Signing provides a comprehensive and compliant Software as a Service pla
 var client = new ServiceClient("https://api.securedsigning.com/web","v1.4", <YOUR API KEY HERE>, <YOUR API SECRET HERE>);
 ```
 
-## Look at Data Objects
+## Data Objects
 We have provided data objects for the requests e.g.
 
 ```csharp
