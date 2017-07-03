@@ -73,6 +73,7 @@
     <Compile Include="Requests\EmailTemplateRequest.cs" />
     <Compile Include="Requests\FormDirectRequest.cs" />
     <Compile Include="Requests\FormFillerRequest.cs" />
+    <Compile Include="Requests\RecipientRequest.cs" />
     <Compile Include="Requests\SmartTagRequest.cs" />
     <Compile Include="Requests\WorkflowRequest.cs" />
     <Compile Include="ServiceClient.cs" />
@@ -80,7 +81,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="SecuredSigningClientSdk.nuspec" />
+    <None Include="SecuredSigningClientSdk.nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

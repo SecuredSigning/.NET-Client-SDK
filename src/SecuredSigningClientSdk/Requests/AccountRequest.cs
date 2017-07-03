@@ -1,5 +1,6 @@
 ﻿using SecuredSigningClientSdk.Models;
 using ServiceStack;
+using System.Collections.Generic;
 
 namespace SecuredSigningClientSdk.Requests
 {
@@ -16,5 +17,10 @@ namespace SecuredSigningClientSdk.Requests
         public string GMT { get; set; }
         [ApiMember(Name = "ClientReference", Description = "The reference/id in client's side", DataType = SwaggerType.String, IsRequired = false)]
         public string ClientReference { get; set; }
+    }
+
+    [Route("/Account/ShareUsers", Verbs = "GET")]
+    public class ShareUsersRequest : IReturn<List<ShareUser>>
+    {
     }
 }

@@ -18,8 +18,18 @@ namespace SecuredSigningClientSdk.Requests
         public string DueDate { get; set; }
         public string GMT { get; set; }
 
-        [ApiMember(Description = "Email template reference", DataType = SwaggerType.String, IsRequired = false)]
-        public string EmailTemplateReference { get; set; }
+        [ApiMember(Description = "Invitation Email template reference; Obsoleted, use InvitationEmailTemplateReference instead.", DataType = SwaggerType.String, IsRequired = false, ExcludeInSchema = true)]
+        [Obsolete]
+        public string EmailTemplateReference
+        {
+            get { return this.InvitationEmailTemplateReference; }
+            set { this.InvitationEmailTemplateReference = value; }
+        }
+        [ApiMember(Description = "Invitation Email template reference", DataType = SwaggerType.String, IsRequired = false)]
+        public string InvitationEmailTemplateReference { get; set; }
+
+        [ApiMember(Description = "Completion Email template reference", DataType = SwaggerType.String, IsRequired = false)]
+        public string CompletionEmailTemplateReference { get; set; }
 
         [ApiMember(Description = "Return Url", DataType = SwaggerType.String, IsRequired = false)]
         public string ReturnUrl { get; set; }
@@ -34,6 +44,11 @@ namespace SecuredSigningClientSdk.Requests
 
         [ApiMember(Description = "Notify Url.", DataType = SwaggerType.String, IsRequired = false)]
         public string NotifyUrl { get; set; }
+        [ApiMember(Description = "The name of the package; if empty and only one document in package, the name will be document name.", DataType = SwaggerType.String, IsRequired = false)]
+        public string PackageName { get; set; }
+        [ApiMember(Description = "Share user details, if no share user specified in document", DataType = SwaggerType.Array, IsRequired = false)]
+        public List<ShareUser> ShareUsers { get; set; }
+
     }
 
     [Route("/SmartTag/MailMerge/", Verbs = "POST", Summary = "Merge mail merge list with the document", Notes = "Send a smart tag document.")]

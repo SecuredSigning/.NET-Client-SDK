@@ -72,7 +72,7 @@ namespace SecuredSigningClientSdk
                 httpReq.Headers.Add("X-CUSTOM-SIGNATURE", headers.signature);
                 if (!string.IsNullOrEmpty(accessToken))
                     httpReq.Headers.Add(System.Net.HttpRequestHeader.Authorization, "Bearer " + accessToken);
-                if(!string.IsNullOrEmpty(sender))
+                if (!string.IsNullOrEmpty(sender))
                     httpReq.Headers.Add("X-CUSTOM-SENDER", sender);
                 httpReq.Referer = accessUrl;
             };
@@ -111,20 +111,20 @@ namespace SecuredSigningClientSdk
         /// <param name="clientReference"></param>
         /// <param name="details">email and name in details are ignored</param>
         /// <returns></returns>
-        public string saveSender(string email,string firstName,string lastName,string clientReference =null,UserDetails details=null)
+        public string saveSender(string email, string firstName, string lastName, string clientReference = null, UserDetails details = null)
         {
-            if(details==null)
+            if (details == null)
             {
-                details = new UserDetails();                
+                details = new UserDetails();
             }
             details.Email = email;
             details.FirstName = firstName;
             details.LastName = lastName;
             return _client.Post(new SaveSenderRequest()
             {
-                GMT=this.GMT,
-                ClientReference=clientReference,
-                User= details
+                GMT = this.GMT,
+                ClientReference = clientReference,
+                User = details
             }).Reference;
         }
         #endregion
@@ -337,7 +337,7 @@ namespace SecuredSigningClientSdk
         {
             var result = _client.Post(new DeleteRequest
             {
-                DocumentReference=documentReference
+                DocumentReference = documentReference
             });
             return result;
         }
@@ -474,6 +474,7 @@ namespace SecuredSigningClientSdk
         /// <param name="dueDate"></param>
         /// <param name="invitationEmailTemplateReference"></param>
         /// <returns></returns>
+        [Obsolete("Use sendSmartTagDocument(List<string>, DateTime, SmartTagOptions) instead.")]
         public List<Document> sendSmartTagDocument(List<string> documentReferences, DateTime dueDate, string invitationEmailTemplateReference)
         {
             var result = _client.Post<List<Document>>(new SmartTagRequest
@@ -481,7 +482,7 @@ namespace SecuredSigningClientSdk
                 DocumentReferences = documentReferences,
                 DueDate = dueDate.ToUniversalTime().ToString("o"),
                 GMT = this.GMT,
-                EmailTemplateReference = invitationEmailTemplateReference
+                InvitationEmailTemplateReference = invitationEmailTemplateReference
             });
 
             return result;
@@ -493,7 +494,8 @@ namespace SecuredSigningClientSdk
         /// <param name="dueDate"></param>
         /// <param name="embedded"></param>
         /// <param name="returnUrl"></param>
-        /// <returns></returns>
+        /// <returns></returns
+        [Obsolete("Use sendSmartTagDocument(List<string>, DateTime, SmartTagOptions) instead.")]
         public List<Document> sendSmartTagDocument(List<string> documentReferences, DateTime dueDate, bool embedded, Uri returnUrl = null)
         {
             var result = _client.Post<List<Document>>(new SmartTagRequest
@@ -516,6 +518,7 @@ namespace SecuredSigningClientSdk
         /// <param name="signers"></param>
         /// <param name=""></param>
         /// <returns></returns>
+        [Obsolete("Use sendSmartTagDocument(List<string>, DateTime, SmartTagOptions) instead.")]
         public List<Document> sendSmartTagDocument(List<string> documentReferences, DateTime dueDate, SmartTagInvitee[] signers)
         {
             var result = _client.Post<List<Document>>(new SmartTagRequest
@@ -538,6 +541,7 @@ namespace SecuredSigningClientSdk
         /// <param name="embedded"></param>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
+        [Obsolete("Use sendSmartTagDocument(List<string>, DateTime, SmartTagOptions) instead.")]
         public List<Document> sendSmartTagDocument(List<string> documentReferences, DateTime dueDate, SmartTagInvitee[] signers, bool embedded, Uri returnUrl)
         {
             var result = _client.Post<List<Document>>(new SmartTagRequest
@@ -560,6 +564,7 @@ namespace SecuredSigningClientSdk
         /// <param name="signers"></param>
         /// <param name="invitationEmailTemplateReference"></param>
         /// <returns></returns>
+        [Obsolete("Use sendSmartTagDocument(List<string>, DateTime, SmartTagOptions) instead.")]
         public List<Document> sendSmartTagDocument(List<string> documentReferences, DateTime dueDate, SmartTagInvitee[] signers, string invitationEmailTemplateReference)
         {
             var result = _client.Post<List<Document>>(new SmartTagRequest
@@ -567,7 +572,7 @@ namespace SecuredSigningClientSdk
                 DocumentReferences = documentReferences,
                 DueDate = dueDate.ToUniversalTime().ToString("o"),
                 GMT = this.GMT,
-                EmailTemplateReference = invitationEmailTemplateReference,
+                InvitationEmailTemplateReference = invitationEmailTemplateReference,
                 Signers = signers.ToList()
             });
 
@@ -588,13 +593,16 @@ namespace SecuredSigningClientSdk
                 DocumentReferences = documentReferences,
                 DueDate = dueDate.ToUniversalTime().ToString("o"),
                 GMT = this.GMT,
-                EmailTemplateReference = options.EmailTemplateReference,
+                InvitationEmailTemplateReference = options.InvitationEmailTemplateReference,
+                CompletionEmailTemplateReference = options.CompletionEmailTemplateReference,
                 Embedded = options.Embedded,
                 ListItems = options.ListItems,
                 NoPackage = options.NoPackage,
                 ReturnUrl = options.ReturnUrl,
                 Signers = options.Signers,
-                NotifyUrl = options.NotifyUrl
+                NotifyUrl = options.NotifyUrl,
+                PackageName = options.PackageName,
+                ShareUsers = options.ShareUsers
             });
 
             return result;
@@ -703,7 +711,7 @@ namespace SecuredSigningClientSdk
         /// </summary>
         /// <param name="file"></param>
         /// <returns>document reference</returns>
-        public string uploadAttachmentByUrl(FileInfo file)
+        public string uploadAttachmentByUrl(AttachmentFileInfo file)
         {
             var result = _client.Post(new UploadAttachmentRequest
             {
@@ -717,11 +725,82 @@ namespace SecuredSigningClientSdk
         /// </summary>
         /// <param name="file"></param>
         /// <returns>document reference</returns>
-        public string uploadAttachmentFile(System.IO.FileInfo file)
+        public string uploadAttachmentFile(System.IO.FileInfo file, string number = "", string category = "")
         {
-            var result = _client.PostFileWithRequest<Document>(file, new AttachmentUploaderRequest());
+            var result = _client.PostFileWithRequest<AttachmentResponse>(file, new AttachmentUploaderRequest()
+            {
+                Number = number,
+                Category = category
+            });
             return result.Reference;
         }
+
+        /// <summary>
+        /// Uploads binary data as attachment by mulitpart form
+        /// </summary>
+        /// <param name="attachmentName"></param>
+        /// <param name="attachment"></param>
+        /// <param name="number"></param>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        public string uploadAttachment(string attachmentName, System.IO.Stream attachment, string number = "", string category = "")
+        {
+            var result = _client.PostFileWithRequest<AttachmentResponse>(attachment, attachmentName, new AttachmentUploaderRequest()
+            {
+                Number = number,
+                Category = category
+            });
+            return result.Reference;
+        }
+
+        /// <summary>
+        /// Returns account user's available attachments
+        /// </summary>
+        /// <returns></returns>
+        public List<AttachmentResponse> getAttachments()
+        {
+            return _client.Get(new GetAttachmentsRequest());
+        }
+        /// <summary>
+        /// Delete attachment with POST method.
+        /// </summary>
+        /// <param name="attachmentRef"></param>
+        public void deleteAttachment2(string attachmentRef)
+        {
+            _client.Post(new DeleteAttachmentRequest { AttachmentReference = attachmentRef });
+        }
+        /// <summary>
+        /// Delete attachment
+        /// </summary>
+        /// <param name="attachmentRef"></param>
+        public void deleteAttachment(string attachmentRef)            
+        {
+            _client.Delete(new DeleteAttachmentRequest { AttachmentReference = attachmentRef });
+        }
+        /// <summary>
+        /// get attachment data
+        /// </summary>
+        /// <param name="attachmentReference"></param>
+        /// <returns></returns>
+        public byte[] getAttachmentData(string attachmentReference)
+        {
+            var result = _client.Get<byte[]>(new DownloadAttachmentRequest() { AttachmentReference = attachmentReference });
+            return result;
+        }
+        #endregion
+
+        #region Recipient
+        /// <summary>
+        /// get recipient
+        /// </summary>
+        /// <returns></returns>
+        public List<RecipientsResponse> getRecipients()
+        {
+            return _client.Get(new GetRecipientsRequest());
+        }        
+        #endregion
+
+        #region ShareUser
         #endregion
     }
 }

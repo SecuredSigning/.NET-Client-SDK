@@ -26,6 +26,10 @@ namespace SecuredSigningClientSdk.Requests
 
         [ApiMember(Name = "DueDate", Description = "Due date that forms are to be signed by. If not set, +14 days is the default", DataType = SwaggerType.Date, IsRequired = false)]
         public string DueDate { get; set; }
+        [ApiMember(Description = "GMT Offset", DataType = SwaggerType.String, IsRequired = false)]
+        public string GMT { get; set; }
+        [ApiMember(Description = "Invitation Email template reference", DataType = SwaggerType.String, IsRequired = false)]
+        public string InvitationEmailTemplateReference { get; set; }
     }
 
     [Route("/FormDirect/GetSignerLink", Verbs = "POST", Summary = "Gets a signers link", Notes = "Returns a signer with the link required to access their form. Requires both a document reference and the signer (First name, Last name and email)")]

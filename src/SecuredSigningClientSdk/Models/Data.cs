@@ -58,16 +58,20 @@ namespace SecuredSigningClientSdk.Models
         public string Email { get; set; }
     }
     [Schema("Invitee")]
-    public class Invitee:UserInfo
+    public class Invitee : UserInfo
     {
         [ApiMember(Description = "Mobile number of signer, for SMS secured forms. Must include the mobile carrier code e.g. Australia 04, New Zealand 027 or 021 etc", DataType = SwaggerType.String, IsRequired = false)]
         public string MobileNumber { get; set; }
 
         [ApiMember(Description = "Mobile Country code for phone number e.g. Australia 61, New Zealand 64 etc", DataType = SwaggerType.String, IsRequired = false)]
         public string MobileCountry { get; set; }
+        [ApiMember(Description = "Whether the signer using F2F signing", DataType = SwaggerType.Boolean, IsRequired = false)]
+        public bool IsFaceToFaceSigning { get; set; }
+        [ApiMember(Description = "ShareUsers for this user", DataType = SwaggerType.String, IsRequired = false)]
+        public List<ShareUser> ShareUsers { get; set; }
     }
     [Schema("FormDirectInvitee")]
-    public class FormDirectInvitee: Invitee
+    public class FormDirectInvitee : Invitee
     {
         [ApiMember(Description = "Role of signer in signing process", DataType = SwaggerType.String, IsRequired = false)]
         public string SignerType { get; set; }
@@ -83,13 +87,28 @@ namespace SecuredSigningClientSdk.Models
         [ApiMember(Description = "Return Url only for this invitee if embedded", DataType = SwaggerType.String, IsRequired = false)]
         public string ReturnUrl { get; set; }
 
-        [ApiMember(Description = "Email template reference only for this invitee", DataType = SwaggerType.String, IsRequired = false)]
-        public string EmailTemplateReference { get; set; }
+        [ApiMember(Description = "Invitation email template reference only for this invitee; Obsolete, use InvitationEmailTemplateReference instead;", DataType = SwaggerType.String, IsRequired = false)]
+        [Obsolete]
+        public string EmailTemplateReference
+        {
+            get
+            {
+                return InvitationEmailTemplateReference;
+            }
+            set
+            {
+                this.InvitationEmailTemplateReference = value;
+            }
+        }
+        [ApiMember(Description = "Invitation email template reference only for this invitee", DataType = SwaggerType.String, IsRequired = false)]
+        public string InvitationEmailTemplateReference { get; set; }
+        [ApiMember(Description = "Completion email template reference only for this invitee", DataType = SwaggerType.String, IsRequired = false)]
+        public string CompletionEmailTemplateReference { get; set; }
         [ApiMember(Description = "Tell if the InvitationText is for personal message or customized email template")]
         public bool IsPersonalMessage { get; set; }
-        [ApiMember(Description = "Customized email invitation text or personal message")]
+        [ApiMember(Description = "Customized invitation email text or personal message")]
         public string InvitationText { get; set; }
-        [ApiMember(Description = "Customized email subject")]
+        [ApiMember(Description = "Customized invitation email subject")]
         public string EmailSubject { get; set; }
     }
     [Schema("SmartTagOptions")]
@@ -98,8 +117,18 @@ namespace SecuredSigningClientSdk.Models
         [ApiMember(Description = "Shows if embedded signing", DataType = SwaggerType.Boolean, IsRequired = false)]
         public bool Embedded { get; set; }
 
-        [ApiMember(Description = "Email template reference", DataType = SwaggerType.String, IsRequired = false)]
-        public string EmailTemplateReference { get; set; }
+        [ApiMember(Description = "Invitation Email template reference; Obsoleted, use InvitationEmailTemplateReference instead.", DataType = SwaggerType.String, IsRequired = false, ExcludeInSchema = true)]
+        [Obsolete("use InvitationEmailTemplateReference instead.")]
+        public string EmailTemplateReference
+        {
+            get { return this.InvitationEmailTemplateReference; }
+            set { this.InvitationEmailTemplateReference = value; }
+        }
+        [ApiMember(Description = "Invitation Email template reference", DataType = SwaggerType.String, IsRequired = false)]
+        public string InvitationEmailTemplateReference { get; set; }
+
+        [ApiMember(Description = "Completion Email template reference", DataType = SwaggerType.String, IsRequired = false)]
+        public string CompletionEmailTemplateReference { get; set; }
 
         [ApiMember(Description = "Return Url", DataType = SwaggerType.String, IsRequired = false)]
         public string ReturnUrl { get; set; }
@@ -114,8 +143,13 @@ namespace SecuredSigningClientSdk.Models
         /// <summary>
         /// *BETA, Only available in DSX
         /// </summary>
-        [ApiMember(Description = "Notify Url. *BETA, Only available in DSX", DataType = SwaggerType.String, IsRequired = false)]
+        [ApiMember(Description = "Notify Url.", DataType = SwaggerType.String, IsRequired = false)]
         public string NotifyUrl { get; set; }
+        [ApiMember(Description = "The name of the package; if empty and only one document in package, the name will be document name.", DataType = SwaggerType.String, IsRequired = false)]
+        public string PackageName { get; set; }
+        [ApiMember(Description = "Share user details, if no share user specified in document", DataType = SwaggerType.Array, IsRequired = false)]
+        public List<ShareUser> ShareUsers { get; set; }
+
     }
     [Schema("DropDownListItem")]
     public class DropDownListItem
@@ -128,7 +162,7 @@ namespace SecuredSigningClientSdk.Models
         public string Value { get; set; }
     }
     [Schema("Signer")]
-    public class Signer:Invitee
+    public class Signer : Invitee
     {
         [ApiMember(Description = "Signer reference", DataType = SwaggerType.String, IsRequired = false)]
         public string SignerReference { get; set; }
@@ -203,9 +237,10 @@ namespace SecuredSigningClientSdk.Models
         }
         [ApiMember(Description = "List of document logs", IsRequired = false, DataType = SwaggerType.Array)]
         public List<DocumentLog> Logs { get; set; }
+        [ApiMember(Description = "Whether invitee uploaded any files during signing process.", DataType = SwaggerType.Boolean, IsRequired = false)]
+        public bool HasFileUploaded { get; set; }
     }
-    [Schema("FileInfo")]
-    public class FileInfo
+    public class FileInfoBase
     {
         [ApiMember(Description = "File Name", DataType = SwaggerType.String, IsRequired = true)]
         public string Name { get; set; }
@@ -216,8 +251,22 @@ namespace SecuredSigningClientSdk.Models
 
         [ApiMember(Description = "Url to download retrieve file data", DataType = SwaggerType.String, IsRequired = true)]
         public string FileUrl { get; set; }
+    }
+    [Schema("DocumentFileInfo")]
+    public class FileInfo : FileInfoBase
+    {
         [ApiMember(Description = "The reference of the document on client side", DataType = SwaggerType.String, IsRequired = false)]
         public string ClientReference { get; set; }
+    }
+    [Schema("AttachmentFileInfo")]
+
+    public class AttachmentFileInfo : FileInfoBase
+    {
+        [ApiMember(Description = "Attachment Number, can only be digitals", DataType = SwaggerType.String, IsRequired = false)]
+        public string Number { get; set; }
+        [ApiMember(Description = "Attachment Category", DataType = SwaggerType.String, IsRequired = false)]
+        public string Category { get; set; }
+
     }
     [Schema("DocumentLog")]
     public class DocumentLog
@@ -373,6 +422,8 @@ namespace SecuredSigningClientSdk.Models
         public bool Actived { get; set; }
         public bool Locked { get; set; }
         public string AccountStatus { get; set; }
+        public bool EnabledFaceToFaceSigning { get; set; }
+
     }
     public class UserReferenceResponse
     {
@@ -452,6 +503,61 @@ namespace SecuredSigningClientSdk.Models
         [ApiMember(Description = "Name for identify", DataType = SwaggerType.String, IsRequired = true)]
         public string Name { get; set; }
     }
+    [Schema("Attachment Response")]
+    public class AttachmentResponse : AttachmentFileInfo
+    {
+        [ApiMember(Description = "Attachment reference", DataType = SwaggerType.String, IsRequired = true)]
+        public string Reference { get; set; }
+    }
+    public class ShareUser : UserInfo
+    {
+        public bool IsDefault { get; set; }
+        public bool IsOwner { get; set; }
+    }
+    [Schema("Recipient")]
+    public class Recipient : UserInfo
+    {
+        public string RecipientReference { get; set; }
+        public bool IsDefault { get; set; }
+    }
+    [Schema("CompletionRecipient")]
+    public class CompletionRecipient : Recipient
+    {
+    }
+    [Schema("NotificationRecipient")]
+    public class NotificationRecipient : Recipient
+    {
+        public bool IsReviewer { get; set; }
+        public bool IsDefaultReviewer { get; set; }
+    }
+    [Schema("Recipients")]
+    public class RecipientsResponse
+    {
+        public List<NotificationRecipient> NotificationRecipients { get; set; }
+        public List<CompletionRecipient> CompletionRecipients { get; set; }
+
+    }
+    [Schema("ResultItem")]
+    public class ResultItem
+    {
+        public string Reference { get; set; }
+        public string Result { get; set; }
+        public int ResultCode { get; set; }
+    }
+    [Schema("ResultResponse")]
+    public class ResultResponse
+    {
+        public string Result { get; set; }
+        public List<ResultItem> Results { get; set; }
+    }
+    [Schema("DeleteRecipientsResultResponse")]
+    public class DeleteRecipientsResultResponse
+    {
+        public List<ResultItem> NotificationRecipientResults { get; set; }
+        public List<ResultItem> CompletionRecipienResults { get; set; }
+
+    }
+
     public enum FileType
     {
         pdf,
@@ -490,7 +596,9 @@ namespace SecuredSigningClientSdk.Models
     {
         Text = 0,
         MultiLineText = 1,
-        CheckBox = 3
+        CheckBox = 3,
+        DropDownList = 5,
+        DateInput = 6
     }
     public enum SignedStatus
     {
