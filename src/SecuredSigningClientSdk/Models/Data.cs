@@ -75,6 +75,28 @@ namespace SecuredSigningClientSdk.Models
     {
         [ApiMember(Description = "Role of signer in signing process", DataType = SwaggerType.String, IsRequired = false)]
         public string SignerType { get; set; }
+        [ApiMember(Description = "When the use of a mobile phone is required for authencation but is not available, enable this option to use known data about the signer they have to use to ID themselves", IsRequired = false, DataType = SwaggerType.Boolean, ExcludeInSchema = true)]
+        public bool UseIDData { get; set; }
+
+        [ApiMember(Description = "Data required for identifying signers with no access to mobile phones", IsRequired = false, DataType = "AuthInfo", ExcludeInSchema = true)]
+        public List<AuthInfo> IDData { get; set; }
+        [ApiMember(Description = "When the signer can be optional, tell API this signer is ignored or not.", IsRequired = false, DataType = SwaggerType.Boolean, ExcludeInSchema = true)]
+        public bool Optional { get; set; }
+        [ApiMember(Description = "If enable face to face signing for this signer or not", IsRequired = false, DataType = SwaggerType.Boolean, ExcludeInSchema = true)]
+        public bool EnabledFaceToFaceSigning { get; set; }
+    }
+    [Schema("AuthInfo")]
+    public class AuthInfo
+    {
+        [ApiMember(Description = "Description of the information required", DataType = SwaggerType.String, IsRequired = true)]
+        public string Label { get; set; }
+
+        [ApiMember(Description = "Value to be matched by invitee", DataType = SwaggerType.String, IsRequired = true)]
+        public string Value { get; set; }
+
+        [ApiMember(Description = "Data type", DataType = SwaggerType.String, IsRequired = true)]
+        [ApiAllowableValues("DataType", typeof(DataType))]
+        public string DataType { get; set; }
     }
     [Schema("FormDirectInvitee")]
     public class SmartTagInvitee : Invitee
@@ -535,7 +557,6 @@ namespace SecuredSigningClientSdk.Models
     {
         public List<NotificationRecipient> NotificationRecipients { get; set; }
         public List<CompletionRecipient> CompletionRecipients { get; set; }
-
     }
     [Schema("ResultItem")]
     public class ResultItem
@@ -557,7 +578,44 @@ namespace SecuredSigningClientSdk.Models
         public List<ResultItem> CompletionRecipienResults { get; set; }
 
     }
+    #region billing
+    [Schema("Invoice")]
+    public class InvoiceInfo
+    {
+        public string InvoiceReference { get; set; }
+        public string InvoiceNO { get; set; }
+        public string InvoiceDate { get; set; }
+        public string InvoiceTimezone { get; set; }
+        public string Description { get; set; }
+        public decimal Amount { get; set; }
+        public InvoiceType InvoiceType { get; set; }
+    }
+    [Schema("InvoiceDetail")]
+    public class InvoiceDetail
+    {
+        public string InvoiceNO { get; set; }
+        public string Description { get; set; }
+        public InvoiceType InvoiceType { get; set; }
 
+        public string StartDate { get; set; }
+        public string StartDateTimezone { get; set; }
+        public string EndDate { get; set; }
+        public string EndDateTimezone { get; set; }
+
+        public string InvoiceUser { get; set; }
+        public string InvoiceMembership { get; set; }
+        public string InvoicePartner { get; set; }
+
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
+        public int Devices { get; set; }
+        public int TotalDocuments { get; set; }
+        public int NumberOfSMS { get; set; }
+        public decimal IDCheckCost { get; set; }
+        public int NumberOfNegotiation { get; set; }
+        public List<KeyValuePair<string, int>> IDCheckDetails { get; set; }
+    }
+    #endregion
     public enum FileType
     {
         pdf,
@@ -616,5 +674,23 @@ namespace SecuredSigningClientSdk.Models
         Rejected, //11
         Declined, //12
         Reminder, //13
+    }
+    public enum InvoiceType
+    {
+        None = 0,
+        BuySMS = 1,
+        BuyIdCheck = 2,
+        Account = 3,
+        MembershipAccount = 4,
+        Membership = 5,
+        Partner = 6,
+        BuyDocumentNegotiation = 7,
+        Sender = 8
+    }
+    public enum DataType
+    {
+        text,
+        date,
+        email
     }
 }

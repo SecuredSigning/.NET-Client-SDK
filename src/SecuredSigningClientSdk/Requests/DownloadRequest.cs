@@ -32,4 +32,11 @@ namespace SecuredSigningClientSdk.Requests
         [ApiMember(Description = "Document reference", ParameterType = "path", DataType = SwaggerType.String, IsRequired = true)]
         public string AttachmentReference { get; set; }
     }
+    [Route("/Download/Invoice/{InvoiceReference}", Verbs = "GET", Summary = "Returns invoice file data", Notes = "Returns invoice file data")]
+    public class DownloadInvoiceRequest : IReturn<object>
+    {
+        [ApiMember(Description = "Invoice reference", ParameterType = "path", DataType = SwaggerType.String, IsRequired = true)]
+        public string InvoiceReference { get; set; }
+    }
+
 }

@@ -773,7 +773,7 @@ namespace SecuredSigningClientSdk
         /// Delete attachment
         /// </summary>
         /// <param name="attachmentRef"></param>
-        public void deleteAttachment(string attachmentRef)            
+        public void deleteAttachment(string attachmentRef)
         {
             _client.Delete(new DeleteAttachmentRequest { AttachmentReference = attachmentRef });
         }
@@ -797,10 +797,28 @@ namespace SecuredSigningClientSdk
         public List<RecipientsResponse> getRecipients()
         {
             return _client.Get(new GetRecipientsRequest());
-        }        
+        }
         #endregion
 
-        #region ShareUser
+        #region Billing
+        public List<InvoiceInfo> getInvoices()
+        {
+            return _client.Get(new InvoiceRequest());
+        }
+        public byte[] getInvoiceFile(string invoiceReference)
+        {
+            return _client.Get<byte[]>(new DownloadInvoiceRequest()
+            {
+                InvoiceReference = invoiceReference
+            });
+        }
+        public List<InvoiceDetail> getInvoiceDetails(string invoiceReference)
+        {
+            return _client.Get(new InvoiceDetailsRequest()
+            {
+                InvoiceReference = invoiceReference
+            });
+        }
         #endregion
     }
 }

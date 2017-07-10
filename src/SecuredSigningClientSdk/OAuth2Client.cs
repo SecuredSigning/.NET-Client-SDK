@@ -174,6 +174,17 @@ namespace SecuredSigningClientSdk
             /// </summary>
             [Description("Form Filler - Fill in online forms and sign.")]
             FormFiller = 32,
+            /// <summary>
+            /// Account Management - Manage account settings.
+            /// </summary>
+            [Description("Account Management - Manage account settings.")]
+            Account = 64,
+            /// <summary>
+            /// Billing Management - Manage account invoices and details.
+            /// </summary>
+            [Description("Billing Management - Manage account invoices and details.")]
+            Billing = 128,
+
         }
         /// <summary>
         /// Create authorize URL

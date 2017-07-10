@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>securedsigning.client</id>
-    <version>1.4.19-beta</version>
+    <version>1.4.19</version>
     <title>Secured Signing Rest Client SDK</title>
     <authors>Secured Signing</authors>
     <owners>Secured Signing Ltd</owners>
@@ -10,9 +10,9 @@
     <projectUrl>https://www.securedsigning.com/developer/api-documentation#sdk</projectUrl>
     <iconUrl>https://www.securedsigning.com/favicon.ico</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Secured Signing Rest Client SDK - Beta version(DSX)</description>
+    <description>Secured Signing Rest Client SDK</description>
     <releaseNotes>
-      Keep updated with API; Beta version, only compatible with DSX API.
+      Keep updated with API.
     </releaseNotes>
     <copyright>Secured Signing Limited Copyright 2017</copyright>
     <tags>Secured Signing</tags>
