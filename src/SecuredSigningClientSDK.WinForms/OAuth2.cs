@@ -27,8 +27,10 @@ namespace SecuredSigningClientSdk.WinForms
         {
             var browser = new System.Windows.Forms.WebBrowser();
             var version = browser.Version;
-            var keys = new string[] { @"HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION",
-                @"HKEY_CURRENT_USER\SOFTWARE\Wow6432Node\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION" };
+            var keys = new string[] {
+                @"HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION",
+                @"HKEY_CURRENT_USER\SOFTWARE\Wow6432Node\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION"
+            };
             var processName = Process.GetCurrentProcess().ProcessName + ".exe";
 
             var value = Registry.GetValue(keys[0], processName, null);

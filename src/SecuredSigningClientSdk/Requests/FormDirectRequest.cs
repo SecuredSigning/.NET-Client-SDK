@@ -30,6 +30,7 @@ namespace SecuredSigningClientSdk.Requests
         public string GMT { get; set; }
         [ApiMember(Description = "Invitation Email template reference", DataType = SwaggerType.String, IsRequired = false)]
         public string InvitationEmailTemplateReference { get; set; }
+        public List<DropDownListItem> ListItems { get; set; }
     }
 
     [Route("/FormDirect/GetSignerLink", Verbs = "POST", Summary = "Gets a signers link", Notes = "Returns a signer with the link required to access their form. Requires both a document reference and the signer (First name, Last name and email)")]
@@ -62,6 +63,12 @@ namespace SecuredSigningClientSdk.Requests
     {
         public List<SuperFundInfo> SuperFund { get; set; }
         public List<TFNInfo> TFN { get; set; }
+        public List<AccClaimsHistoryInfo> AccClaimsHistory { get; set; }
     }
-
+    [Route("/FormDirect/GetPredefinedFormFields/{FormReference}", Verbs = "GET", Summary = "Gets predefined fields for a single form", Notes = "Gets a single form. Returns a collection of signers required for signing the forms.")]
+    public class FormFieldsRequest : IReturn<FormFieldResponse>
+    {
+        [ApiMember(Description = "Form reference", ParameterType = "path", DataType = SwaggerType.String, IsRequired = true)]
+        public string FormReference { get; set; }
+    }
 }

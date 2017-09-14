@@ -29,6 +29,8 @@ namespace SecuredSigningClientSdk.Models
     {
         [ApiMember(Description = "Form name", DataType = SwaggerType.String, IsRequired = true)]
         public string Name { get; set; }
+        [ApiMember(Description = "Form type", DataType = SwaggerType.Int, IsRequired = true)]
+        public int FormType { get; set; }
 
         [ApiMember(Description = "Identifier", DataType = SwaggerType.String, IsRequired = true)]
         public string Reference { get; set; }
@@ -44,6 +46,9 @@ namespace SecuredSigningClientSdk.Models
 
         [ApiMember(Description = "Auto fill data for the form. It is an XML document converted to a string. Secured Signing creates the template for the data.", DataType = SwaggerType.String, IsRequired = false)]
         public string XMLData { get; set; }
+        [ApiMember(Description = "Auto fill employer data for the form. It can be returned by FormDirect/Employers api. Secured Signing creates the template for the data.", DataType = SwaggerType.String, IsRequired = false)]
+        public string EmployerReference { get; set; }
+
     }
     [Schema("UserInfo")]
     public class UserInfo
@@ -84,6 +89,8 @@ namespace SecuredSigningClientSdk.Models
         public bool Optional { get; set; }
         [ApiMember(Description = "If enable face to face signing for this signer or not", IsRequired = false, DataType = SwaggerType.Boolean, ExcludeInSchema = true)]
         public bool EnabledFaceToFaceSigning { get; set; }
+        [ApiMember(Description = "If enable video confirmation for this signer or not", IsRequired = false, DataType = SwaggerType.Boolean, ExcludeInSchema = true)]
+        public bool VideoConfirmation { get; set; }
     }
     [Schema("AuthInfo")]
     public class AuthInfo
@@ -445,7 +452,9 @@ namespace SecuredSigningClientSdk.Models
         public bool Locked { get; set; }
         public string AccountStatus { get; set; }
         public bool EnabledFaceToFaceSigning { get; set; }
-
+        public bool EnabledVideoConfirmation { get; set; }
+        public bool EnabledDocNegotiation { get; set; }
+        public bool EnabledReviewBeforeSigning { get; set; }
     }
     public class UserReferenceResponse
     {
@@ -489,11 +498,23 @@ namespace SecuredSigningClientSdk.Models
         [ApiMember(Description = "User's title", DataType = SwaggerType.String, IsRequired = false)]
         public string Title { get; set; }
     }
+    [Schema("FormField")]
+    public class FormField
+    {
+        public string FieldName { get; set; }
+        public string DisplayName { get; set; }
+        public HTMLElementType FieldType { get; set; }
+        public string FiledValue { get; set; }
+        public List<string> ValueOptions { get; set; }
+        public string ClientField { get; set; }
+        public int ClientMapping { get; set; }
+    }
     [Schema("Employers")]
     public class Employers
     {
         public List<SuperFundInfo> SuperFund { get; set; }
         public List<TFNInfo> TFN { get; set; }
+        public List<AccClaimsHistoryInfo> AccClaimsHistory { get; set; }
     }
     [Schema("SuperFundInfo")]
     public class SuperFundInfo
@@ -525,6 +546,20 @@ namespace SecuredSigningClientSdk.Models
         [ApiMember(Description = "Name for identify", DataType = SwaggerType.String, IsRequired = true)]
         public string Name { get; set; }
     }
+    [Schema("AccClaimsHistoryInfo")]
+    public class AccClaimsHistoryInfo
+    {
+        public string OrganisationName { get; set; }
+        public string ContactPersonName { get; set; }
+        public string ContactPersonPhone { get; set; }
+        public string ContactPersonEmail { get; set; }
+        [ApiMember(Description = "EmployerReference", DataType = SwaggerType.String, IsRequired = true)]
+        public string Reference { get; set; }
+        [ApiMember(Description = "Name for identify", DataType = SwaggerType.String, IsRequired = true)]
+        public string Name { get; set; }
+        [ApiMember(Description = "If it's the default employer", DataType = SwaggerType.Boolean, IsRequired = false)]
+        public bool IsDefault { get; set; }
+    }
     [Schema("Attachment Response")]
     public class AttachmentResponse : AttachmentFileInfo
     {
@@ -535,6 +570,12 @@ namespace SecuredSigningClientSdk.Models
     {
         public bool IsDefault { get; set; }
         public bool IsOwner { get; set; }
+    }
+    public class FormFieldResponse
+    {
+        public List<FormField> Fields { get; set; }
+        [ApiMember(Description = "Date of last update", DataType = SwaggerType.Date, IsRequired = false)]
+        public string LastUpdateTime { get; set; }
     }
     [Schema("Recipient")]
     public class Recipient : UserInfo

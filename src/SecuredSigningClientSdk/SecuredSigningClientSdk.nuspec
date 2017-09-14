@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>securedsigning.client</id>
-    <version>1.4.19</version>
+    <version>1.4.20</version>
     <title>Secured Signing Rest Client SDK</title>
     <authors>Secured Signing</authors>
     <owners>Secured Signing Ltd</owners>

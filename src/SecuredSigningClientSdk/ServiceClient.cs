@@ -77,6 +77,7 @@ namespace SecuredSigningClientSdk
                 httpReq.Referer = accessUrl;
             };
         }
+
         public AuthHeaders GenerateAuthHeaders()
         {
             var timestamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds.ToString();
@@ -366,7 +367,16 @@ namespace SecuredSigningClientSdk
 
             return result;
         }
-
+        /// <summary>
+        /// Returns predefined form fields for a form
+        /// </summary>
+        /// <param name="formReference"></param>
+        /// <returns></returns>
+        public FormFieldResponse getPredefinedFormFields(string formReference)
+        {
+            var result = _client.Get<FormFieldResponse>(new FormFieldsRequest { FormReference = formReference });
+            return result;
+        }
         /// <summary>
         /// Sends forms
         /// </summary>
@@ -375,15 +385,29 @@ namespace SecuredSigningClientSdk
         /// <returns></returns>
         public List<Document> sendForms(List<FormDirect> formsToSend, DateTime dueDate)
         {
+            return sendForms(formsToSend, dueDate, string.Empty, null);
+        }
+        /// <summary>
+        /// Send forms with more options
+        /// </summary>
+        /// <param name="formsToSend"></param>
+        /// <param name="dueDate"></param>
+        /// <param name="invitationEmailTemplate"></param>
+        /// <param name="dropDownListItems"></param>
+        /// <returns></returns>
+        public List<Document> sendForms(List<FormDirect> formsToSend, DateTime dueDate,string invitationEmailTemplate,List<DropDownListItem> dropDownListItems)
+        {
             var result = _client.Post(new SendFormDirectRequest
             {
                 Forms = formsToSend,
-                DueDate = dueDate.ToUniversalTime().ToString("o")
+                DueDate = dueDate.ToUniversalTime().ToString("o"),
+                GMT = this.GMT,
+                InvitationEmailTemplateReference = invitationEmailTemplate,
+                ListItems = dropDownListItems == null ? new List<DropDownListItem>() : dropDownListItems
             });
 
             return result;
         }
-
         /// <summary>
         /// Returns document signer link
         /// </summary>
@@ -431,7 +455,7 @@ namespace SecuredSigningClientSdk
             return result;
         }
         /// <summary>
-        /// Save employer details for public forms
+        /// Save employer details for AU public forms
         /// </summary>
         /// <param name="superFundEmployers"></param>
         /// <param name="tfnEmployers"></param>
@@ -444,7 +468,18 @@ namespace SecuredSigningClientSdk
                 TFN = tfnEmployers == null ? new List<TFNInfo>() : tfnEmployers
             });
         }
-
+        /// <summary>
+        /// Save employer details for NZ public forms
+        /// </summary>
+        /// <param name="accEmployers"></param>
+        /// <returns></returns>
+        public Employers saveEmployers(List<AccClaimsHistoryInfo> accEmployers)
+        {
+            return _client.Post(new UpdateEmployerRequest
+            {
+                AccClaimsHistory = accEmployers == null ? new List<AccClaimsHistoryInfo>() : accEmployers
+            });
+        }
         #endregion
 
         #region Smart Tag
@@ -657,6 +692,16 @@ namespace SecuredSigningClientSdk
         public List<EmailTemplate> getInvitationEmailTemplates()
         {
             var result = _client.Get<List<EmailTemplate>>(new EmailTemplateRequest());
+
+            return result;
+        }
+        /// <summary>
+        /// Gets completion email templates for the account
+        /// </summary>
+        /// <returns></returns>
+        public List<EmailTemplate> getCompletionEmailTemplates()
+        {
+            var result = _client.Get<List<EmailTemplate>>(new CompletionEmailTemplateRequest());
 
             return result;
         }
