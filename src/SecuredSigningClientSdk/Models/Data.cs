@@ -43,6 +43,11 @@ namespace SecuredSigningClientSdk.Models
 
         [ApiMember(Description = "After signing a form, the page will redirect to the specified url", DataType = SwaggerType.String, IsRequired = false)]
         public string ReturnUrl { get; set; }
+        /// <summary>
+        /// *BETA, Only available in DSX
+        /// </summary>
+        [ApiMember(Description = "Notify Url.", DataType = SwaggerType.String, IsRequired = false)]
+        public string NotifyUrl { get; set; }
 
         [ApiMember(Description = "Auto fill data for the form. It is an XML document converted to a string. Secured Signing creates the template for the data.", DataType = SwaggerType.String, IsRequired = false)]
         public string XMLData { get; set; }
