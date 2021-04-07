@@ -23,8 +23,25 @@ namespace SecuredSigningClientSdk
         public string APISecret { get; private set; }
         public string ServiceBaseUrl { get; private set; }
         public string APIVersion { get; private set; }
+        public TimeSpan? Timeout
+        {
+            get
+            {
+                return this.timeout;
+            }
+            set
+            {
+                this.timeout = value;
+                if (_client != null)
+                {
+                    _client.Timeout = this.timeout;
+                    _client.ReadWriteTimeout = this.timeout;
+                }
+            }
+        }
         private string accessToken;
         private string sender;
+        private TimeSpan? timeout;
         public string Sender
         {
             set { sender = value; }
@@ -76,6 +93,7 @@ namespace SecuredSigningClientSdk
                     httpReq.Headers.Add("X-CUSTOM-SENDER", sender);
                 httpReq.Referer = accessUrl;
             };
+            this.timeout = _client.Timeout;
         }
 
         public AuthHeaders GenerateAuthHeaders()
@@ -137,11 +155,37 @@ namespace SecuredSigningClientSdk
         /// <param name="documentReference"></param>
         /// <param name="withDocumentLog"></param>
         /// <returns></returns>
+        [Obsolete("use getDocumentStatus instead.")]
         public Document getStatus(string documentReference, bool withDocumentLog = false)
+        {
+            return getDocumentStatus(documentReference, withDocumentLog);
+        }
+        /// <summary>
+        /// Returns document with its status
+        /// </summary>
+        /// <param name="documentReference"></param>
+        /// <param name="withDocumentLog"></param>
+        /// <returns></returns>
+        public Document getDocumentStatus(string documentReference, bool withDocumentLog = false)
         {
             var result = _client.Get(new StatusRequest
             {
                 DocumentReference = documentReference,
+                DocumentLog = withDocumentLog
+            });
+            return result;
+        }
+        /// <summary>
+        /// Returns package with its status
+        /// </summary>
+        /// <param name="packageReference"></param>
+        /// <param name="withDocumentLog"></param>
+        /// <returns></returns>
+        public PackageResponse getPackageStatus(string packageReference, bool withDocumentLog = false)
+        {
+            var result = _client.Get(new PackageStatusRequest
+            {
+                PackageReference = packageReference,
                 DocumentLog = withDocumentLog
             });
             return result;
@@ -175,7 +219,22 @@ namespace SecuredSigningClientSdk
             });
             return result;
         }
-
+        /// <summary>
+        /// Extend the package due date
+        /// </summary>
+        /// <param name="packageReference"></param>
+        /// <param name="dueDate"></param>
+        /// <returns></returns>
+        public PackageResponse extendPackage(string packageReference, DateTime dueDate)
+        {
+            var result = _client.Post(new PackageExtendRequest()
+            {
+                PackageReference = packageReference,
+                DueDate = dueDate.ToUniversalTime().ToString("o"),
+                GMT = GMT
+            });
+            return result;
+        }
         /// <summary>
         /// Update signer profile
         /// </summary>
@@ -246,13 +305,46 @@ namespace SecuredSigningClientSdk
             return result.Reference;
         }
         /// <summary>
+        /// Uploads a document from stream
+        /// </summary>
+        /// <param name="documentName"></param>
+        /// <param name="document"></param>
+        /// <param name="clientReference"></param>
+        /// <returns></returns>
+        public string uploadDocumentWithFields(string documentName, System.IO.Stream document, string clientReference = null)
+        {
+            var result = _client.PostFileWithRequest<Document>(document, documentName, new Uploader2Request()
+            {
+                ClientReference = clientReference
+            });
+            return result.Reference;
+        }
+        /// <summary>
+        /// Combine uploaded documents to one
+        /// </summary>
+        /// <param name="documentReferences"></param>
+        /// <param name="combinedDocumentName"></param>
+        /// <param name="clientReference"></param>
+        /// <returns></returns>
+        public string combine(string[] documentReferences, string combinedDocumentName, string clientReference = null)
+        {
+            var result = _client.Post<Document>(new CombineRequest
+            {
+                DocumentReferences = documentReferences,
+                CombinedDocumentName = combinedDocumentName,
+                ClientReference = clientReference
+            });
+            return result.Reference;
+
+        }
+        /// <summary>
         /// Returns document url for downloading
         /// </summary>
         /// <param name="documentReference"></param>
         /// <returns></returns>
         public string getDocumentUrl(string documentReference)
         {
-            var result = _client.Post<DocumentResponse>(new DocumentRequest { DocumentReference = documentReference });
+            var result = _client.Get<DocumentResponse>(new DocumentRequest { DocumentReference = documentReference });
 
             return result.Url;
         }
@@ -264,7 +356,7 @@ namespace SecuredSigningClientSdk
         /// <returns></returns>
         public DocumentValidationResponse validateDocument(string documentReference)
         {
-            var result = _client.Post<DocumentValidationResponse>(new DocumentValidationRequest { DocumentReference = documentReference });
+            var result = _client.Get<DocumentValidationResponse>(new DocumentValidationRequest { DocumentReference = documentReference });
             return result;
         }
 
@@ -304,6 +396,16 @@ namespace SecuredSigningClientSdk
             return result;
         }
         /// <summary>
+        /// download document file
+        /// </summary>
+        /// <param name="documentReference"></param>
+        /// <returns></returns>
+        public byte[] getUploadedFile(string documentReference)
+        {
+            var result = _client.Get<byte[]>(new DownloadUploadedFileRequest() { DocumentReference = documentReference });
+            return result;
+        }
+        /// <summary>
         /// Send reminder email to invitee
         /// </summary>
         /// <param name="docRef"></param>
@@ -330,7 +432,7 @@ namespace SecuredSigningClientSdk
             return result;
         }
         /// <summary>
-        /// Delete the document
+        /// Delete the document,if the document is in a package, delete whole package as well.
         /// </summary>
         /// <param name="documentReference"></param>
         /// <returns></returns>
@@ -339,6 +441,33 @@ namespace SecuredSigningClientSdk
             var result = _client.Post(new DeleteRequest
             {
                 DocumentReference = documentReference
+            });
+            return result;
+        }
+        /// <summary>
+        /// Delete the document,if the document is in a package, delete whole package as well.
+        /// </summary>
+        /// <param name="packageReference"></param>
+        /// <returns></returns>
+        public void deletePackage(string packageReference)
+        {
+            _client.Post(new PackageDeleteRequest
+            {
+                PackageReference = packageReference
+            });
+            return;
+        }
+        /// <summary>
+        /// Remove the document, if the document is in a package, only remove it from package.
+        /// </summary>
+        /// <param name="documentReference"></param>
+        /// <returns></returns>
+        public Document RemoveDocument(string documentReference)
+        {
+            var result = _client.Post(new DeleteRequest
+            {
+                DocumentReference = documentReference,
+                RemoveFromPackage = true
             });
             return result;
         }
@@ -395,9 +524,30 @@ namespace SecuredSigningClientSdk
         /// <param name="invitationEmailTemplate"></param>
         /// <param name="dropDownListItems"></param>
         /// <returns></returns>
-        public List<Document> sendForms(List<FormDirect> formsToSend, DateTime dueDate,string invitationEmailTemplate,List<DropDownListItem> dropDownListItems)
+        public List<Document> sendForms(List<FormDirect> formsToSend, DateTime dueDate, string invitationEmailTemplate, List<DropDownListItem> dropDownListItems)
         {
             var result = _client.Post(new SendFormDirectRequest
+            {
+                Forms = formsToSend,
+                DueDate = dueDate.ToUniversalTime().ToString("o"),
+                GMT = this.GMT,
+                InvitationEmailTemplateReference = invitationEmailTemplate,
+                ListItems = dropDownListItems == null ? new List<DropDownListItem>() : dropDownListItems
+            });
+
+            return result;
+        }
+        /// <summary>
+        /// Send forms with more options
+        /// </summary>
+        /// <param name="formsToSend"></param>
+        /// <param name="dueDate"></param>
+        /// <param name="invitationEmailTemplate"></param>
+        /// <param name="dropDownListItems"></param>
+        /// <returns></returns>
+        public PackageResponse sendForms2(List<FormDirect> formsToSend, DateTime dueDate, string invitationEmailTemplate, List<DropDownListItem> dropDownListItems)
+        {
+            var result = _client.Post(new SendFormDirectRequest2
             {
                 Forms = formsToSend,
                 DueDate = dueDate.ToUniversalTime().ToString("o"),
@@ -501,7 +651,24 @@ namespace SecuredSigningClientSdk
 
             return result;
         }
+        /// <summary>
+        /// Sends smart tag documents - simple
+        /// <see cref="http://www.securedsigning.com/documentation/developer/smarttag-api" />
+        /// </summary>
+        /// <param name="documentReferences"></param>
+        /// <param name="dueDate"></param>
+        /// <returns></returns>
+        public PackageResponse sendSmartTagDocument2(List<string> documentReferences, DateTime dueDate)
+        {
+            var result = _client.Post(new SmartTagRequest2
+            {
+                DocumentReferences = documentReferences,
+                DueDate = dueDate.ToUniversalTime().ToString("o"),
+                GMT = this.GMT
+            });
 
+            return result;
+        }
         /// <summary>
         /// <see cref="http://www.securedsigning.com/documentation/developer/smarttag-api#adv1"/>
         /// </summary>
@@ -613,6 +780,7 @@ namespace SecuredSigningClientSdk
 
             return result;
         }
+
         /// <summary>
         /// Sends smart tag documents - with custom options
         /// <see cref="http://www.securedsigning.com/documentation/developer/smarttag-api"/>
@@ -620,7 +788,7 @@ namespace SecuredSigningClientSdk
         /// <param name="documentReferences"></param>
         /// <param name="dueDate"></param>
         /// <param name="options"></param>
-        /// <returns></returns>
+        /// <returns></returns>        
         public List<Document> sendSmartTagDocument(List<string> documentReferences, DateTime dueDate, SmartTagOptions options)
         {
             var result = _client.Post(new SmartTagRequest
@@ -633,11 +801,46 @@ namespace SecuredSigningClientSdk
                 Embedded = options.Embedded,
                 ListItems = options.ListItems,
                 NoPackage = options.NoPackage,
+                SingleDocumentAsPackage = options.SingleDocumentAsPackage,
                 ReturnUrl = options.ReturnUrl,
                 Signers = options.Signers,
                 NotifyUrl = options.NotifyUrl,
                 PackageName = options.PackageName,
-                ShareUsers = options.ShareUsers
+                ShareUsers = options.ShareUsers,
+                NoCompletionEmailTemplate = options.NoCompletionEmailTemplate,
+                NoInvitationEmailTemplate = options.NoInvitationEmailTemplate
+            });
+
+            return result;
+        }
+        /// <summary>
+        /// Sends smart tag documents - with custom options
+        /// <see cref="http://www.securedsigning.com/documentation/developer/smarttag-api"/>
+        /// </summary>
+        /// <param name="documentReferences"></param>
+        /// <param name="dueDate"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public PackageResponse sendSmartTagDocument2(List<string> documentReferences, DateTime dueDate, SmartTagOptions options)
+        {
+            var result = _client.Post(new SmartTagRequest2
+            {
+                DocumentReferences = documentReferences,
+                DueDate = dueDate.ToUniversalTime().ToString("o"),
+                GMT = this.GMT,
+                InvitationEmailTemplateReference = options.InvitationEmailTemplateReference,
+                CompletionEmailTemplateReference = options.CompletionEmailTemplateReference,
+                Embedded = options.Embedded,
+                ListItems = options.ListItems,
+                NoPackage = options.NoPackage,
+                SingleDocumentAsPackage = options.SingleDocumentAsPackage,
+                ReturnUrl = options.ReturnUrl,
+                Signers = options.Signers,
+                NotifyUrl = options.NotifyUrl,
+                PackageName = options.PackageName,
+                ShareUsers = options.ShareUsers,
+                NoCompletionEmailTemplate = options.NoCompletionEmailTemplate,
+                NoInvitationEmailTemplate = options.NoInvitationEmailTemplate
             });
 
             return result;
@@ -736,7 +939,7 @@ namespace SecuredSigningClientSdk
             var result = _client.Get(new FormFillerFieldRequest { TemplateReference = templateRef });
             return result;
         }
-        public DocumentResponse sendFormFillerTemplates(List<FormFillerTemplate> templates, DateTime dueDate, bool embedded = false, Uri returnUrl = null)
+        public DocumentResponse sendFormFillerTemplates(List<FormFillerTemplate> templates, DateTime dueDate, bool embedded = false, Uri returnUrl = null, Uri notifyUrl = null)
         {
             var result = _client.Post(new SendFormFillerRequest
             {
@@ -744,10 +947,12 @@ namespace SecuredSigningClientSdk
                 DueDate = dueDate.ToUniversalTime().ToString("o"),
                 GMT = this.GMT,
                 Embedded = embedded,
-                ReturnUrl = returnUrl?.ToString()
+                ReturnUrl = returnUrl?.ToString(),
+                NotifyUrl = notifyUrl?.ToString()
             });
             return result;
         }
+
         #endregion
 
         #region Attachment

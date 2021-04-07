@@ -24,7 +24,7 @@ namespace SecuredSigningClientSdk.Requests
         public string TemplateReference { get; set; }
     }
 
-    [Route("/FormFiller/Send", Verbs = "POST", Summary = "Send the template to start a We Sign process", Notes = "Send a template for filling and signing")]
+    [Route("/FormFiller/Send", Verbs = "POST", Summary = "Send the template to start a Form Filler process", Notes = "Send a template for filling and signing")]
     public class SendFormFillerRequest : IReturn<DocumentResponse>
     {
         [ApiMember(Name = "Forms", Description = "Collection of forms to be sent, if an account reference is not supplied for the forms, the forms will be associated with your api account.",
@@ -39,6 +39,9 @@ namespace SecuredSigningClientSdk.Requests
         public bool Embedded { get; set; }
         [ApiMember(Description = "Return Url", DataType = SwaggerType.String, IsRequired = false)]
         public string ReturnUrl { get; set; }
+        [ApiMember(Description = "Notify Url.", DataType = SwaggerType.String, IsRequired = false)]
+        public string NotifyUrl { get; set; }
+
 
     }
 }

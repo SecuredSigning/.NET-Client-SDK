@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5F5A9547-6828-4639-88F7-E70EE81A884A}</ProjectGuid>
+    <ProjectGuid>{ED494C18-20A3-48CD-A32E-075875A482CD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SecuredSigningClientSdk</RootNamespace>

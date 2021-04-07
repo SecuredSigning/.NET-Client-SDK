@@ -40,7 +40,7 @@
       <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SecuredSigningClientSdk, Version=1.4.19.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\securedsigning.client.1.4.19\lib\net45\SecuredSigningClientSdk.dll</HintPath>
+      <HintPath>..\..\packages\securedsigning.client.1.4.21-alpha1\lib\net45\SecuredSigningClientSdk.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Client, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ServiceStack.Client.Signed.4.5.14\lib\net45\ServiceStack.Client.dll</HintPath>
@@ -70,7 +70,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="SecuredSigningClientSdk.Partner.nuspec" />
+    <None Include="SecuredSigningClientSdk.Partner.nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

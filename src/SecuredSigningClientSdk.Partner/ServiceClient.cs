@@ -22,17 +22,35 @@ namespace SecuredSigningClientSdk.Partner
         }
         #region Membership (Type A)
         /// <summary>
-        /// Create a new type A company account
+        /// Create a new type A company account,
         /// </summary>
         /// <param name="details"></param>
         /// <param name="termsOfUse"></param>
         /// <returns></returns>
+        [Obsolete("Use the method with options instead")]
         public MembershipResponse createMembership(Company details,bool termsOfUse)
         {
             return _client.Post(new MembershipRequest
             {
                 Company=details,
                 TermsOfUse=termsOfUse
+            });
+        }
+        /// <summary>
+        /// Create a new type A company account
+        /// </summary>
+        /// <param name="details"></param>
+        /// <param name="termsOfUse"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public MembershipResponse createMembership(Company details, bool termsOfUse,MembershipOptions options)
+        {
+            return _client.Post(new MembershipRequest
+            {
+                Company = details,
+                TermsOfUse = termsOfUse,
+                UserAuthenticationOptions = options?.UserAuthenticationOptions,
+                ClientReference=options?.ClientReference
             });
         }
         /// <summary>
@@ -85,11 +103,13 @@ namespace SecuredSigningClientSdk.Partner
         /// remove a user from type A company account
         /// </summary>
         /// <param name="userReference">the UserID in get account/info response</param>
-        public void removeUserFromMembership(string userReference)
+        public void removeUserFromMembership(string userReference,string transferTo=null,bool forceRemove=false)
         {
             _client.Post(new RemoveMembershipUserRequest
             {
-                UserID = userReference
+                UserID = userReference,
+                TransferTo=transferTo,
+                ForceRemove=forceRemove
             });
         }
         /// <summary>

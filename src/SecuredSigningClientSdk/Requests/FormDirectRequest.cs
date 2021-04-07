@@ -18,7 +18,14 @@ namespace SecuredSigningClientSdk.Requests
     }
 
     [Route("/FormDirect/SendForms", Verbs = "POST", Summary = "Starts Form Direct Process", Notes = "Send a package of forms for filling and signing")]
-    public class SendFormDirectRequest : IReturn<List<Document>>
+    public class SendFormDirectRequest : SendFormDirectRequestBase, IReturn<List<Document>>
+    {
+    }
+    [Route("/FormDirect/SendForms2", Verbs = "POST", Summary = "Starts Form Direct Process", Notes = "Send a package of forms for filling and signing")]
+    public class SendFormDirectRequest2 : SendFormDirectRequestBase, IReturn<PackageResponse>
+    {
+    }
+    public class SendFormDirectRequestBase
     {
         [ApiMember(Name = "Forms", Description = "Collection of forms to be sent, if an account reference is not supplied for the forms, the forms will be associated with your api account.",
         DataType = "FormDirect", AllowMultiple = true, IsRequired = true)]
