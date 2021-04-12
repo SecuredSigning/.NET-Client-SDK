@@ -31,6 +31,12 @@ namespace SecuredSigningClientSdk.Partner.Models
         public string BaseDocumentPrice { get; set; }
         public string BaseUserPrice { get; set; }
         public string PlanExpiryDate { get; set; }
+        public string BillingBalance { get; set; }
+        public string BillingDate { get; set; }
+        public string BillingStatus { get; set; }
+        public int TotalAccountsUsed { get; set; }
+        public int TotalDocumentsUsed { get; set; }
+        public decimal BillingBalanceAmount { get; set; }
     }
     public class Company
     {
@@ -72,5 +78,19 @@ namespace SecuredSigningClientSdk.Partner.Models
         public int PlanUsers { get; set; }
         public int PlanDocuments { get; set; }
     }
-
+    public class MembershipOptions
+    {
+        public MembershipUserAuthenticationOptions UserAuthenticationOptions { get; set; }
+        public string ClientReference { get; set; }
+    }
+    public class MembershipUserAuthenticationOptions
+    {
+        public UserAuthenticationType? UserAuthenticationType { get; set; } = Models.UserAuthenticationType.AccountPassword;
+        public string Options { get; set; }
+    }
+    public enum UserAuthenticationType
+    {
+        AccountPassword = 1,
+        AAD = 16,
+    }
 }

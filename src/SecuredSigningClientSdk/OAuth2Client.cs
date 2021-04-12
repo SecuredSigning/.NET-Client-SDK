@@ -52,11 +52,11 @@ namespace SecuredSigningClientSdk
             this.ConsumerSecret = apiSecret;
             this.CallbackUrl = accessUrl;
         }
-        internal class OAuth2TokenRequest
+        public class OAuth2TokenRequest
         {
             public const string GrantTypeAuthorizationCode = "authorization_code";
             public const string GrantTypeRefreshToken = "refresh_token";
-            internal const string GrantTypeClientCredentials = "client_credentials";
+            public const string GrantTypeClientCredentials = "client_credentials";
 
             public OAuth2TokenRequest(string consumerKey, string consumerSecret, string callbackUrl, string grantType)
             {
@@ -73,7 +73,7 @@ namespace SecuredSigningClientSdk
             public string Refresh_Token { get; set; }
             public string Client_Credential_Type { get; set; }
             public string Scope { get; set; }
-            internal Dictionary<string, string> Client_Credential_Extra { get; } = new Dictionary<string, string>();
+            public Dictionary<string, string> Client_Credential_Extra { get; } = new Dictionary<string, string>();
             public override string ToString()
             {
                 var type = this.GetType();
@@ -83,9 +83,9 @@ namespace SecuredSigningClientSdk
                 {
                     if (p.PropertyType == typeof(string))
                     {
-                        if (p.GetValue(this,null) == null)
+                        if (p.GetValue(this, null) == null)
                             continue;
-                        result.Add(string.Format("{0}={1}", p.Name.ToLower(), p.GetValue(this,null)));
+                        result.Add(string.Format("{0}={1}", p.Name.ToLower(), p.GetValue(this, null)));
                         continue;
                     }
                 }
@@ -106,7 +106,7 @@ namespace SecuredSigningClientSdk
             /// <summary>
             /// Access Token
             /// </summary>
-            [Newtonsoft.Json.JsonProperty(PropertyName = "access_token",NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+            [Newtonsoft.Json.JsonProperty(PropertyName = "access_token", NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
             public string Access_Token { get; set; }
             /// <summary>
             /// Refresh Token
@@ -147,7 +147,7 @@ namespace SecuredSigningClientSdk
             /// <summary>
             /// Basic Profile - Fetch information about your Secured Signing account, such as your price plan, account status etc.
             /// </summary>
-            [Description("Basic Profile - Fetch information about your Secured Signing account, such as your price plan, account status etc.")]            
+            [Description("Basic Profile - Fetch information about your Secured Signing account, such as your price plan, account status etc.")]
             Basic = 1,
             /// <summary>
             /// I Sign - Sign documents as a sole Signatory.
@@ -205,7 +205,7 @@ namespace SecuredSigningClientSdk
         /// <param name="scopes"></param>
         /// <returns>Authorize URL</returns>
         public string CreateAuthorizeRequest(string state, OAuth2Scope scopes)
-        {           
+        {
             return CreateAuthorizeRequest(state, scopes.ToStringArray());
         }
         /// <summary>
@@ -221,7 +221,7 @@ namespace SecuredSigningClientSdk
             {
                 Code = code.Trim()
             }.ToString();
-            var result = client.UploadString(TokenEndpoint, request);            
+            var result = client.UploadString(TokenEndpoint, request);
             return Newtonsoft.Json.JsonConvert.DeserializeObject<OAuth2TokenResponse>(result);
         }
         /// <summary>
@@ -234,8 +234,8 @@ namespace SecuredSigningClientSdk
             WebClient client = new WebClient();
             client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
             var result = client.UploadString(TokenEndpoint, new OAuth2TokenRequest(ConsumerKey, ConsumerSecret, CallbackUrl, OAuth2TokenRequest.GrantTypeRefreshToken) { Refresh_Token = refreshToken }.ToString());
-            var response= Newtonsoft.Json.JsonConvert.DeserializeObject<OAuth2TokenResponse>(result);
-            if(response!=null&&string.IsNullOrEmpty(response?.Refresh_Token))
+            var response = Newtonsoft.Json.JsonConvert.DeserializeObject<OAuth2TokenResponse>(result);
+            if (response != null && string.IsNullOrEmpty(response?.Refresh_Token))
             {
                 response.Refresh_Token = refreshToken;
             }
@@ -259,7 +259,7 @@ namespace SecuredSigningClientSdk
         /// <param name="callbackUrl"></param>
         /// <param name="state"></param>
         /// <returns>authorization code; if empty or null, means user refused authorization.</returns>
-        public static string HandleAuthorizeCallback(Uri callbackUrl,out string state)
+        public static string HandleAuthorizeCallback(Uri callbackUrl, out string state)
         {
             var queries = callbackUrl.Query.TrimStart('?').Split('&').Select(t => t.Split('='))
                 .ToDictionary(t => t[0], t => t[1]);
@@ -283,21 +283,52 @@ namespace SecuredSigningClientSdk
         /// <param name="extraData"></param>
         /// <param name="scopes"></param>
         /// <returns></returns>
-        public OAuth2TokenResponse GetClientAccessToken(string clientCredentialType, Dictionary<string,string> extraData, params string[] scopes)
+        public OAuth2TokenResponse GetClientAccessToken(string clientCredentialType, Dictionary<string, string> extraData, params string[] scopes)
         {
-            WebClient client = new WebClient();
-            client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-            var request = new OAuth2TokenRequest(ConsumerKey, ConsumerSecret, CallbackUrl, OAuth2TokenRequest.GrantTypeClientCredentials)
+            HttpWebRequest req = WebRequest.CreateHttp(TokenEndpoint);
+            req.ContentType = "application/x-www-form-urlencoded";
+            req.Method = "POST";
+            req.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
+            using (var rs = req.GetRequestStream())
             {
-                Client_Credential_Type = clientCredentialType,
-                Scope = string.Join(" ", scopes)
-            };
-            foreach (var key in extraData.Keys)
-            {
-                request.Client_Credential_Extra.Add(key, extraData[key]);
+                var request = new OAuth2TokenRequest(ConsumerKey, ConsumerSecret, CallbackUrl, OAuth2TokenRequest.GrantTypeClientCredentials)
+                {
+                    Client_Credential_Type = clientCredentialType,
+                    Scope = string.Join(" ", scopes)
+                };
+                foreach (var key in extraData.Keys)
+                {
+                    request.Client_Credential_Extra.Add(key, extraData[key]);
+                }
+                var bytes = System.Text.UTF8Encoding.UTF8.GetBytes(request.ToString());
+                rs.Write(bytes, 0, bytes.Length);
             }
-            var result = client.UploadString(TokenEndpoint, request.ToString());
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<OAuth2TokenResponse>(result);
+            var resp = req.GetResponse();
+            using (var respStream = new System.IO.StreamReader(resp.GetResponseStream()))
+            {
+                var result = respStream.ReadToEnd();
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<OAuth2TokenResponse>(result);
+            }
+
+            using (WebClient client = new WebClient())
+            {
+                client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                client.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore)
+                {
+
+                };
+                var request = new OAuth2TokenRequest(ConsumerKey, ConsumerSecret, CallbackUrl, OAuth2TokenRequest.GrantTypeClientCredentials)
+                {
+                    Client_Credential_Type = clientCredentialType,
+                    Scope = string.Join(" ", scopes)
+                };
+                foreach (var key in extraData.Keys)
+                {
+                    request.Client_Credential_Extra.Add(key, extraData[key]);
+                }
+                var result = client.UploadString(TokenEndpoint, request.ToString());
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<OAuth2TokenResponse>(result);
+            }
         }
     }
 }

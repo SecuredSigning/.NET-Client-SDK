@@ -6,7 +6,16 @@ using System.Collections.Generic;
 namespace SecuredSigningClientSdk.Requests
 {
     [Route("/SmartTag/Send/", Verbs = "POST", Summary = "Send smart tag document", Notes = "Send a smart tag document.")]
-    public class SmartTagRequest : IReturn<List<Document>>
+    public class SmartTagRequest : SmartTagRequestBase, IReturn<List<Document>>
+    {
+
+    }
+    [Route("/SmartTag/Send2/", Verbs = "POST", Summary = "Send smart tag document", Notes = "Send a smart tag document.")]
+    public class SmartTagRequest2 : SmartTagRequestBase, IReturn<PackageResponse>
+    {
+
+    }
+    public class SmartTagRequestBase
     {
         [ApiMember(Description = "Mail merge document reference", AllowMultiple = true, DataType = SwaggerType.String, IsRequired = false)]
         public List<string> DocumentReferences { get; set; }
@@ -42,13 +51,18 @@ namespace SecuredSigningClientSdk.Requests
         [ApiMember(Description = "Whether all documents are in a package (by default) or sent separately", DataType = SwaggerType.Boolean, IsRequired = false)]
         public bool NoPackage { get; set; }
 
+        [ApiMember(Description = "Create a package even if only one document", DataType = SwaggerType.Boolean, IsRequired = false)]
+        public bool SingleDocumentAsPackage { get; set; }
         [ApiMember(Description = "Notify Url.", DataType = SwaggerType.String, IsRequired = false)]
         public string NotifyUrl { get; set; }
         [ApiMember(Description = "The name of the package; if empty and only one document in package, the name will be document name.", DataType = SwaggerType.String, IsRequired = false)]
         public string PackageName { get; set; }
         [ApiMember(Description = "Share user details, if no share user specified in document", DataType = SwaggerType.Array, IsRequired = false)]
         public List<ShareUser> ShareUsers { get; set; }
-
+        [ApiMember(Description = "if true, use Secured Signing default template instead, ignore any template settings", DataType = SwaggerType.Boolean, IsRequired = false)]
+        public bool NoInvitationEmailTemplate { get; set; }
+        [ApiMember(Description = "if true, use Secured Signing default template instead, ignore any template settings", DataType = SwaggerType.Boolean, IsRequired = false, ExcludeInSchema = true)]
+        public bool NoCompletionEmailTemplate { get; set; }
     }
 
     [Route("/SmartTag/MailMerge/", Verbs = "POST", Summary = "Merge mail merge list with the document", Notes = "Send a smart tag document.")]

@@ -44,10 +44,15 @@ namespace SecuredSigningClientSdk.Models
         [ApiMember(Description = "After signing a form, the page will redirect to the specified url", DataType = SwaggerType.String, IsRequired = false)]
         public string ReturnUrl { get; set; }
 
+        [ApiMember(Description = "Notify Url", DataType = SwaggerType.String, IsRequired = false)]
+        public string NotifyUrl { get; set; }
+
         [ApiMember(Description = "Auto fill data for the form. It is an XML document converted to a string. Secured Signing creates the template for the data.", DataType = SwaggerType.String, IsRequired = false)]
         public string XMLData { get; set; }
         [ApiMember(Description = "Auto fill employer data for the form. It can be returned by FormDirect/Employers api. Secured Signing creates the template for the data.", DataType = SwaggerType.String, IsRequired = false)]
         public string EmployerReference { get; set; }
+        [ApiMember(Description = "client side referese; e.g. external id etc.")]
+        public string ClientReference { get; set; }
 
     }
     [Schema("UserInfo")]
@@ -169,15 +174,18 @@ namespace SecuredSigningClientSdk.Models
 
         [ApiMember(Description = "Whether all documents are in a package (by default) or sent separately", DataType = SwaggerType.Boolean, IsRequired = false)]
         public bool NoPackage { get; set; }
-        /// <summary>
-        /// *BETA, Only available in DSX
-        /// </summary>
+        [ApiMember(Description = "Create a package even if only one document", DataType = SwaggerType.Boolean, IsRequired = false)]
+        public bool SingleDocumentAsPackage { get; set; }
         [ApiMember(Description = "Notify Url.", DataType = SwaggerType.String, IsRequired = false)]
         public string NotifyUrl { get; set; }
         [ApiMember(Description = "The name of the package; if empty and only one document in package, the name will be document name.", DataType = SwaggerType.String, IsRequired = false)]
         public string PackageName { get; set; }
         [ApiMember(Description = "Share user details, if no share user specified in document", DataType = SwaggerType.Array, IsRequired = false)]
         public List<ShareUser> ShareUsers { get; set; }
+        [ApiMember(Description = "if true, use Secured Signing default template instead, ignore any template settings", DataType = SwaggerType.Boolean, IsRequired = false)]
+        public bool NoInvitationEmailTemplate { get; set; }
+        [ApiMember(Description = "if true, use Secured Signing default template instead, ignore any template settings", DataType = SwaggerType.Boolean, IsRequired = false, ExcludeInSchema = true)]
+        public bool NoCompletionEmailTemplate { get; set; }
 
     }
     [Schema("DropDownListItem")]
@@ -207,6 +215,7 @@ namespace SecuredSigningClientSdk.Models
 
         [ApiMember(Description = "Declined reason. Return only when invitee declined to sign.", DataType = SwaggerType.String, IsRequired = false)]
         public string DeclinedReason { get; set; }
+        public string ClientReference { get; set; }
 
     }
     public class FormDirectSigner : Signer
@@ -268,6 +277,10 @@ namespace SecuredSigningClientSdk.Models
         public List<DocumentLog> Logs { get; set; }
         [ApiMember(Description = "Whether invitee uploaded any files during signing process.", DataType = SwaggerType.Boolean, IsRequired = false)]
         public bool HasFileUploaded { get; set; }
+        [ApiMember(Description = "Package reference", DataType = SwaggerType.String, IsRequired = false)]
+        public string PackageReference { get; set; }
+        [ApiMember(Description = "client side referese; e.g. external id etc.")]
+        public string ClientReference { get; set; }
     }
     public class FileInfoBase
     {
@@ -364,6 +377,14 @@ namespace SecuredSigningClientSdk.Models
         public List<Signer> Signers { get; set; }
 
     }
+    [Schema("Package")]
+    public class PackageResponse
+    {
+        public string PackageReference { get; set; }
+        public string PackageName { get; set; }
+        public string PackageStatus { get; set; }
+        public List<DocumentResponse> Documents { get; set; }
+    }
     [Schema("DocumentValidationResponse")]
     public class DocumentValidationResponse
     {
@@ -417,6 +438,7 @@ namespace SecuredSigningClientSdk.Models
         public bool IsRequired { get; set; }
         public string ID { get; set; }
         public bool ReadOnly { get; set; }
+        public string ClientField { get; set; }
     }
     [Schema("FormFillerTemplate")]
     public class FormFillerTemplate
@@ -431,6 +453,9 @@ namespace SecuredSigningClientSdk.Models
         public List<Signer> Signers { get; set; }
 
         public List<FormFillerField> Fields { get; set; }
+        [ApiMember(Description = "client side referese; e.g. external id etc.")]
+        public string ClientReference { get; set; }
+
     }
     [Schema("AccountInfo")]
     public class AccountInfo
@@ -455,6 +480,7 @@ namespace SecuredSigningClientSdk.Models
         public bool EnabledVideoConfirmation { get; set; }
         public bool EnabledDocNegotiation { get; set; }
         public bool EnabledReviewBeforeSigning { get; set; }
+        public bool IsAdmin { get; set; }
     }
     public class UserReferenceResponse
     {
