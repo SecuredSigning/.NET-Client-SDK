@@ -27,17 +27,14 @@ namespace SecuredSigningClientSdk.Partner
         /// </summary>
         /// <param name="details"></param>
         /// <param name="termsOfUse"></param>
-        /// <param name="options"></param>
         /// <returns></returns>
         [Obsolete("Use the method with options instead")]
-        public MembershipResponse createMembership(Company details,bool termsOfUse)
+        public MembershipResponse createMembership(Company details, bool termsOfUse)
         {
             return _client.Post(new MembershipRequest
             {
                 Company = details,
-                TermsOfUse = termsOfUse,
-                UserAuthenticationOptions = options?.UserAuthenticationOptions,
-                ClientReference = options?.ClientReference
+                TermsOfUse = termsOfUse
             });
         }
         /// <summary>
@@ -47,14 +44,14 @@ namespace SecuredSigningClientSdk.Partner
         /// <param name="termsOfUse"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        public MembershipResponse createMembership(Company details, bool termsOfUse,MembershipOptions options)
+        public MembershipResponse createMembership(Company details, bool termsOfUse, MembershipOptions options)
         {
             return _client.Post(new MembershipRequest
             {
                 Company = details,
                 TermsOfUse = termsOfUse,
                 UserAuthenticationOptions = options?.UserAuthenticationOptions,
-                ClientReference=options?.ClientReference
+                ClientReference = options?.ClientReference
             });
         }
         /// <summary>

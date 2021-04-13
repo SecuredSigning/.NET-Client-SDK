@@ -215,7 +215,7 @@ namespace SecuredSigningClientSdk
         /// <returns></returns>
         public OAuth2TokenResponse GetToken(string code)
         {
-            WebClient client = new WebClient();            
+            WebClient client = new WebClient();
             client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
             var request = new OAuth2TokenRequest(ConsumerKey, ConsumerSecret, CallbackUrl, OAuth2TokenRequest.GrantTypeAuthorizationCode)
             {

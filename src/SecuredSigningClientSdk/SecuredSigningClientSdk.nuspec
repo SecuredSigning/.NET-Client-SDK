@@ -12,9 +12,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Secured Signing Rest Client SDK</description>
     <releaseNotes>
-      Keep updated with API - add package related API
+      Keep updated with API.
     </releaseNotes>
-    <copyright>Secured Signing Limited Copyright 2021</copyright>
+    <copyright>Secured Signing Limited Copyright 2017</copyright>
     <tags>Secured Signing</tags>
   </metadata>
 </package>
