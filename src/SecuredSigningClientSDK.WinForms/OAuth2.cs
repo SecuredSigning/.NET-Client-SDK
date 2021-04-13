@@ -7,10 +7,11 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SecuredSigningClientSdk.WinForms
 {
-    public class OAuth2 : System.Windows.Forms.WebBrowser
+    public class OAuth2 : WebBrowser
     {
         public class OAuth2CompletedEventArgs: EventArgs
         {

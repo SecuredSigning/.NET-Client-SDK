@@ -14,7 +14,8 @@ namespace SecuredSigningClientSdk.Partner
         {
             _oauth2 = new OAuth2Client(new Uri(serviceUrl.Replace("api", "www")).GetLeftPart(UriPartial.Authority), apiKey, secret, accessUrl);
         }
-        public new OAuth2Client OAuth2 {
+        public new OAuth2Client OAuth2
+        {
             get
             {
                 return _oauth2 as OAuth2Client;
@@ -26,14 +27,17 @@ namespace SecuredSigningClientSdk.Partner
         /// </summary>
         /// <param name="details"></param>
         /// <param name="termsOfUse"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
         [Obsolete("Use the method with options instead")]
         public MembershipResponse createMembership(Company details,bool termsOfUse)
         {
             return _client.Post(new MembershipRequest
             {
-                Company=details,
-                TermsOfUse=termsOfUse
+                Company = details,
+                TermsOfUse = termsOfUse,
+                UserAuthenticationOptions = options?.UserAuthenticationOptions,
+                ClientReference = options?.ClientReference
             });
         }
         /// <summary>
@@ -60,12 +64,12 @@ namespace SecuredSigningClientSdk.Partner
         /// <param name="termsOfUse"></param>
         /// <param name="membershipAuthenticationCode"></param>
         /// <returns></returns>
-        public MembershipResponse linkMembership(string membershipCode, bool termsOfUse,string membershipAuthenticationCode="")
+        public MembershipResponse linkMembership(string membershipCode, bool termsOfUse, string membershipAuthenticationCode = "")
         {
             return _client.Post(new MembershipRequest
             {
-                MembershipCode=membershipCode,
-                MembershipAuthenticationCode=membershipAuthenticationCode,
+                MembershipCode = membershipCode,
+                MembershipAuthenticationCode = membershipAuthenticationCode,
                 TermsOfUse = termsOfUse
             });
         }
@@ -75,12 +79,12 @@ namespace SecuredSigningClientSdk.Partner
         /// <param name="userDetails"></param>
         /// <param name="clientReference">a unique and invariable key represents the user on partner side, such as UserID in partner system.</param>
         /// <returns>If partner wants users to active and connnect by themself, empty string returns and user will receive an email to active and connect to partner;</returns>
-        public string addUserToMembership(UserDetails userDetails, string clientReference="")
+        public string addUserToMembership(UserDetails userDetails, string clientReference = "")
         {
             return _client.Post(new AddMembershipUserRequest
             {
-                User= userDetails,
-                ClientReference=clientReference
+                User = userDetails,
+                ClientReference = clientReference
             });
         }
         /// <summary>
@@ -88,28 +92,28 @@ namespace SecuredSigningClientSdk.Partner
         /// </summary>
         /// <param name="userDetails"></param>
         /// <param name="clientRefernece"></param>
-        public void updateUserInMembership(UserDetails userDetails,string clientRefernece = "")
+        public void updateUserInMembership(UserDetails userDetails, string clientRefernece = "")
         {
             _client.Post(new UpdateMembershipUserDetailRequest
             {
-                ClientReference=clientRefernece,
-                Email=userDetails.Email,
-                FirstName=userDetails.FirstName,
-                LastName=userDetails.LastName,
-                JobTitle=userDetails.JobTitle
+                ClientReference = clientRefernece,
+                Email = userDetails.Email,
+                FirstName = userDetails.FirstName,
+                LastName = userDetails.LastName,
+                JobTitle = userDetails.JobTitle
             });
         }
         /// <summary>
         /// remove a user from type A company account
         /// </summary>
         /// <param name="userReference">the UserID in get account/info response</param>
-        public void removeUserFromMembership(string userReference,string transferTo=null,bool forceRemove=false)
+        public void removeUserFromMembership(string userReference, string transferTo = null, bool forceRemove = false)
         {
             _client.Post(new RemoveMembershipUserRequest
             {
                 UserID = userReference,
-                TransferTo=transferTo,
-                ForceRemove=forceRemove
+                TransferTo = transferTo,
+                ForceRemove = forceRemove
             });
         }
         /// <summary>

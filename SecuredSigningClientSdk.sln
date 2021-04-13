@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "samples\Sample.csproj", "{4503C015-A790-4ED1-8F61-23BB8FCC45E6}"
 EndProject
@@ -21,19 +21,20 @@ Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "nuget", "nuget.exe", "{36F8
 		UseLegacyDebugEngines = No
 		LaunchSQLEngine = No
 		AttachLaunchAction = No
+		IORedirection = Auto
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuredSigningClientSdk", "src\SecuredSigningClientSdk\SecuredSigningClientSdk.csproj", "{5F5A9547-6828-4639-88F7-E70EE81A884A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuredSigningClientSdk.WinForms", "src\SecuredSigningClientSDK.WinForms\SecuredSigningClientSdk.WinForms.csproj", "{3D7C8284-8BEA-47D2-BF0A-A90885964D85}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuredSigningClientSdk.Partner", "src\SecuredSigningClientSdk.Partner\SecuredSigningClientSdk.Partner.csproj", "{42396700-D8B9-4427-9927-F522CDC19AA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecuredSigningClientSdk.WinForms", "src\SecuredSigningClientSdk.WinForms\SecuredSigningClientSdk.WinForms.csproj", "{3D7C8284-8BEA-47D2-BF0A-A90885964D85}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebsite", "SampleWebsite\SampleWebsite.csproj", "{75C9CBD3-7EF1-4D5A-91F3-DB2AAD0D2A67}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{5499603D-8B00-4A90-B4D0-CE6F2B6CBFD9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Shared", "Sample.Shared\Sample.Shared.csproj", "{48A5F16E-12B6-4510-8C90-ABA736D69260}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecuredSigningClientSdk", "src\SecuredSigningClientSdk\SecuredSigningClientSdk.csproj", "{E7A85D6F-47CC-47CF-A014-45A377E161CF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecuredSigningClientSdk.Partner", "src\SecuredSigningClientSdk.Partner\SecuredSigningClientSdk.Partner.csproj", "{F17944D3-0B7A-495B-9FA9-68D3033F13B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,14 +56,6 @@ Global
 		{36F8BF8C-0AF2-4128-8F16-5B9C2DA14D43}.Debug|x86.ActiveCfg = Release|x86
 		{36F8BF8C-0AF2-4128-8F16-5B9C2DA14D43}.Release|Any CPU.ActiveCfg = Release|x86
 		{36F8BF8C-0AF2-4128-8F16-5B9C2DA14D43}.Release|x86.ActiveCfg = Release|x86
-		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Debug|x86.Build.0 = Debug|Any CPU
-		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Release|x86.ActiveCfg = Release|Any CPU
-		{5F5A9547-6828-4639-88F7-E70EE81A884A}.Release|x86.Build.0 = Release|Any CPU
 		{3D7C8284-8BEA-47D2-BF0A-A90885964D85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3D7C8284-8BEA-47D2-BF0A-A90885964D85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D7C8284-8BEA-47D2-BF0A-A90885964D85}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -71,14 +64,6 @@ Global
 		{3D7C8284-8BEA-47D2-BF0A-A90885964D85}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3D7C8284-8BEA-47D2-BF0A-A90885964D85}.Release|x86.ActiveCfg = Release|Any CPU
 		{3D7C8284-8BEA-47D2-BF0A-A90885964D85}.Release|x86.Build.0 = Release|Any CPU
-		{42396700-D8B9-4427-9927-F522CDC19AA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42396700-D8B9-4427-9927-F522CDC19AA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42396700-D8B9-4427-9927-F522CDC19AA3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{42396700-D8B9-4427-9927-F522CDC19AA3}.Debug|x86.Build.0 = Debug|Any CPU
-		{42396700-D8B9-4427-9927-F522CDC19AA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42396700-D8B9-4427-9927-F522CDC19AA3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42396700-D8B9-4427-9927-F522CDC19AA3}.Release|x86.ActiveCfg = Release|Any CPU
-		{42396700-D8B9-4427-9927-F522CDC19AA3}.Release|x86.Build.0 = Release|Any CPU
 		{75C9CBD3-7EF1-4D5A-91F3-DB2AAD0D2A67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{75C9CBD3-7EF1-4D5A-91F3-DB2AAD0D2A67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75C9CBD3-7EF1-4D5A-91F3-DB2AAD0D2A67}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -95,6 +80,22 @@ Global
 		{48A5F16E-12B6-4510-8C90-ABA736D69260}.Release|Any CPU.Build.0 = Release|Any CPU
 		{48A5F16E-12B6-4510-8C90-ABA736D69260}.Release|x86.ActiveCfg = Release|Any CPU
 		{48A5F16E-12B6-4510-8C90-ABA736D69260}.Release|x86.Build.0 = Release|Any CPU
+		{E7A85D6F-47CC-47CF-A014-45A377E161CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7A85D6F-47CC-47CF-A014-45A377E161CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7A85D6F-47CC-47CF-A014-45A377E161CF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E7A85D6F-47CC-47CF-A014-45A377E161CF}.Debug|x86.Build.0 = Debug|Any CPU
+		{E7A85D6F-47CC-47CF-A014-45A377E161CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7A85D6F-47CC-47CF-A014-45A377E161CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7A85D6F-47CC-47CF-A014-45A377E161CF}.Release|x86.ActiveCfg = Release|Any CPU
+		{E7A85D6F-47CC-47CF-A014-45A377E161CF}.Release|x86.Build.0 = Release|Any CPU
+		{F17944D3-0B7A-495B-9FA9-68D3033F13B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F17944D3-0B7A-495B-9FA9-68D3033F13B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F17944D3-0B7A-495B-9FA9-68D3033F13B5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F17944D3-0B7A-495B-9FA9-68D3033F13B5}.Debug|x86.Build.0 = Debug|Any CPU
+		{F17944D3-0B7A-495B-9FA9-68D3033F13B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F17944D3-0B7A-495B-9FA9-68D3033F13B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F17944D3-0B7A-495B-9FA9-68D3033F13B5}.Release|x86.ActiveCfg = Release|Any CPU
+		{F17944D3-0B7A-495B-9FA9-68D3033F13B5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,5 +105,8 @@ Global
 		{36F8BF8C-0AF2-4128-8F16-5B9C2DA14D43} = {4016463B-8B27-4441-996A-3D20781A71D9}
 		{75C9CBD3-7EF1-4D5A-91F3-DB2AAD0D2A67} = {5499603D-8B00-4A90-B4D0-CE6F2B6CBFD9}
 		{48A5F16E-12B6-4510-8C90-ABA736D69260} = {5499603D-8B00-4A90-B4D0-CE6F2B6CBFD9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5949C7D3-C248-4826-8381-4B195D8FC6E9}
 	EndGlobalSection
 EndGlobal

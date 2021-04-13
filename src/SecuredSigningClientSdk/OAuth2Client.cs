@@ -52,11 +52,11 @@ namespace SecuredSigningClientSdk
             this.ConsumerSecret = apiSecret;
             this.CallbackUrl = accessUrl;
         }
-        internal class OAuth2TokenRequest
+        public class OAuth2TokenRequest
         {
             public const string GrantTypeAuthorizationCode = "authorization_code";
             public const string GrantTypeRefreshToken = "refresh_token";
-            internal const string GrantTypeClientCredentials = "client_credentials";
+            public const string GrantTypeClientCredentials = "client_credentials";
 
             public OAuth2TokenRequest(string consumerKey, string consumerSecret, string callbackUrl, string grantType)
             {
@@ -73,7 +73,7 @@ namespace SecuredSigningClientSdk
             public string Refresh_Token { get; set; }
             public string Client_Credential_Type { get; set; }
             public string Scope { get; set; }
-            internal Dictionary<string, string> Client_Credential_Extra { get; } = new Dictionary<string, string>();
+            public Dictionary<string, string> Client_Credential_Extra { get; } = new Dictionary<string, string>();
             public override string ToString()
             {
                 var type = this.GetType();
@@ -301,12 +301,12 @@ namespace SecuredSigningClientSdk
                     request.Client_Credential_Extra.Add(key, extraData[key]);
                 }
                 var bytes = System.Text.UTF8Encoding.UTF8.GetBytes(request.ToString());
-                rs.Write(bytes,0, bytes.Length);
+                rs.Write(bytes, 0, bytes.Length);
             }
-            var resp=req.GetResponse();
-            using (var respStream =new System.IO.StreamReader( resp.GetResponseStream()))
+            var resp = req.GetResponse();
+            using (var respStream = new System.IO.StreamReader(resp.GetResponseStream()))
             {
-                var result=respStream.ReadToEnd();
+                var result = respStream.ReadToEnd();
                 return Newtonsoft.Json.JsonConvert.DeserializeObject<OAuth2TokenResponse>(result);
             }
 
@@ -315,7 +315,7 @@ namespace SecuredSigningClientSdk
                 client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
                 client.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore)
                 {
-                    
+
                 };
                 var request = new OAuth2TokenRequest(ConsumerKey, ConsumerSecret, CallbackUrl, OAuth2TokenRequest.GrantTypeClientCredentials)
                 {
