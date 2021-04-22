@@ -8,13 +8,17 @@
 	<Authors>Secured Signing</Authors>
 	<Company>Secured Signing Ltd</Company>
 	<Product>Secured Signing Rest Client SDK</Product>
-	<Copyright>Secured Signing Limited Copyright 2017</Copyright>
+	<Copyright>Secured Signing Limited Copyright 2021</Copyright>
 	<PackageProjectUrl>https://www.securedsigning.com/developer/api-documentation#sdk</PackageProjectUrl>
 	<PackageIconUrl>https://www.securedsigning.com/favicon.ico</PackageIconUrl>
 	<Description>Secured Signing Rest Client SDK</Description>
 	<PackageReleaseNotes>Keep updated with API.</PackageReleaseNotes>
 	<PackageTags>Secured Signing</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
@@ -25,6 +29,10 @@
     <None Update="SecuredSigningClientSdk.nuspec">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

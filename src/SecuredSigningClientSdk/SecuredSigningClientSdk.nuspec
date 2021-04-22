@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>securedsigning.client</id>
-    <version>1.5.20</version>
+    <version>1.5</version>
     <title>Secured Signing Rest Client SDK</title>
     <authors>Secured Signing</authors>
     <owners>Secured Signing Ltd</owners>
@@ -12,9 +12,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Secured Signing Rest Client SDK</description>
     <releaseNotes>
-      Keep updated with API.
+      Support .Net 5
     </releaseNotes>
-    <copyright>Secured Signing Limited Copyright 2017</copyright>
+    <copyright>Secured Signing Limited Copyright 2021</copyright>
     <tags>Secured Signing</tags>
   </metadata>
 </package>
