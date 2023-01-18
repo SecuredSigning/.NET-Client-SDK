@@ -4,11 +4,11 @@
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<PackageId>securedsigning.client</PackageId>
-	<Version>1.5.0</Version>
+	<Version>1.5.1</Version>
 	<Authors>Secured Signing</Authors>
 	<Company>Secured Signing Ltd</Company>
 	<Product>Secured Signing Rest Client SDK</Product>
-	<Copyright>Secured Signing Limited Copyright 2021</Copyright>
+	<Copyright>Secured Signing Limited Copyright 2023</Copyright>
 	<PackageProjectUrl>https://www.securedsigning.com/developer/api-documentation#sdk</PackageProjectUrl>
 	<PackageIconUrl>https://www.securedsigning.com/favicon.ico</PackageIconUrl>
 	<Description>Secured Signing Rest Client SDK</Description>

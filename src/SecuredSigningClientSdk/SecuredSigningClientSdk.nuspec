@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Secured Signing Rest Client SDK</description>
     <releaseNotes>
-      Support new api methods
+      Support new API methods
     </releaseNotes>
     <copyright>Secured Signing Limited Copyright 2023</copyright>
     <tags>Secured Signing</tags>
