@@ -37,29 +37,36 @@ namespace Test
 
 
             //get OAuth2 access token in Server
-            var authorizeUrl = client.OAuth2.CreateAuthorizeRequest(state,
-                OAuth2Client.OAuth2Scope.Basic.ToString(),
-                OAuth2Client.OAuth2Scope.FormDirect.ToString(),
-                OAuth2Client.OAuth2Scope.FormFiller.ToString(),
-                OAuth2Client.OAuth2Scope.SmartTag.ToString());
-            //start oauthorize process in a webpage 
-            System.Diagnostics.Process.Start(authorizeUrl);
+            //var authorizeUrl = client.OAuth2.CreateAuthorizeRequest(state,
+            //    OAuth2Client.OAuth2Scope.Basic.ToString(),
+            //    OAuth2Client.OAuth2Scope.FormDirect.ToString(),
+            //    OAuth2Client.OAuth2Scope.FormFiller.ToString(),
+            //    OAuth2Client.OAuth2Scope.SmartTag.ToString());
+            // //start oauthorize process in a webpage 
+            // System.Diagnostics.Process.Start(authorizeUrl);
             //run an server implemented by HttpListener, you can implement your own server using ASP.Net, etc.
-            Server.SampleServer server = new Server.SampleServer();
-            var code = server.StartOnce();
-            var tokenResp = client.OAuth2.GetToken(code);
-            client.AccessToken = tokenResp.Access_Token;
-            tokenResp = client.OAuth2.RefreshToken(tokenResp.Refresh_Token);
-            client.AccessToken = tokenResp.Access_Token;
+            //  Server.SampleServer server = new Server.SampleServer();
+            //  var code = server.StartOnce();
+            //var tokenResp = client.OAuth2.GetToken(code);
+            //client.AccessToken = tokenResp.Access_Token;
+            //tokenResp = client.OAuth2.RefreshToken(tokenResp.Refresh_Token);
+            //client.AccessToken = tokenResp.Access_Token;
 
-            AccountSample(client);
+            //AccountSample(client);
 
             #endregion
 
             //FormDirectSample(client);
             //FormFillerSample(client);
-            FormFillerSample_EmbeddedSigning(client);
+            //FormFillerSample_EmbeddedSigning(client);
             //SmartTagSample(client);
+
+            //DownloadSigningCompletionCertificateSample(client);
+            //DownloadENotaryJounalSample(client);
+            //DownloadSnapshotsSample(client);
+            //DownloadIDVerificationample(client);
+            DownloadVideoRecordingSample(client);
+
             Console.Read();
         }
         static void AccountSample(ServiceClient client)

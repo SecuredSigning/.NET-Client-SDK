@@ -471,6 +471,26 @@ namespace SecuredSigningClientSdk
             });
             return result;
         }
+
+        /// <summary>
+        /// download signing completion certificates for this document
+        /// </summary>
+        /// <param name="documentReference"></param>
+        /// <returns></returns>
+        public IEnumerable<SigningCompletionCertificateResponse> getSigningCompletionCertificate(string documentReference)
+        {
+            return _client.Get(new DownloadSigningCompletionCertificateDataRequest { DocumentReference = documentReference });
+        }
+
+        /// <summary>
+        /// download snapshots for this document
+        /// </summary>
+        /// <param name="documentReference"></param>
+        /// <returns></returns>
+        public object getSnapshots(string documentReference)
+        {
+            return _client.Get<byte[]>(new DownloadCapturedImagesRequest { DocumentReference = documentReference });
+        }
         #endregion
 
         #region Form Direct
@@ -1068,6 +1088,49 @@ namespace SecuredSigningClientSdk
             {
                 InvoiceReference = invoiceReference
             });
+        }
+        #endregion
+
+        #region Download
+
+        /// <summary>
+        /// Download ENotary Journal
+        /// </summary>
+        /// <param name="eNotaryJournalDataType"></param>
+        /// <returns></returns>
+        public object downloadENotaryJounal(DownloadENotaryJournalRequest request)
+        {
+            return _client.Get<byte[]>(new DownloadENotaryJournalRequest { DocumentReference = request.DocumentReference, ENotaryJournalDataType = request.ENotaryJournalDataType });
+        }
+
+        /// <summary>
+        /// Download ID Verification
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public object downloadIDVerification(DownloadIDVerificationRequest request)
+        {
+            return _client.Get<byte[]>(new DownloadIDVerificationRequest { DocumentReference = request.DocumentReference, IDVerificationDataType = request.IDVerificationDataType });
+        }
+
+        /// <summary>
+        /// Download Signing Completion Certificate
+        /// </summary>
+        /// <param name="certificateReference"></param>
+        /// <returns></returns>
+        public object downloadSigningCompletionCertificate(string certificateReference)
+        {
+            return _client.Get<byte[]>(new DownloadSigningCompletionCertificateRequest { CertificateReference = certificateReference });
+        }
+
+        /// <summary>
+        /// Download Video Signing Recording
+        /// </summary>
+        /// <param name="documentReference"></param>
+        /// <returns></returns>
+        public object downloadVideoSigningRecording(string documentReference)
+        {
+            return _client.Get<byte[]>(new DownloadVideoSigningRecordingRequest { DocumentReference = documentReference });
         }
         #endregion
     }

@@ -377,6 +377,14 @@ namespace SecuredSigningClientSdk.Models
         public List<Signer> Signers { get; set; }
 
     }
+    [Schema("SigningCompletionCertificateResponse")]
+    public class SigningCompletionCertificateResponse
+    {
+        public string CertificateReference { get; set; }
+        public DateTime SigningDate { get; set; }
+        public string Status { get; set; }
+        public string DownloadURL { get; set; }
+    }
     [Schema("Package")]
     public class PackageResponse
     {
@@ -759,5 +767,18 @@ namespace SecuredSigningClientSdk.Models
         text,
         date,
         email
+    }
+
+    public enum ENotaryJournalDataType
+    {
+        pdf,
+        json,
+        xlsx,
+    }
+
+    public enum IDVerificationDataType
+    {
+        pdf,
+        json
     }
 }
