@@ -487,7 +487,7 @@ namespace SecuredSigningClientSdk
         /// </summary>
         /// <param name="documentReference"></param>
         /// <returns></returns>
-        public object getSnapshots(string documentReference)
+        public byte[] getSnapshots(string documentReference)
         {
             return _client.Get<byte[]>(new DownloadCapturedImagesRequest { DocumentReference = documentReference });
         }
