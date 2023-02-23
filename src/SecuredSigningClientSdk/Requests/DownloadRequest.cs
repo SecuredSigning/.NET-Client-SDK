@@ -42,7 +42,7 @@ namespace SecuredSigningClientSdk.Requests
     }
 
     [Route("/Download/ENotaryJournal/{DocumentReference}/{ENotaryJournalDataType}", Verbs = "GET", Summary = "Returns Notary journal data", Notes = "Returns Notary journal data in pdf or json")]
-    public class DownloadENotaryJournalRequest : IReturn<byte[]>
+    public class DownloadENotaryJournalRequest : IReturn<object>
     {
         [ApiMember(Description = "Document reference", ParameterType = "path", DataType = SwaggerType.String, IsRequired = true)]
         public string DocumentReference { get; set; }
@@ -53,7 +53,7 @@ namespace SecuredSigningClientSdk.Requests
     }
 
     [Route("/Download/IDVerification/{DocumentReference}/{IDVerificationDataType}", Verbs = "GET", Summary = "Returns ID Verification data", Notes = "Returns ID Verification data in pdf or json")]
-    public class DownloadIDVerificationRequest : IReturn<byte[]>
+    public class DownloadIDVerificationRequest : IReturn<object>
     {
         [ApiMember(Description = "Document reference", ParameterType = "path", DataType = SwaggerType.String, IsRequired = true)]
         public string DocumentReference { get; set; }
@@ -64,14 +64,14 @@ namespace SecuredSigningClientSdk.Requests
     }
 
     [Route("/Download/SigningCompletionCertificate/{CertificateReference}", Verbs = "GET", Summary = "Returns the specified Signing Completion Certificate")]
-    public class DownloadSigningCompletionCertificateRequest : IReturn<byte[]>
+    public class DownloadSigningCompletionCertificateRequest : IReturn<object>
     {
         [ApiMember(Description = "Signing Completion Certificate reference", ParameterType = "path", DataType = SwaggerType.String, IsRequired = true)]
         public string CertificateReference { get; set; }
     }
 
     [Route("/Download/VideoSigningRecording/{DocumentReference}", Verbs = "GET", Summary = "Returns Video Signing recording", Notes = "Returns Video Signing recording")]
-    public class DownloadVideoSigningRecordingRequest : IReturn<byte[]>
+    public class DownloadVideoSigningRecordingRequest : IReturn<object>
     {
         [ApiMember(Description = "Document reference", ParameterType = "path", DataType = SwaggerType.String, IsRequired = true)]
         public string DocumentReference { get; set; }

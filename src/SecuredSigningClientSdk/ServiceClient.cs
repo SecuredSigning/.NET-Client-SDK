@@ -1098,7 +1098,7 @@ namespace SecuredSigningClientSdk
         /// </summary>
         /// <param name="eNotaryJournalDataType"></param>
         /// <returns></returns>
-        public object downloadENotaryJounal(DownloadENotaryJournalRequest request)
+        public byte[] downloadENotaryJounal(DownloadENotaryJournalRequest request)
         {
             return _client.Get<byte[]>(new DownloadENotaryJournalRequest { DocumentReference = request.DocumentReference, ENotaryJournalDataType = request.ENotaryJournalDataType });
         }
@@ -1108,7 +1108,7 @@ namespace SecuredSigningClientSdk
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public object downloadIDVerification(DownloadIDVerificationRequest request)
+        public byte[] downloadIDVerification(DownloadIDVerificationRequest request)
         {
             return _client.Get<byte[]>(new DownloadIDVerificationRequest { DocumentReference = request.DocumentReference, IDVerificationDataType = request.IDVerificationDataType });
         }
@@ -1118,7 +1118,7 @@ namespace SecuredSigningClientSdk
         /// </summary>
         /// <param name="certificateReference"></param>
         /// <returns></returns>
-        public object downloadSigningCompletionCertificate(string certificateReference)
+        public byte[] downloadSigningCompletionCertificate(string certificateReference)
         {
             return _client.Get<byte[]>(new DownloadSigningCompletionCertificateRequest { CertificateReference = certificateReference });
         }
@@ -1128,7 +1128,7 @@ namespace SecuredSigningClientSdk
         /// </summary>
         /// <param name="documentReference"></param>
         /// <returns></returns>
-        public object downloadVideoSigningRecording(string documentReference)
+        public byte[] downloadVideoSigningRecording(string documentReference)
         {
             return _client.Get<byte[]>(new DownloadVideoSigningRecordingRequest { DocumentReference = documentReference });
         }
