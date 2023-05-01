@@ -216,7 +216,9 @@ namespace SecuredSigningClientSdk.Models
         [ApiMember(Description = "Declined reason. Return only when invitee declined to sign.", DataType = SwaggerType.String, IsRequired = false)]
         public string DeclinedReason { get; set; }
         public string ClientReference { get; set; }
+        public string IDCheckStatus { get; set; }
 
+        public string IDVerificationStatus { get; set; }
     }
     public class FormDirectSigner : Signer
     {
@@ -281,6 +283,8 @@ namespace SecuredSigningClientSdk.Models
         public string PackageReference { get; set; }
         [ApiMember(Description = "client side referese; e.g. external id etc.")]
         public string ClientReference { get; set; }
+        [ApiMember(Description = "ID Verification requested.")]
+        public bool IDVerificationRequested { get; set; }
     }
     public class FileInfoBase
     {

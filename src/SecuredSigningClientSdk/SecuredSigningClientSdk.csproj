@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<PackageId>securedsigning.client</PackageId>
-	<Version>1.5.2</Version>
+	<Version>1.5.3</Version>
 	<Authors>Secured Signing</Authors>
 	<Company>Secured Signing Ltd</Company>
 	<Product>Secured Signing Rest Client SDK</Product>
