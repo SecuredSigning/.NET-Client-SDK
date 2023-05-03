@@ -51,7 +51,7 @@ namespace SecuredSigningClientSdk.Models
         public string XMLData { get; set; }
         [ApiMember(Description = "Auto fill employer data for the form. It can be returned by FormDirect/Employers api. Secured Signing creates the template for the data.", DataType = SwaggerType.String, IsRequired = false)]
         public string EmployerReference { get; set; }
-        [ApiMember(Description = "client side referese; e.g. external id etc.")]
+        [ApiMember(Description = "Client side referese; e.g. external id etc.")]
         public string ClientReference { get; set; }
 
     }
@@ -212,12 +212,13 @@ namespace SecuredSigningClientSdk.Models
         [ApiMember(Description = "Signer Status", IsRequired = false, DataType = SwaggerType.Boolean, ExcludeInSchema = true)]
         [ApiAllowableValues("SignedStatus", typeof(SignedStatus))]
         public SignedStatus SignedStatus { get; set; }
-
         [ApiMember(Description = "Declined reason. Return only when invitee declined to sign.", DataType = SwaggerType.String, IsRequired = false)]
         public string DeclinedReason { get; set; }
+        [ApiMember(Description = "Client side referese; e.g. external id etc.", DataType = SwaggerType.String, IsRequired = false)]
         public string ClientReference { get; set; }
+        [ApiMember(Description = "ID Check Status", IsRequired = false, DataType = SwaggerType.String, ExcludeInSchema = true)]
         public string IDCheckStatus { get; set; }
-
+        [ApiMember(Description = "ID Verification Status", IsRequired = false, DataType = SwaggerType.String, ExcludeInSchema = true)]
         public string IDVerificationStatus { get; set; }
     }
     public class FormDirectSigner : Signer
