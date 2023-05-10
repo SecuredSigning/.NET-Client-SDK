@@ -220,6 +220,9 @@ namespace SecuredSigningClientSdk.Models
         public string IDCheckStatus { get; set; }
         [ApiMember(Description = "ID Verification Status", IsRequired = false, DataType = SwaggerType.String, ExcludeInSchema = true)]
         public string IDVerificationStatus { get; set; }
+        public string IDVerificationResult { get; set; }
+        public string IDVerificationFaceMatchResult { get; set; }
+        public string IDVerificationLivenessResult { get; set; }
     }
     public class FormDirectSigner : Signer
     {
