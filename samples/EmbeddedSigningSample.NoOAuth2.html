@@ -27,10 +27,16 @@
             Sign(key);
         };
         
-        function Sign(key){
-            window.AccessKey = key;
-            window.containerId="content"
-            securedsigning.getSetupResource('content');
+        function Sign(key) {
+            var request = {
+                SigningKey:key
+            };
+            securedsigning.getSignResource2(request, "content", function (error) {
+                console.log(error);
+            }, function () {
+                alert('Thanks');
+                $("#content").empty();
+            });
         }
     </script>
 </body>
