@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 namespace SecuredSigningClientSdk.Requests
 {
-    [Route("/SmartTag/Send/", Verbs = "POST", Summary = "Send smart tag document", Notes = "Send a smart tag document.")]
+    [Route("/SmartTag/Send", Verbs = "POST", Summary = "Send smart tag document", Notes = "Send a smart tag document.")]
     public class SmartTagRequest : SmartTagRequestBase, IReturn<List<Document>>
     {
 
     }
-    [Route("/SmartTag/Send2/", Verbs = "POST", Summary = "Send smart tag document", Notes = "Send a smart tag document.")]
+    [Route("/SmartTag/Send2", Verbs = "POST", Summary = "Send smart tag document", Notes = "Send a smart tag document.")]
     public class SmartTagRequest2 : SmartTagRequestBase, IReturn<PackageResponse>
     {
 
@@ -65,7 +65,7 @@ namespace SecuredSigningClientSdk.Requests
         public bool NoCompletionEmailTemplate { get; set; }
     }
 
-    [Route("/SmartTag/MailMerge/", Verbs = "POST", Summary = "Merge mail merge list with the document", Notes = "Send a smart tag document.")]
+    [Route("/SmartTag/MailMerge", Verbs = "POST", Summary = "Merge mail merge list with the document", Notes = "Send a smart tag document.")]
     public class MailMergeRequest : IReturn<ProcessDocument>
     {
         [ApiMember(Description = "Mail merge document reference", DataType = SwaggerType.String, IsRequired = true)]
