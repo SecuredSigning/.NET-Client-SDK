@@ -2,23 +2,35 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
-	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	  <PackageId>securedsigning.client.partner</PackageId>
-	  <Version>1.5.0</Version>
-	  <Authors>Secured Signing</Authors>
-	  <Company>Secured Signing Ltd</Company>
-	  <Product>Secured Signing Rest Client SDK</Product>
-	  <Copyright>Secured Signing Limited Copyright 2017</Copyright>
-	  <PackageProjectUrl>https://www.securedsigning.com/documentation/enterprise/partner-api</PackageProjectUrl>
-	  <PackageIconUrl>https://www.securedsigning.com/favicon.ico</PackageIconUrl>
-	  <Description>Secured Signing Rest Client SDK for Partner API</Description>
-	  <PackageReleaseNotes>Updated to support Net Standard 2.0</PackageReleaseNotes>
-	  <PackageTags>Secured Signing</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>securedsigning.client.partner</PackageId>
+    <Version>1.5.6</Version>
+    <Authors>Secured Signing</Authors>
+    <Company>Secured Signing Ltd</Company>
+    <Product>Secured Signing Rest Client SDK</Product>
+    <Copyright>Secured Signing Limited Copyright 2017</Copyright>
+    <PackageProjectUrl>https://www.securedsigning.com/documentation/enterprise/partner-api</PackageProjectUrl>
+    <PackageIconUrl>https://www.securedsigning.com/favicon.ico</PackageIconUrl>
+    <Description>Secured Signing Rest Client SDK for Partner API</Description>
+    <PackageReleaseNotes>Updated to support Net Standard 2.0</PackageReleaseNotes>
+    <PackageTags>Secured Signing</PackageTags>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="securedsigning.client" Version="1.5.0-alpha8" />
+    <PackageReference Include="securedsigning.client" Version="1.5.6" />
     <PackageReference Include="ServiceStack" Version="5.10.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="SecuredSigningClientSdk.Partner.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
 </Project>
