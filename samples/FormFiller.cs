@@ -168,7 +168,7 @@ namespace Test
             {
                 System.Threading.Thread.Sleep(5000);
                 Console.WriteLine("Check document status");
-                var status = client.getStatus(documents.Documents.First()?.Reference);
+                var status = client.getDocumentStatus(documents.Documents.First()?.Reference);
                 if (status.Status == "Complete")
                 {
                     signed = true;

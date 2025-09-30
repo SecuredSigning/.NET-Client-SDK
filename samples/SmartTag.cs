@@ -34,7 +34,10 @@ namespace Test
             var documentReference = client.uploadDocumentFile(file);
             var smartTagResp = client.sendSmartTagDocument(new List<string> {
                 documentReference
-            },  DateTime.Now.AddDays(7), templateReference);
+            }, DateTime.Now.AddDays(7), new SmartTagOptions
+            {
+                InvitationEmailTemplateReference = templateReference
+            });
         }
 
         public static void SmartTagAdvancedUsage2_Embedded(ServiceClient client)
@@ -44,7 +47,7 @@ namespace Test
 
             var smartTagResp = client.sendSmartTagDocument(new List<string> {
                 documentReference
-            }, DateTime.Now.AddDays(7), true);
+            }, DateTime.Now.AddDays(7), new SecuredSigningClientSdk.Models.SmartTagOptions { Embedded = true });
 
             var signingKey = smartTagResp[0].Signers[0].SigningKey;
             //populate signing key into a embedded signing webpage.
@@ -68,12 +71,15 @@ namespace Test
             };
             var smartTagResp = client.sendSmartTagDocument(new List<string> {
                 documentReference
-            }, DateTime.Now.AddDays(7),signers);
+            }, DateTime.Now.AddDays(7), new SmartTagOptions
+            {
+                Signers = signers.ToList()
+            });
         }
 
         public static void SmartTagAdvancedUsage4_Attachment(ServiceClient client)
         {
-            var attachment= new System.IO.FileInfo(SampleParameters.Path2AttachmentFile);
+            var attachment = new System.IO.FileInfo(SampleParameters.Path2AttachmentFile);
             var attachmentReference = client.uploadAttachmentFile(attachment);
 
             var file = new System.IO.FileInfo(SampleParameters.Path2SmartTagDocument);
@@ -92,13 +98,13 @@ namespace Test
                     Attachments=new List<string>
                     {
                         attachmentReference
-                    }                  
+                    }
                 }
             };
 
             var smartTagResp = client.sendSmartTagDocument(new List<string> {
                 documentReference
-            }, DateTime.Now.AddDays(7), signers);
+            }, DateTime.Now.AddDays(7), new SmartTagOptions { Signers = signers.ToList() });
         }
     }
 }

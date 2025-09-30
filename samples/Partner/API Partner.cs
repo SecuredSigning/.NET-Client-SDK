@@ -17,7 +17,7 @@ namespace Test
                 Console.WriteLine("Upload smart tag document");
                 var docRef = client.uploadDocumentFile(new System.IO.FileInfo(SampleParameters.Path2SmartTagDocument));
                 Console.WriteLine("Send smart tag");
-                var stResp = client.sendSmartTagDocument(new List<string> { docRef }, DateTime.Now.AddDays(3), true);
+                var stResp = client.sendSmartTagDocument(new List<string> { docRef }, DateTime.Now.AddDays(3), new SecuredSigningClientSdk.Models.SmartTagOptions { Embedded = true });
                 Console.WriteLine("Populate signing key to embedded html page");
                 var signingKey = stResp.FirstOrDefault()?.Signers?.FirstOrDefault()?.SigningKey;
                 Console.WriteLine(signingKey);
@@ -34,7 +34,7 @@ namespace Test
                 {
                     System.Threading.Thread.Sleep(5000);
                     Console.WriteLine("Check document status");
-                    var status = client.getStatus(docRef);
+                    var status = client.getDocumentStatus(docRef);
                     if (status.Status == "Complete")
                     {
                         signed = true;
