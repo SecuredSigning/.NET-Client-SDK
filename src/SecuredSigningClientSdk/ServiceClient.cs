@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ServiceStack;
 using static System.Net.WebRequestMethods;
+using System.Net;
 
 namespace SecuredSigningClientSdk
 {
@@ -120,6 +121,24 @@ namespace SecuredSigningClientSdk
         public AccountInfo getAccountInfo()
         {
             return _client.Get(new AccountRequest());
+        }
+        /// <summary>
+        /// Check if user has notary setup in the account
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="firstName"></param>
+        /// <param name="middleName"></param>
+        /// <param name="lastName"></param>
+        /// <returns></returns>
+        public NotaryCheck checkNotary(string email, string firstName, string middleName, string lastName)
+        {
+            return _client.Post(new NotaryCheckRequest()
+            {
+                FirstName = firstName,
+                MiddleName = middleName,
+                LastName = lastName,
+                Email = email
+            });
         }
         /// <summary>
         /// Save sender
@@ -412,7 +431,7 @@ namespace SecuredSigningClientSdk
         /// <param name="signerRef"></param>
         public void SendReminder(string docRef, string signerRef)
         {
-            _client.Post(new SendReminderRequest
+            _client.Post<HttpWebResponse>(new SendReminderRequest
             {
                 DocumentReference = docRef,
                 SignerReference = signerRef
@@ -451,7 +470,7 @@ namespace SecuredSigningClientSdk
         /// <returns></returns>
         public void deletePackage(string packageReference)
         {
-            _client.Post(new PackageDeleteRequest
+            _client.Post<HttpWebResponse>(new PackageDeleteRequest
             {
                 PackageReference = packageReference
             });
@@ -1037,7 +1056,7 @@ namespace SecuredSigningClientSdk
         /// <param name="attachmentRef"></param>
         public void deleteAttachment2(string attachmentRef)
         {
-            _client.Post(new DeleteAttachmentRequest { AttachmentReference = attachmentRef });
+            _client.Post<HttpWebResponse>(new DeleteAttachmentRequest { AttachmentReference = attachmentRef });
         }
         /// <summary>
         /// Delete attachment
@@ -1045,7 +1064,7 @@ namespace SecuredSigningClientSdk
         /// <param name="attachmentRef"></param>
         public void deleteAttachment(string attachmentRef)
         {
-            _client.Delete(new DeleteAttachmentRequest { AttachmentReference = attachmentRef });
+            _client.Delete<HttpWebResponse>(new DeleteAttachmentRequest { AttachmentReference = attachmentRef });
         }
         /// <summary>
         /// get attachment data

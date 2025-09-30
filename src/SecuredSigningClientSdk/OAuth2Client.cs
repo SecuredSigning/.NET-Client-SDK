@@ -309,26 +309,6 @@ namespace SecuredSigningClientSdk
                 var result = respStream.ReadToEnd();
                 return Newtonsoft.Json.JsonConvert.DeserializeObject<OAuth2TokenResponse>(result);
             }
-
-            using (WebClient client = new WebClient())
-            {
-                client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                client.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore)
-                {
-
-                };
-                var request = new OAuth2TokenRequest(ConsumerKey, ConsumerSecret, CallbackUrl, OAuth2TokenRequest.GrantTypeClientCredentials)
-                {
-                    Client_Credential_Type = clientCredentialType,
-                    Scope = string.Join(" ", scopes)
-                };
-                foreach (var key in extraData.Keys)
-                {
-                    request.Client_Credential_Extra.Add(key, extraData[key]);
-                }
-                var result = client.UploadString(TokenEndpoint, request.ToString());
-                return Newtonsoft.Json.JsonConvert.DeserializeObject<OAuth2TokenResponse>(result);
-            }
         }
     }
 }

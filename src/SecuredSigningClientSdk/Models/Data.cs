@@ -501,6 +501,24 @@ namespace SecuredSigningClientSdk.Models
         public bool EnabledReviewBeforeSigning { get; set; }
         public bool IsAdmin { get; set; }
     }
+    [Schema("Notary Check Result")]
+    public class NotaryCheck
+    {
+        [ApiMember(Description = "If the user is notary or not", DataType = SwaggerType.String)]
+        public bool NotaryEnabled { get; set; }
+        [ApiMember(Description = "Notary Commission ID", DataType = SwaggerType.String)]
+        public string CommissionId { get; set; }
+        [ApiMember(Description = "Notary Commission Expiry Date", DataType = SwaggerType.String)]
+        public string CommissionExpiry { get; set; }
+        [ApiMember(Description = "Notary Commission County", DataType = SwaggerType.String)]
+        public string County { get; set; }
+        [ApiMember(Description = "Notary Commission State", DataType = SwaggerType.String)]
+        public string State { get; set; }
+        [ApiMember(Description = "If certificate setup or not", DataType = SwaggerType.String)]
+        public bool CertificateEnabled { get; set; }
+        [ApiMember(Description = "Certificate Expiry Date", DataType = SwaggerType.String)]
+        public string CertificateExpiry { get; set; }
+    }
     public class UserReferenceResponse
     {
         public string Reference { get; set; }

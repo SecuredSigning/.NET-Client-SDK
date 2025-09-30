@@ -8,6 +8,18 @@ namespace SecuredSigningClientSdk.Requests
     public class AccountRequest : IReturn<AccountInfo>
     {
     }
+    [Route("/Account/NotaryCheck", Verbs = "POST", Summary = "Check if user has notary setup in the account", Notes = "Check if user has notary setup in the account.")]
+    public class NotaryCheckRequest : IReturn<NotaryCheck>
+    {
+        [ApiMember(Description = "First Name", DataType = SwaggerType.String, IsRequired = true)]
+        public string FirstName { get; set; }
+        [ApiMember(Description = "Middle Name", DataType = SwaggerType.String, IsRequired = false)]
+        public string MiddleName { get; set; }
+        [ApiMember(Description = "Last Name", DataType = SwaggerType.String,  IsRequired = true)]
+        public string LastName { get; set; }
+        [ApiMember(Description = "Email", DataType = SwaggerType.String, IsRequired = true)]
+        public string Email { get; set; }
+    }
     [Route("/Account/SaveSender", Verbs = "POST")]
     public class SaveSenderRequest : IReturn<UserReferenceResponse>
     {
