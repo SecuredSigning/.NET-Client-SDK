@@ -25,7 +25,7 @@ namespace Test
                     CompanyName = "Company A",
                     StreetAddress = "1 Sample Street",
                     City = "Sample",
-                    Country = "United State",//full country name, such as New Zealand, United States, not nz or us.
+                    Country = "United States",//full country name, such as New Zealand, United States, not nz or us.
                     CountryCode = "us", //Country code, such as  nz or us.
                     PhoneNumber = "10001234567",
                     ContactFirstName = "First",  //this will be the first admin user for this Company Account
